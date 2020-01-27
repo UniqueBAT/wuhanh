@@ -83,13 +83,15 @@
 								<text class="text">配送时间</text>
 								<text>{{item.deliveryStartTime}}--{{item.deliveryEndTime}}</text>
 							</view>
+							<view class="item-wuzi flex-between">
+								<text class="text">备注信息</text>
+								<text class="time">更新时间： {{item.updateTime}}</text>
+							</view>
 						</view>
+						<view class="item-info">{{item.remark}}</view>
+						<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
 					</view>
-					<view class="item-call flex-between">
-						<text class="text">备注信息</text>
-						<view class="time">更新时间： {{item.updateTime}}</view>
-					</view>
-					<view class="item-call item-info">{{item.remark}}</view>
+					
 				</view>
 			</PullScroll>
 		</section>
@@ -369,6 +371,7 @@
 </script>
 
 <style lang="scss">
+	$main: #80ADED;
 	.city-search {
 		box-sizing: border-box;
 		background: #F8F8F8;
@@ -395,7 +398,7 @@
 		align-items: center;
 
 		.city-item {
-			font-family: PingFangSC-Semibold;
+			
 			font-size: 14px;
 			color: #80ADED;
 			letter-spacing: 0;
@@ -406,7 +409,7 @@
 			background: #80ADED;
 			border-radius: 17px;
 			border-radius: 17px;
-			font-family: PingFangSC-Semibold;
+			
 			font-size: 14px;
 			color: #FFFFFF;
 			letter-spacing: 0;
@@ -415,6 +418,23 @@
 		}
 	}
 
+	.btn-edit {
+		font-size: 12px;
+		color: $main;
+		background: none;
+		height: 40px;
+		border-radius: 0;
+		line-height: 40px;
+		background-color: #fff;
+		&::after {
+			border: 1px solid $main;
+			border-radius: 4px;
+		}
+		&.button-hover {
+			background: darken(#fff, 10%)
+		}
+	}
+	
 	.PullScroll-Page {
 		height: 100vh;
 
@@ -433,6 +453,7 @@
 			padding: 0 20upx;
 			margin-bottom: 20upx;
 			box-sizing: border-box;
+			font-size: 12px;
 
 			.item-top {
 				position: relative;
@@ -458,14 +479,14 @@
 						background: #FFC936;
 						border-radius: 0 0 4px 4px;
 						height: 60upx;
-						font-family: PingFangSC-Semibold;
+						
 						font-size: 24upx;
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
 
 					.text {
-						font-family: PingFangSC-Semibold;
+						
 						font-size: 24upx;
 						color: #999999;
 						display: block;
@@ -489,7 +510,7 @@
 
 						.item-name {
 							width: 500upx;
-							font-family: PingFangSC-Semibold;
+							
 							font-weight: 600;
 							font-size: 28upx;
 							color: #333333;
@@ -498,7 +519,7 @@
 
 						.item-sex {
 							font-weight: 600;
-							font-family: PingFangSC-Semibold;
+							
 							font-size: 24upx;
 							color: #333;
 						}
@@ -507,7 +528,6 @@
 			}
 
 			.item-main {
-
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -524,41 +544,40 @@
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
-					font-family: PingFangSC-Semibold;
+					
 					font-size: 24upx;
 					color: #000;
-
-					// &:last-child {
-					// 	border: none;
-					// }
+					
+					&:last-child {
+						border-bottom: 0 none;
+					}
+				}
+				
+				.time {
+					color: #999999;
 				}
 			}
 
+			.item-info {
+				line-height: 20px;
+				min-height: 40px;
+				border-bottom: 1upx solid #f2f2f2;
+			}
+			
+			.btn-edit {
+				margin: 10px 0;
+			}
+			
 			.item-call {
 				display: flex;
 				align-items: center;
 				height: 80upx;
 
 				.text {
-					font-family: PingFangSC-Semibold;
+					
 					font-size: 14px;
 					color: #333333;
 				}
-
-				.time {
-					font-family: PingFangSC-Semibold;
-					font-size: 14px;
-					color: #999999;
-				}
-			}
-
-			.item-info {
-				font-family: PingFangSC-Semibold;
-				background-color: #FFFFFF;
-				font-size: 24upx;
-				color: #333333;
-				height: auto;
-				padding-bottom: 15rpx;
 			}
 		}
 	}
@@ -594,14 +613,14 @@
 				}
 
 				.text {
-					font-family: PingFangSC-Semibold;
+					
 					font-size: 32upx;
 					color: #666666;
 				}
 
 				.model-email {
 					color: var(--mainColor);
-					font-family: PingFangSC-Semibold;
+					
 					font-size: 32upx;
 				}
 			}
@@ -642,7 +661,6 @@
 		right: 0;
 		height: 80upx;
 		background: rgba(255, 72, 0, 0.80);
-		font-family: PingFangSC-Semibold;
 		font-size: 12px;
 		color: #FFFFFF;
 	}
@@ -654,7 +672,6 @@
 
 		.copy-key {
 			padding-right: 20upx;
-			font-family: PingFangSC-Semibold;
 			font-size: 28upx;
 			color: #80ADED;
 		}
