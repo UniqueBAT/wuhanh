@@ -8,9 +8,9 @@
 				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
 				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
 				 @tap="checkCity(index)">{{item | cityname}}</text>
-				<text :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
-					{{cityPickerValue.text || '选择更多地区'}}
-				</text>
+				<view :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
+					<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
+				</view>
 			</view>
 			<view class="city-search">
 				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
@@ -421,6 +421,15 @@
 		}
 
 		.city-select {
+			&-text {
+				display: inline-block;
+				max-width: 100px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				vertical-align: middle;
+			}
+
 			&.city-active {
 				&::after {
 					display: inline-block;

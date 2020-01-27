@@ -10,8 +10,8 @@
 				<div>
 					<div class="label">是否接受付费购买：</div>
 					<div :class="`select ${formData.needToPay ? 'on' : 'off'}`">
-						<div @click="formData.needToPay = 1">是</div>
-						<div @click="formData.needToPay = 0">否</div>
+						<div @click="formData.needToPay = true">是</div>
+						<div @click="formData.needToPay = false">否</div>
 					</div>
 				</div>
 				<div>
@@ -205,7 +205,7 @@
 				},
 				formData: {
 					company: '',
-					needToPay: 0,
+					needToPay: false,
 					contacts: [
 						{
 							name: '',
@@ -312,6 +312,39 @@
 						.then(res => {
 							if (res.code === '10000') {
 								that.details = res.data
+								
+								that.formData = {
+									company: that.details.company || '',
+									needToPay: that.details.needToPay || '',
+									contacts: that.details.contacts && that.details.contacts.length ? that.details.contacts : [
+										{
+											name: '',
+											phone: ''
+										}
+									],
+									province: that.details.province || '',
+									city: that.details.city || '',
+									area: that.details.area || '',
+									deliveryArea: that.details.deliveryArea || '',
+									street: that.details.street || '',
+									
+									details: that.details.details && that.details.details.length ? that.details.details : [],
+									
+									receiptInfo: that.details.receiptInfo || {
+										name: '',
+										phone: '',
+										street: '',
+										dockingerPhone: '',
+										dockinger: '',
+										dockingAddress: ''
+									},
+									
+									level: that.details.level || '',
+									amount: that.details.amount || '',
+									hosAmount: that.details.hosAmount || '',
+									totalAmount: that.details.totalAmount || '',
+									totalHos: that.details.totalHos || '',
+								}
 							}
 						}).catch(err => {
 							console.log(err)
