@@ -18,12 +18,15 @@
 		</view>
 		<view class="info-content">
 			<view class="main-box">
-				<text class="main-text">{{detail.company}}</text>
-				<view>
-					<button type="default" v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
-					<button type="default" v-if="detail.status === '0'" class="btn-checked">信息已核实</button>
+				<view style="display: flex;">
+					<button type="default"  v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
+					<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
 					<button type="default" v-else class="btn-nocheck">信息未核实</button>
 				</view>
+				<text class="main-text"></text>
+			</view>
+			<view class="main-box">
+				<text class="main-text">{{detail.company}}</text>
 			</view>
 			<view class="info-box">
 				<text class="main-time">{{detail.createTime}}</text>
@@ -122,11 +125,12 @@
 				align-items: flex-end;
 				
 				.btn-canpay {
+					margin-right: 20px;
 					width: 188upx;
 					height: 60upx;
 					padding: 0;
 					line-height: 60upx;
-					background: #FFC936;
+					background: #FA6400;
 					border-radius: 0 0 4px 4px;
 					font-size: 24upx;
 					color: #FFFFFF;

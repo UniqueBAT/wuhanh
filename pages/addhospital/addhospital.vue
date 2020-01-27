@@ -453,7 +453,7 @@
 						if(res.code == 10000){
 							uni.showModal({
 							    title: '提交成功',
-							    content: "您的申请我们已收到，工作人员核实通过后会发布到平台",
+							    content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
 							    showCancel: false,
 							    success(res) {
 							        uni.navigateBack({
