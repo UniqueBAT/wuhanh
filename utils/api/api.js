@@ -36,5 +36,8 @@ export default {
 	// 修改医院信息
 	putHospitalInfo: (params, id) => {
 		return http.put(`${host}demand/apply/${id}`, params)
+	},
+	getDemandCount: () => {
+		return http.get(`${host}demand/count`)
 	}
 }
