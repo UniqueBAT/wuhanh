@@ -132,7 +132,7 @@
 					this.company = value
 					this.loadData(this.PullScroll, 1);
 				} else {
-					// this.city = value
+					console.log("======", value)
 					this.company = value
 					this.loadData(this.PullScroll, 0);
 				}
@@ -351,10 +351,8 @@
 							console.log(err)
 						})
 				} else {
-					if (that.city) {
-						params.city = that.city
-						params.keyword = that.company
-					}
+					params.city = that.city
+					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
 							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
 							that.carList = res.data.list
