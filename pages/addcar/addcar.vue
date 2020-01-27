@@ -182,7 +182,7 @@
 				    return;
 				}
 				
-				if(_that.params) {
+				if(_that.params && _that.params.id && _that.params.id > 0) {
 					_that.$api.putCarDetail(_that.postInfo).then(res => {
 						if(res.code == 10000){
 							uni.showModal({

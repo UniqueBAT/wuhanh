@@ -99,9 +99,9 @@
 						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
 				</view>
-			<!-- 	<view class="none-data" v-if="carList.length == 0">
+				<view class="none-data" v-if="carList.length == 0">
 					暂无更多了
-				</view> -->
+				</view>
 			</PullScroll>
 		</section>
 		<view class="blank-box"></view>
