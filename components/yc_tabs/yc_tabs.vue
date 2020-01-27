@@ -1,7 +1,7 @@
 <template>
 	<view class="tab-box" id="tab-box" v-if="tabList.length > 0">
 		<view class="horizontal">
-			<scroll-view :scroll-x="true" style="white-space: nowrap; display: flex;" scroll-with-animation :scroll-left="slider.scrollLeft">
+			<scroll-view :scroll-x="true" :show-scrollbar="false" style="white-space: nowrap; display: flex;" scroll-with-animation :scroll-left="slider.scrollLeft">
 				<view class="item-box">
 					<block v-for="(item, index) in tabList" :key="index">
 						<view class="item" :class="{ active: activeIndex === index }" :id="'tab_'+index" @click="tabClick(index)">
@@ -124,7 +124,7 @@
 		display: flex;
 		background: #fff;
 		font-size: 28upx;
-		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+		// box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
 		position: relative;
 		z-index: 10;
 		overflow: hidden;
@@ -145,7 +145,7 @@
 					position: relative;
 					display: inline-block;
 					text-align: center;
-					padding: 0 30upx;
+					padding: 0 25upx;
 					height: 80upx;
 					line-height: 80upx;
 					font-family: PingFangSC-Semibold;

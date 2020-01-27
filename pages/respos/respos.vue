@@ -28,10 +28,14 @@
 </template>
 
 <script>
+	import navUrl from '../../components/nav-url.vue'
 	export default {
+		components:{
+			navUrl
+		},
 		data() {
 			return {
-
+				url: '/pages/index/index'
 			}
 		},
 		methods: {

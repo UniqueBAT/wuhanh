@@ -30,11 +30,11 @@
 	],
 	"globalStyle": {
 		// #ifdef H5
-		"navigationStyle": "custom",
+		// "navigationStyle": "custom",
 		// #endif
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "湖北医疗物资需求信息平台",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8"
 	}
 }

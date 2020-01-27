@@ -1,6 +1,7 @@
 <template>
 	<view class="list">
-		<view class="fixed-box">
+		<view class="">
+			<!-- fixed-box -->
 			<view class="home-head">
 				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
 			</view>
@@ -8,21 +9,22 @@
 				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
 				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
 				 @tap="checkCity(index)">{{item | cityname}}</text>
-				<view :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
+				<view :class="['city-item', 'city-select', isCity == '100' ? 'city-active' : '']" @tap="handleSelectCity">
 					<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
 				</view>
 			</view>
 			<view class="city-search">
 				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
+				<image src="../../static/icon_Search.svg" class="search-icon" mode="widthFix"></image>
 			</view>
 		</view>
-		<view class="blank-boxs"></view>
+		<!-- <view class="blank-boxs"></view> -->
 		<section class="PullScroll-Page" v-show="current == 0">
 			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
 					<view class="item-top-v2">
 						<view class="item-types">
-							<view class="badge badge-orange"  v-if="item.needToPay">接受付费购买</view>
+							<view class="badge badge-orange" v-if="item.needToPay">接受付费购买</view>
 							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
 							<view class="badge badge-gray" v-if="item.status==='0'">信息未核实</view>
 						</view>
@@ -99,9 +101,9 @@
 						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
 				</view>
-				<view class="none-data" v-if="carList.length == 0">
+				<!-- <view class="none-data" v-if="carList.length == 0">
 					暂无更多了
-				</view>
+				</view> -->
 			</PullScroll>
 		</section>
 		<view class="blank-box"></view>
@@ -124,7 +126,7 @@
 				<view class="title">特别声明</view>
 				<view class="content">本平台系唯一官方认证网址：https://onwh.51rry.com（湖北医疗物资需求信息平台）</view>
 				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
-				<view class="mian-ben" @click="closeMian">关闭</view>
+				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
 		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
@@ -199,12 +201,12 @@
 		},
 		methods: {
 
-			navToCarChange(itemData){
+			navToCarChange(itemData) {
 				let id = itemData.id
 				uni.navigateTo({
-					url: '../addcar/addcar?id='+id
+					url: '../addcar/addcar?id=' + id
 				})
-      },
+			},
 
 			closeMian() {
 				this.showMian = false;
@@ -346,6 +348,19 @@
 				that.startNum++
 				that.loadData(pullScroll, that.startNum);
 			},
+			loadCar(index) {
+				let that = this;
+				let params = {
+					pageSize: 10,
+					start: index,
+				}
+				params.city = that.city
+				params.keyword = that.company
+				that.$api.getCarList(params).then(res => {
+					that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
+					that.carList = res.data.list
+				})
+			},
 			loadData(pullScroll, index) {
 				let that = this;
 				let params = {
@@ -360,16 +375,15 @@
 					}
 					that.$api.getDemandList(params)
 						.then(res => {
-							if (this.list.length > res.data.total) {
+							if (that.list.length > res.data.total) {
 								if (index == 1) {
 									that.list = res.data.list
 								}
 								pullScroll.finish();
 							} else {
 								pullScroll.success();
-								console.log(res.data.total)
-								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
 								if (index == 1) {
+									that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
 									that.list = res.data.list
 								} else {
 									that.list = that.list.concat(res.data.list)
@@ -382,13 +396,24 @@
 					params.city = that.city
 					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
-						that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
-						that.carList = res.data.list
+						if (that.carList.length > res.data.total) {
+							if (index == 1 || index == 0) {
+								that.carList = res.data.list
+							}
+							pullScroll.finish();
+						} else {
+							pullScroll.success();
+							if (index == 1) {
+								that.carList = res.data.list
+							} else {
+								that.carList = that.carList.concat(res.data.list)
+							}
+						}
 					})
 				}
 			},
 			handleSelectCity() {
-				this.$refs.mpvueCityPicker.show()
+				this.$refs.mpvueCityPicker.show();
 			},
 			onCityPickerConfirm(e) {
 				const city = e.label.split('-')[1];
@@ -396,6 +421,7 @@
 					pickerValue: e.value,
 					text: city
 				}
+				this.isCity = 100;
 				this.city = city;
 				this.loadData(this.PullScroll, 1);
 			},
@@ -403,13 +429,14 @@
 		onLoad() {
 			this.refresh();
 			this.getTabList();
+			this.loadCar(1);
 		}
 	};
 </script>
 
 <style lang="scss">
 	@import "@/styles/variables.scss";
-	
+
 	.badge {
 		border-radius: 0 0 4px 4px;
 		height: 30px;
@@ -419,21 +446,23 @@
 		padding: 0 20upx;
 		display: inline-block;
 		background: $main;
-		
+
 		&-orange {
 			background: $orange;
 		}
-		
+
 		&-green {
 			background: $green;
 		}
-		
+
 		&-gray {
 			background: $gray;
 		}
 	}
-	
+
 	.city-search {
+		display: flex;
+		position: relative;
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
@@ -446,6 +475,14 @@
 			height: 60upx;
 			line-height: 60upx;
 			padding: 0 30upx;
+		}
+
+		.search-icon {
+			width: 28upx;
+			height: 28upx;
+			position: absolute;
+			right: 25px;
+			top: 18px;
 		}
 	}
 
@@ -539,18 +576,20 @@
 			margin-bottom: 20upx;
 			box-sizing: border-box;
 			font-size: 12px;
-			
+
 			.item-sub {
 				color: $gray;
 			}
-			
+
 			.item-top-v2 {
 				border-bottom: 1px solid $border;
 				padding-bottom: 10px;
+
 				.item-name {
 					font-size: 14px;
 					padding: 10px 0;
 				}
+
 				.item-types {
 					.badge {
 						margin-right: 10px;
@@ -630,8 +669,6 @@
 			}
 
 			.item-main {
-				padding-bottom: 10px;
-
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -777,15 +814,9 @@
 		}
 	}
 
-	.blank-box {
-		width: 100%;
-		height: 100upx;
-		background-color: transparent;
-	}
-
 	.blank-boxs {
 		width: 100%;
-		height: 165px;
+		height: 155px;
 		background-color: transparent;
 	}
 
