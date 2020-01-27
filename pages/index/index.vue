@@ -528,6 +528,7 @@
 			}
 
 			.item-main {
+				padding-bottom: 10px;
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -565,7 +566,7 @@
 			}
 			
 			.btn-edit {
-				margin: 10px 0;
+				margin-top: 10px;
 			}
 			
 			.item-call {
