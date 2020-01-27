@@ -47,7 +47,6 @@
 									</g>
 								</svg>
 							</view>
-
 						</view>
 						<view class="item-content">
 							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
@@ -61,6 +60,9 @@
 						<text></text>
 						<view class="call-btn" @tap="handleModel(index)">联系医院</view>
 					</view>
+				</view>
+				<view class="none-data" v-if="list.length == 0">
+					暂无更多了
 				</view>
 			</PullScroll>
 		</section>
@@ -96,14 +98,12 @@
 						<view class="item-info">{{item.remark}}</view>
 						<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
 					</view>
-
+				</view>
+				<view class="none-data" v-if="carList.length == 0">
+					暂无更多了
 				</view>
 			</PullScroll>
 		</section>
-		<!-- <view class="right-us" @tap="handleModel(-1)">
-			<image src="../../static/logo.png" mode="widthFix" class="us-img"></image>
-			<view class="call-btns">us</view>
-		</view> -->
 		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
 		<!-- <view class="more-func"></view> -->
@@ -117,6 +117,14 @@
 						<text class="model-email" v-if="item.email" @tap="copy(item.email)">{{item.email}}</text>
 					</view>
 				</view>
+			</view>
+		</view>
+		<view class="model-mianze-box" v-show="showMian">
+			<view class="model-mianze">
+				<view class="title">特别声明</view>
+				<view class="content">本平台系唯一官方认证网址：https://onwh.51rry.com（湖北医疗物资需求信息平台）</view>
+				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+				<view class="mian-ben" @click="closeMian">关闭</view>
 			</view>
 		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
@@ -158,6 +166,7 @@
 		},
 		data() {
 			return {
+				showMian: true,
 				placeholder: '请输入你要搜索的医院名称',
 				PullScroll: '',
 				company: '',
@@ -190,6 +199,9 @@
 			};
 		},
 		methods: {
+			closeMian() {
+				this.showMian = false;
+			},
 			copyPhone(phone, isWechat = false) {
 				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
 					text: function() {
@@ -272,12 +284,14 @@
 				let that = this
 				uni.showActionSheet({
 					/* '拨打工作人员电话', '复制工作人员微信', */
-					itemList: ['复制工作人员 1 微信', '复制工作人员 2 微信', '在线补充医院名单', '在线补充车辆名单'],
+					itemList: ['拨打工作人员电话', '复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
 					itemColor: '#007AFF',
 					success: (res) => {
 						switch (res.tapIndex) {
 							case 0:
-								this.copyPhone('Best_jungle', true);
+								uni.makePhoneCall({
+									phoneNumber: '15071369696' //仅为示例
+								});
 								break
 							case 1:
 								this.copyPhone('kindyin', true);
@@ -739,5 +753,77 @@
 		height: 142px;
 		z-index: 1000;
 		background: #f8f8f8;
+	}
+
+	.none-data {
+		align-items: center;
+		font-size: 14px;
+		color: #969799;
+		height: 100upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.model-mianze-box {
+		display: flex;
+		z-index: 1000;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		background-color: rgba(0, 0, 0, 0.5);
+		top: 0;
+		bottom: 0;
+		right: 0;
+		bottom: 0;
+
+		.model-mianze {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			background: #FFFFFF;
+			padding: 40upx 100upx;
+			border-radius: 8px;
+			width: 80%;
+
+			.title {
+				font-family: PingFangSC-Medium;
+				font-size: 18px;
+				color: #000000;
+				text-align: center;
+			}
+
+			.content {
+				font-family: PingFangSC-Medium;
+				padding-top: 20upx;
+				font-size: 14px;
+				color: #000000;
+				text-align: center;
+			}
+
+			.lianjie {
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+				letter-spacing: 0;
+				text-align: center;
+				margin: 20upx 0;
+			}
+
+			.mian-ben {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 72upx;
+				text-align: center;
+				background: #FFFFFF;
+				border: 1px solid #4B8AE5;
+				border-radius: 18px;
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+			}
+		}
 	}
 </style>
