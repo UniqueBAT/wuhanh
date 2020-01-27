@@ -20,8 +20,9 @@
 			<view class="main-box">
 				<text class="main-text">{{detail.company}}</text>
 				<view>
-					<button type="default" v-if="detail.type === '0'" class="btn-donate">接受个人捐赠</button>
-					<button type="default" v-else class="btn-nodonate">不接受个人捐赠</button>
+					<button type="default" v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
+					<button type="default" v-if="detail.status === '0'" class="btn-checked">信息已核实</button>
+					<button type="default" v-else class="btn-nocheck">信息未核实</button>
 				</view>
 			</view>
 			<view class="info-box">
@@ -118,8 +119,8 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
-
-				.btn-donate {
+				
+				.btn-canpay {
 					width: 188upx;
 					height: 60upx;
 					padding: 0;
@@ -130,7 +131,18 @@
 					color: #FFFFFF;
 				}
 
-				.btn-nodonate {
+				.btn-checked {
+					width: 188upx;
+					height: 60upx;
+					padding: 0;
+					line-height: 60upx;
+					background: #7fae00;
+					border-radius: 0 0 4px 4px;
+					font-size: 24upx;
+					color: #FFFFFF;
+				}
+
+				.btn-nocheck {
 					padding: 0;
 					width: 188upx;
 					height: 60upx;
