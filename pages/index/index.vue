@@ -675,15 +675,7 @@
 			}
 
 			.item-call {
-				display: flex;
-				align-items: center;
-				height: 80upx;
-
-				.text {
-
-					font-size: 14px;
-					color: #333333;
-				}
+				margin-top: 10px;
 			}
 		}
 	}
