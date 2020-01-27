@@ -17,6 +17,14 @@ export default {
 	getCarList: params => {
 		return http.get(`${host}car/list/`, params)
 	},
+	// 获取车辆详情信息
+	getCarDetail: params => {
+		return http.get(`${host}car/`+params.id + '/')
+	},
+	// 获取车辆详情信息
+	putCarDetail: params => {
+		return http.put(`${host}car/apply/`+params.id + '/', params)
+	},
 	// 提交车辆信息
 	postCarInfo: params => {
 		return http.post(`${host}car/applyResource/`, params)
