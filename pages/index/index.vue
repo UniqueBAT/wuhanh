@@ -95,7 +95,9 @@
 							</view>
 						</view>
 						<view class="item-info">{{item.remark}}</view>
-						<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
+						<navigator :url="`/pages/addcar/addcar?id=${item.id}`" hover-class="navigator-hover">
+							<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
+						</navigator>
 					</view>
 					
 				</view>
