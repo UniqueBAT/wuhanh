@@ -385,11 +385,7 @@
 </script>
 
 <style lang="scss">
-	$main: #80ADED;
-	$orange: #FA6400;
-	$green: #7FAE00 ;
-	$gray: #999;
-	$border: #EDEDED;
+	@import "@/styles/variables.scss";
 	
 	.badge {
 		border-radius: 0 0 4px 4px;
