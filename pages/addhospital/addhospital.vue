@@ -8,7 +8,7 @@
 					<textarea v-model="formData.company" placeholder="点击输入" />
 					</div>
 				<div>
-					<div class="label">是否接受个人捐助：</div>
+					<div class="label">是否接受物资付费购买：</div>
 					<div :class="`select ${formData.type ? 'on' : 'off'}`">
 						<div @click="formData.type = 1">是</div>
 						<div @click="formData.type = 0">否</div>
@@ -308,6 +308,15 @@
 						        })
 						    }
 						})
+					}else if(res.code == 5003){
+						uni.showModal({
+						    title: '提交失败',
+						    content: "您提交的医院信息平台已存在，感谢参与。",
+						    showCancel: false,
+						    success(res) {
+						        console.log(res)
+						    }
+						})
 					}
 				})
 			}
@@ -356,7 +365,7 @@
 			padding: 14px 0;
 			
 			>.label {
-				width: 36%;
+				width: 50%;
 			}
 			
 			>.show {

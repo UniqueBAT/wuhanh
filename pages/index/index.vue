@@ -1,17 +1,20 @@
 <template>
 	<view class="list">
-		<view class="home-head">
-			<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
+		<view class="fixed-box">
+			<view class="home-head">
+				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
+			</view>
+			<view class="city-wrap">
+				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
+				<text v-for="(item,index) in cityList" :key="index" v-text="item" :class="['city-item',isCity == index ? 'city-active' : '']"
+				 @tap="checkCity(index)"></text>
+				<!-- <text class="city-item">选择更多地区</text> -->
+			</view>
+			<view class="city-search">
+				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
+			</view>
 		</view>
-		<view class="city-wrap">
-			<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
-			<text v-for="(item,index) in cityList" :key="index" v-text="item" :class="['city-item',isCity == index ? 'city-active' : '']"
-			 @tap="checkCity(index)"></text>
-			<!-- <text class="city-item">选择更多地区</text> -->
-		</view>
-		<view class="city-search">
-			<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
-		</view>
+		<view class="blank-boxs"></view>
 		<section class="PullScroll-Page" v-show="current == 0">
 			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
@@ -97,6 +100,7 @@
 			<image src="../../static/logo.png" mode="widthFix" class="us-img"></image>
 			<view class="call-btns">us</view>
 		</view> -->
+		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
 		<!-- <view class="more-func"></view> -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
@@ -269,7 +273,7 @@
 					itemList: ['复制工作人员 1 微信', '复制工作人员 2 微信', '在线补充医院名单', '在线补充车辆名单'],
 					itemColor: '#007AFF',
 					success: (res) => {
-						switch(res.tapIndex) {
+						switch (res.tapIndex) {
 							case 0:
 								this.copyPhone('Best_jungle', true);
 								break
@@ -354,10 +358,9 @@
 					params.city = that.city
 					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
-							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
-							that.carList = res.data.list
-						}
-					)
+						that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
+						that.carList = res.data.list
+					})
 				}
 			}
 		},
@@ -658,5 +661,27 @@
 			font-size: 28upx;
 			color: #80ADED;
 		}
+	}
+
+	.blank-box {
+		width: 100%;
+		height: 100upx;
+		background-color: transparent;
+	}
+	
+	.blank-boxs {
+		width: 100%;
+		height: 142px;
+		background-color: transparent;
+	}
+
+	.fixed-box {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 142px;
+		z-index: 1000;
+		background: #f8f8f8;
 	}
 </style>
