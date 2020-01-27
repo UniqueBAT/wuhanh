@@ -340,7 +340,8 @@
 	position: fixed;
 	width: 100%;
 	bottom:0rpx;
-	background: #4B8AE5;
+	background: #4B8AE5 !important;
+	border-radius: 0!important;
 	font-size: 18px;
 	color: #FFFFFF;
 	letter-spacing: 0;
