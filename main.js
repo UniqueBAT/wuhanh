@@ -4,6 +4,7 @@ import App from './App'
 import api from '@/utils/api/api.js'
 import utils from '@/utils/util.js';
 import redis from '@/utils/redis.js';
+import cityNameFilter from '@/filters/city-filter.js';
 
 //  h5分享配置
 import jswx from './components/jweixin-module/lib/index.js'
@@ -57,5 +58,6 @@ const app = new Vue({
 Vue.prototype.$api = api
 Vue.prototype.$utils = utils;
 Vue.prototype.$redis = redis;
+Vue.filter('cityname', cityNameFilter)
 
 app.$mount()

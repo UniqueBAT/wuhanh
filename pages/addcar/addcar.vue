@@ -20,7 +20,7 @@
 			<view class="item" @click="showSelect('city')">
 				<view class="item-title">配送范围</view>
 				<view class="time-arr plh">
-					{{postInfo.province ? postInfo.province + postInfo.city + postInfo.area + postInfo.deliveryArea : '选择配送范围'  }} 
+					{{postInfo.province ? postInfo.province + postInfo.city + postInfo.deliveryArea : '选择配送范围'  }} 
 				</view>
 			</view>
 			
@@ -37,7 +37,7 @@
 				<textarea class="note-content" placeholder="填写其它备注信息" v-model="postInfo.remark"></textarea>
 			</view>
 		</view>
-		<button class="btn" @click="subCarInfo">提交车辆资源名单申请</button>
+		<button class="btn" @click="subCarInfo">{{subMsg}}</button>
 		
 
 		
@@ -53,7 +53,7 @@
 							  class="row-input plh need">选择省市区
 						</view>
 						<view v-else type="buttom" @click="showMulLinkageThreePickerSend" class="row-input">
-							{{postInfo.province+postInfo.city + postInfo.area}}
+							{{postInfo.province+postInfo.city}}
 						</view>
 					</view>
 					
@@ -122,10 +122,11 @@
 				showSelectCityFlag: false,
 				themeColor: '#007AFF',
 				cityPickerValueDefault:[16, 0, 0],
+				subMsg: '提交车辆资源名单申请',
+				params: null,
 				postInfo: {
 					"carTeamName": "",
 					"city": "",
-					'area': "",
 					"createTime": 0,
 					"deliveryArea": "",
 					"deliveryEndTime": "",
@@ -145,6 +146,24 @@
 			mpvueCityPicker,
 			navUrl
 		},
+		onLoad(opt) {
+			let _that = this
+			let params = {
+				id: opt.id
+			}
+			_that.params = params
+			
+			if(params.id){
+				_that.subMsg = "确认修改车辆资源信息"
+			} else{
+				_that.subMsg = "提交车辆资源名单申请"
+			}
+			_that.$api.getCarDetail(params).then(res=>{
+				if(res.code == 10000){
+					_that.postInfo = res.data
+				}
+			})
+		},
 		methods: {
 			subCarInfo(){
 				let _that = this
@@ -162,24 +181,45 @@
 				    return;
 				}
 				
-				_that.$api.postCarInfo(_that.postInfo).then(res => {
-					if(res.code == 10000){
-						uni.showModal({
-						    title: '提示消息',
-						    content: "感谢您为抗击肺炎所做贡献！",
-						    showCancel: false,
-						    success(res) {
-						        uni.navigateBack({
-						        	delta: 1,
-						        	animationType: 'pop-out',
-						        	animationDuration: 200
-						        })
-						    }
-						})
-						
-					}
-				})
-				
+				if(_that.params) {
+					_that.$api.putCarDetail(_that.postInfo).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提示消息',
+							    content: "感谢您为抗击肺炎所做贡献！",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+				} else{
+					_that.$api.postCarInfo(_that.postInfo).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提示消息',
+							    content: "感谢您为抗击肺炎所做贡献！",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+					
+				}
+			
 			}, 
 			showMulLinkageThreePickerSend() {
 			    this.$refs.mpvueCityPicker.show()
@@ -205,7 +245,8 @@
 				if(areaArr && areaArr.length) {
 					this.postInfo.province = areaArr[0]
 					this.postInfo.city = areaArr[1]
-					this.postInfo.area = areaArr[2]
+					// this.postInfo.area = areaArr[2]
+					this.postInfo.deliveryArea = areaArr[2]
 				}
 			},
 			sureSelectTime(){
