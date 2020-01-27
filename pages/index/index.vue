@@ -279,13 +279,17 @@
 			},
 			getTabList() {
 				let that = this;
+				that.$api.getDemandCount().then((res) => {
+					const count = res.data ? res.data.car : 0
+					if(count) {
+						that.tabList[1].title = '车辆资源' + '(' + res.data.car + ')'	
+					}
+				})
 				Request.doInvoke('demand/city', 'GET')
 					.then(res => {
 						if (res.code === '10000') {
-							that.cityList = (res.data || []).filter(city => !!city)
+							this.cityList = (res.data || []).filter(city => !!city)
 						}
-					}).catch(err => {
-						console.log(err)
 					})
 			},
 			showMore() {
@@ -521,7 +525,11 @@
 	}
 
 	.PullScroll-Page {
-		height: 100vh;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 142px;
 
 		.btn {
 			width: 100%;
