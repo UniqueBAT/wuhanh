@@ -1,23 +1,22 @@
 <template>
 	<view class="list">
-		<view class="home-head">
-			<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
-		</view>
-		<view class="city-wrap">
-			<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
-			<text 
-				v-for="(item,index) in cityList"
-				:key="index"
-				:class="['city-item',isCity == index ? 'city-active' : '']"
-				@tap="checkCity(index)"
-			>{{item | cityname}}</text>
-			<view :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
-				<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
+		<view class="fixed-box">
+			<view class="home-head">
+				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
+			</view>
+			<view class="city-wrap">
+				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
+				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
+				 @tap="checkCity(index)">{{item | cityname}}</text>
+				<view :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
+					<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
+				</view>
+			</view>
+			<view class="city-search">
+				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
 			</view>
 		</view>
-		<view class="city-search">
-			<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
-		</view>
+		<view class="blank-boxs"></view>
 		<section class="PullScroll-Page" v-show="current == 0">
 			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
@@ -48,7 +47,6 @@
 									</g>
 								</svg>
 							</view>
-
 						</view>
 						<view class="item-content">
 							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
@@ -62,6 +60,9 @@
 						<text></text>
 						<view class="call-btn" @tap="handleModel(index)">联系医院</view>
 					</view>
+				</view>
+				<view class="none-data" v-if="list.length == 0">
+					暂无更多了
 				</view>
 			</PullScroll>
 		</section>
@@ -97,14 +98,13 @@
 						<view class="item-info">{{item.remark}}</view>
 						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
-					
+				</view>
+				<view class="none-data" v-if="carList.length == 0">
+					暂无更多了
 				</view>
 			</PullScroll>
 		</section>
-		<!-- <view class="right-us" @tap="handleModel(-1)">
-			<image src="../../static/logo.png" mode="widthFix" class="us-img"></image>
-			<view class="call-btns">us</view>
-		</view> -->
+		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
 		<!-- <view class="more-func"></view> -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
@@ -119,18 +119,30 @@
 				</view>
 			</view>
 		</view>
+		<view class="model-mianze-box" v-show="showMian">
+			<view class="model-mianze">
+				<view class="title">特别声明</view>
+				<view class="content">本平台系唯一官方认证网址：https://onwh.51rry.com（湖北医疗物资需求信息平台）</view>
+				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+				<view class="mian-ben" @click="closeMian">关闭</view>
+			</view>
+		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
-			   :shouldShowArea="false"
-			   @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
+		 :shouldShowArea="false" @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
+<script type="text/javascript">
+	var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+	document.write(unescape("%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol +
+		"v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+</script>
 <script>
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
-	
+
 	import {
 		Request
 	} from '../../utils/http.js'
@@ -153,6 +165,7 @@
 		},
 		data() {
 			return {
+				showMian: true,
 				placeholder: '请输入你要搜索的医院名称',
 				PullScroll: '',
 				company: '',
@@ -185,11 +198,17 @@
 			};
 		},
 		methods: {
+
 			navToCarChange(itemData){
 				let id = itemData.id
 				uni.navigateTo({
 					url: '../addcar/addcar?id='+id
 				})
+      },
+
+			closeMian() {
+				this.showMian = false;
+
 			},
 			copyPhone(phone, isWechat = false) {
 				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
@@ -273,12 +292,14 @@
 				let that = this
 				uni.showActionSheet({
 					/* '拨打工作人员电话', '复制工作人员微信', */
-					itemList: ['复制工作人员 1 微信', '复制工作人员 2 微信', '在线补充医院名单', '在线补充车辆名单'],
+					itemList: ['拨打工作人员电话', '复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
 					itemColor: '#007AFF',
 					success: (res) => {
-						switch(res.tapIndex) {
+						switch (res.tapIndex) {
 							case 0:
-								this.copyPhone('Best_jungle', true);
+								uni.makePhoneCall({
+									phoneNumber: '15071369696' //仅为示例
+								});
 								break
 							case 1:
 								this.copyPhone('kindyin', true);
@@ -361,10 +382,9 @@
 					params.city = that.city
 					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
-							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
-							that.carList = res.data.list
-						}
-					)
+						that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
+						that.carList = res.data.list
+					})
 				}
 			},
 			handleSelectCity() {
@@ -389,6 +409,7 @@
 
 <style lang="scss">
 	$main: #80ADED;
+
 	.city-search {
 		box-sizing: border-box;
 		background: #F8F8F8;
@@ -420,7 +441,7 @@
 			letter-spacing: 0;
 			text-align: center;
 		}
-		
+
 		.city-select {
 			&-text {
 				display: inline-block;
@@ -430,16 +451,17 @@
 				overflow: hidden;
 				vertical-align: middle;
 			}
+
 			&.city-active {
-					&::after {
-						display: inline-block;
-						content: "";
-						margin-left: 3px;
-						vertical-align: middle;
-						border: 5px dashed transparent;
-						border-top: 5px solid #fff;
-						border-bottom: 0 none;
-					}
+				&::after {
+					display: inline-block;
+					content: "";
+					margin-left: 3px;
+					vertical-align: middle;
+					border: 5px dashed transparent;
+					border-top: 5px solid #fff;
+					border-bottom: 0 none;
+				}
 			}
 		}
 
@@ -447,7 +469,7 @@
 			background: #80ADED;
 			border-radius: 17px;
 			border-radius: 17px;
-			
+
 			font-size: 14px;
 			color: #FFFFFF;
 			letter-spacing: 0;
@@ -464,15 +486,17 @@
 		border-radius: 0;
 		line-height: 40px;
 		background-color: #fff;
+
 		&::after {
 			border: 1px solid $main;
 			border-radius: 4px;
 		}
+
 		&.button-hover {
 			background: darken(#fff, 10%)
 		}
 	}
-	
+
 	.PullScroll-Page {
 		height: 100vh;
 
@@ -517,14 +541,14 @@
 						background: #FFC936;
 						border-radius: 0 0 4px 4px;
 						height: 60upx;
-						
+
 						font-size: 24upx;
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
 
 					.text {
-						
+
 						font-size: 24upx;
 						color: #999999;
 						display: block;
@@ -548,7 +572,7 @@
 
 						.item-name {
 							width: 500upx;
-							
+
 							font-weight: 600;
 							font-size: 28upx;
 							color: #333333;
@@ -557,7 +581,7 @@
 
 						.item-sex {
 							font-weight: 600;
-							
+
 							font-size: 24upx;
 							color: #333;
 						}
@@ -567,6 +591,7 @@
 
 			.item-main {
 				padding-bottom: 10px;
+
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -583,15 +608,15 @@
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
-					
+
 					font-size: 24upx;
 					color: #000;
-					
+
 					&:last-child {
 						border-bottom: 0 none;
 					}
 				}
-				
+
 				.time {
 					color: #999999;
 				}
@@ -602,18 +627,18 @@
 				min-height: 40px;
 				border-bottom: 1upx solid #f2f2f2;
 			}
-			
+
 			.btn-edit {
 				margin-top: 10px;
 			}
-			
+
 			.item-call {
 				display: flex;
 				align-items: center;
 				height: 80upx;
 
 				.text {
-					
+
 					font-size: 14px;
 					color: #333333;
 				}
@@ -652,14 +677,14 @@
 				}
 
 				.text {
-					
+
 					font-size: 32upx;
 					color: #666666;
 				}
 
 				.model-email {
 					color: var(--mainColor);
-					
+
 					font-size: 32upx;
 				}
 			}
@@ -713,6 +738,100 @@
 			padding-right: 20upx;
 			font-size: 28upx;
 			color: #80ADED;
+		}
+	}
+
+	.blank-box {
+		width: 100%;
+		height: 100upx;
+		background-color: transparent;
+	}
+
+	.blank-boxs {
+		width: 100%;
+		height: 165px;
+		background-color: transparent;
+	}
+
+	.fixed-box {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 142px;
+		z-index: 1000;
+		background: #f8f8f8;
+	}
+
+	.none-data {
+		align-items: center;
+		font-size: 14px;
+		color: #969799;
+		height: 100upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.model-mianze-box {
+		display: flex;
+		z-index: 1000;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		background-color: rgba(0, 0, 0, 0.5);
+		top: 0;
+		bottom: 0;
+		right: 0;
+		bottom: 0;
+
+		.model-mianze {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			background: #FFFFFF;
+			padding: 40upx 100upx;
+			border-radius: 8px;
+			width: 80%;
+
+			.title {
+				font-family: PingFangSC-Medium;
+				font-size: 18px;
+				color: #000000;
+				text-align: center;
+			}
+
+			.content {
+				font-family: PingFangSC-Medium;
+				padding-top: 20upx;
+				font-size: 14px;
+				color: #000000;
+				text-align: center;
+			}
+
+			.lianjie {
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+				letter-spacing: 0;
+				text-align: center;
+				margin: 20upx 0;
+			}
+
+			.mian-ben {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 72upx;
+				text-align: center;
+				background: #FFFFFF;
+				border: 1px solid #4B8AE5;
+				border-radius: 18px;
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+			}
 		}
 	}
 </style>

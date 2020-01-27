@@ -27,6 +27,7 @@
 			</view>
 			<view class="info-box">
 				<text class="main-time">{{detail.createTime}}</text>
+				<text class="main-time">{{detail.viewTimes}} 人浏览</text>
 				<view class="touch-box" v-show="detail.sourceUrl">
 					<text class="come-text" @tap="toOut(detail.sourceUrl)">来源：{{detail.source}}</text>
 					<svg width="10px" height="18px" viewBox="0 0 14 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
