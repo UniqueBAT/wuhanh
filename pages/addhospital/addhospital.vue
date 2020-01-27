@@ -16,11 +16,11 @@
 				</div>
 				<div>
 					<div class="label">联系人：</div>
-					<input type="text" placeholder="点击输入"  v-model="formData.contacts.name">
+					<input type="text" placeholder="点击输入"  v-model="formData.contact.name">
 				</div>
 				<div>
 					<div class="label">联系电话：</div>
-					<input type="text" placeholder="点击输入"  v-model="formData.contacts.phone">
+					<input type="number" placeholder="点击输入"  v-model="formData.contact.phone">
 				</div>
 				<div>
 					<div class="label">所在区域：</div>
@@ -60,7 +60,7 @@
 				</div>
 				<div>
 					<div class="label">联系电话：</div>
-					<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.phone">
+					<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.phone">
 				</div>
 						
 			</view>
@@ -77,7 +77,7 @@
 				</div>
 				<div>
 					<div class="label">联系电话：</div>
-					<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.dockingerPhone">
+					<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.dockingerPhone">
 				</div>
 						
 			</view>
@@ -177,7 +177,7 @@
 				formData: {
 					company: '',
 					type: 0,
-					contacts: {
+					contact: {
 						name: '',
 						phone: ''
 					},
@@ -293,7 +293,6 @@
 				this.showSelectCityFlag = false
 			},
 			onCityConfirm(e){
-				console.log('onCityConfirm:===', e)
 				let areaArr = e.label.split('-')
 				if(areaArr && areaArr.length) {
 					this.formData.province = areaArr[0]
@@ -310,6 +309,8 @@
 				    _that.$utils.showModal("请写正确的医院名称")
 				    return;
 				}
+				
+				console.log('2222:===', _that.formData)
 				_that.$api.postHospitalInfo(_that.formData).then(res => {
 					if(res.code == 10000){
 						uni.showModal({
@@ -317,7 +318,6 @@
 						    content: "感谢您为抗击肺炎所做贡献！",
 						    showCancel: false,
 						    success(res) {
-								
 						        uni.navigateBack({
 						        	delta: 1,
 						        	animationType: 'pop-out',

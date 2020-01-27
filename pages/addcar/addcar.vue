@@ -149,7 +149,7 @@
 			subCarInfo(){
 				let _that = this
 				if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
-				    _that.$utils.showModal("请写正确的发货人手机号")
+				    _that.$utils.showModal("请写正确的手机号")
 				    return;
 				}
 				_that.$api.postCarInfo(_that.postInfo).then(res => {
@@ -193,7 +193,6 @@
 				this.postInfo.deliveryEndTime = e.key
 			},
 			onCityConfirm(e){
-				console.log('onCityConfirm:===', e)
 				let areaArr = e.label.split('-')
 				if(areaArr && areaArr.length) {
 					this.postInfo.province = areaArr[0]
