@@ -96,9 +96,7 @@
 							</view>
 						</view>
 						<view class="item-info">{{item.remark}}</view>
-						<navigator :url="`/pages/addcar/addcar?id=${item.id}`" hover-class="navigator-hover">
-							<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
-						</navigator>
+						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
 				</view>
 			<!-- 	<view class="none-data" v-if="carList.length == 0">
@@ -160,7 +158,6 @@
 					this.company = value
 					this.loadData(this.PullScroll, 1);
 				} else {
-					console.log("======", value)
 					this.company = value
 					this.loadData(this.PullScroll, 0);
 				}
@@ -201,8 +198,17 @@
 			};
 		},
 		methods: {
+
+			navToCarChange(itemData){
+				let id = itemData.id
+				uni.navigateTo({
+					url: '../addcar/addcar?id='+id
+				})
+      },
+
 			closeMian() {
 				this.showMian = false;
+
 			},
 			copyPhone(phone, isWechat = false) {
 				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
