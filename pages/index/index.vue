@@ -5,9 +5,15 @@
 		</view>
 		<view class="city-wrap">
 			<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
-			<text v-for="(item,index) in cityList" :key="index" v-text="item" :class="['city-item',isCity == index ? 'city-active' : '']"
-			 @tap="checkCity(index)"></text>
-			<!-- <text class="city-item">选择更多地区</text> -->
+			<text 
+				v-for="(item,index) in cityList"
+				:key="index"
+				:class="['city-item',isCity == index ? 'city-active' : '']"
+				@tap="checkCity(index)"
+			>{{item | cityname}}</text>
+			<text :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
+				{{cityPickerValue.text || '选择更多地区'}}
+			</text>
 		</view>
 		<view class="city-search">
 			<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
@@ -113,6 +119,9 @@
 				</view>
 			</view>
 		</view>
+		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
+			   :shouldShowArea="false"
+			   @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
@@ -120,13 +129,16 @@
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
+	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	
 	import {
 		Request
 	} from '../../utils/http.js'
 	export default {
 		components: {
 			PullScroll,
-			tabs
+			tabs,
+			mpvueCityPicker,
 		},
 		watch: {
 			company(value) {
@@ -151,38 +163,26 @@
 				callList: [],
 				list: [],
 				bottomList: [],
-				carList: [{
-					company: '汉口义务运输队',
-					name: '王五',
-					phone: '18727460740',
-					area: '武汉市内',
-					time: '上午10：00 -- 下午14：00',
-					info: '请保持手机通常，我来了',
-					newTime: '2020-01-25 12:23'
-				}, {
-					company: '汉口义务运输队',
-					name: '王五',
-					phone: '18727460740',
-					area: '武汉市内',
-					time: '上午10：00 -- 下午14：00',
-					info: '请保持手机通常，我来了',
-					newTime: '2020-01-25 12:23'
-				}],
+				carList: [],
 				startNum: 1,
 				current: 0,
 				tabList: [{
-					title: '医院需求(32)',
+					title: '医院需求(0)',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
 				}, {
-					title: '车辆资源(56)',
+					title: '车辆资源(0)',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
 				}],
 				isCity: -1,
-				cityList: ["武汉", "荆州", "黄石", "宜昌"]
+				cityList: ["武汉", "荆州", "黄石", "宜昌"],
+				cityPickerValue: {
+					pickerValue: [16, 0, 0],
+					text: '',
+				},
 			};
 		},
 		methods: {
@@ -258,7 +258,7 @@
 				Request.doInvoke('demand/city', 'GET')
 					.then(res => {
 						if (res.code === '10000') {
-							that.cityList = res.data
+							that.cityList = (res.data || []).filter(city => !!city)
 						}
 					}).catch(err => {
 						console.log(err)
@@ -361,7 +361,19 @@
 						}
 					)
 				}
-			}
+			},
+			handleSelectCity() {
+				this.$refs.mpvueCityPicker.show()
+			},
+			onCityPickerConfirm(e) {
+				const city = e.label.split('-')[1];
+				this.cityPickerValue = {
+					pickerValue: e.value,
+					text: city
+				}
+				this.city = city;
+				this.loadData(this.PullScroll, 1);
+			},
 		},
 		onLoad() {
 			this.refresh();
@@ -398,11 +410,24 @@
 		align-items: center;
 
 		.city-item {
-			
 			font-size: 14px;
 			color: #80ADED;
 			letter-spacing: 0;
 			text-align: center;
+		}
+		
+		.city-select {
+			&.city-active {
+					&::after {
+						display: inline-block;
+						content: "";
+						margin-left: 3px;
+						vertical-align: middle;
+						border: 5px dashed transparent;
+						border-top: 5px solid #fff;
+						border-bottom: 0 none;
+					}
+			}
 		}
 
 		.city-active {
