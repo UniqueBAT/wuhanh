@@ -274,6 +274,7 @@
 					this.city = this.cityList[index]
 				}
 				this.loadData(this.PullScroll, 1);
+				this.cityPickerValue.text = null;
 			},
 			getTabList() {
 				let that = this;
@@ -369,7 +370,6 @@
 								pullScroll.finish();
 							} else {
 								pullScroll.success();
-								console.log(res.data.total)
 								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
 								if (index == 1) {
 									that.list = res.data.list
@@ -394,6 +394,7 @@
 			},
 			onCityPickerConfirm(e) {
 				const city = e.label.split('-')[1];
+				this.isCity = null
 				this.cityPickerValue = {
 					pickerValue: e.value,
 					text: city
