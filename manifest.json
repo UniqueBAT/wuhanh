@@ -1,5 +1,5 @@
 {
-    "name" : "0125",
+    "name" : "湖北医疗物资需求信息平台",
     "appid" : "__UNI__CB639DD",
     "description" : "",
     "versionName" : "1.0.0",
@@ -73,6 +73,9 @@
     },
     "h5" : {
         "title" : "湖北医疗物资需求信息平台",
-        "domain" : "https://onwh.51rry.com"
+        "domain" : "https://onwh.51rry.com",
+        "devServer" : {
+            "https" : false
+        }
     }
 }

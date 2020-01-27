@@ -25,16 +25,14 @@
 				<div>
 					<div class="label">所在区域：</div>
 					<div @click="showSelectCityFlag = true">
-						{{formData.province ? formData.province + formData.city + formData.area + formData.deliveryArea : '选择所在区域'  }}
+						{{formData.province ? formData.province + formData.city + formData.area + formData.deliveryArea : '省/市/区'  }}
 					</div>
 				</div>
 				<div class="street">
 					<div class="label">医院地址：</div>
 					<textarea value="" placeholder="点击输入"  v-model="formData.street"/>
 				</div>
-				
 			</view>
-			
 			<view class="area_2">
 				<div class="title">所需物资数量</div>
 				<template>
@@ -47,7 +45,6 @@
 					</div>
 				</template>
 			</view>
-					
 			<view class="area_3">
 				<div class="title">快递对接信息</div>
 				<div>
@@ -62,9 +59,7 @@
 					<div class="label">联系电话：</div>
 					<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.phone">
 				</div>
-						
 			</view>
-			
 			<view class="area_4">
 				<div class="title">物资对接信息</div>
 				<div>
@@ -78,15 +73,12 @@
 				<div>
 					<div class="label">联系电话：</div>
 					<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.dockingerPhone">
-				</div>
-						
+				</div>	
 			</view>
-			
 			<view v-show="showSelectCityFlag">
 				<view class="mask"></view>
 				<view class="select-time">
 					<view class="time-title">选择医院所在区域</view>
-				
 					<view class="content-box">
 						<view class="box-time">
 							<view class="item-title">省市区选择</view>
@@ -97,24 +89,20 @@
 								{{formData.province+formData.city + formData.area}}
 							</view>
 						</view>
-						
 						<view class="box-time">
 							<view class="item-title">详细地址</view>
 							<input placeholder="输入详细地址" class="addrr-input" type="text" v-model="formData.deliveryArea"  />
 						</view>
 					</view>
-					
 					<view class="box-btn">
 							<view class="btn-left" @click="showSelectCityFlag=false">取消</view>
 							<view class="btn-right" @click="sureSelectTime">确定</view>
 						</view>
 				</view>
 			</view>
-			
 			<view class="submit" @click="submit">
 				提交医院名单申请
 			</view>
-			
 			<view class="model" v-if="showModel">
 				<div class="area">
 					<div class="choose">
@@ -124,14 +112,12 @@
 								<span>数量不限</span>
 							</div>
 						</div>
-						
 						<div>
 							<div class="choose-item" @click="nowChoose.type = 1">
 								<span :class="{active: nowChoose.type === 1}"></span>
 								<span>不需要</span>
 							</div>
 						</div>
-						
 						<div>
 							<div class="choose-item" @click="nowChoose.type = 2">
 								<span :class="{active: nowChoose.type === 2}"></span>
@@ -150,12 +136,9 @@
 				</div>
 			</view>
 		</view>
-		
-		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
-			                   @onCancel="onCancel" @onConfirm="onCityConfirm"></mpvue-city-picker>
+		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" 
+		:pickerValueDefault="cityPickerValueDefault" @onCancel="onCancel" @onConfirm="onCityConfirm"></mpvue-city-picker>
 	</view>
-	
-	
 </template>
 
 <script>
@@ -164,6 +147,7 @@
 	export default {
 		data() {
 			return {
+				showModel: true,
 				url: '/pages/index/index',
 				showSelectCityFlag: false,
 				showModel: false,
@@ -309,13 +293,12 @@
 				    _that.$utils.showModal("请写正确的医院名称")
 				    return;
 				}
-				
 				console.log('2222:===', _that.formData)
 				_that.$api.postHospitalInfo(_that.formData).then(res => {
 					if(res.code == 10000){
 						uni.showModal({
-						    title: '提示消息',
-						    content: "感谢您为抗击肺炎所做贡献！",
+						    title: '提交成功',
+						    content: "您的申请我们已收到，工作人员核实通过后会发布到平台！",
 						    showCancel: false,
 						    success(res) {
 						        uni.navigateBack({
@@ -325,7 +308,6 @@
 						        })
 						    }
 						})
-						
 					}
 				})
 			}
@@ -374,7 +356,7 @@
 			padding: 14px 0;
 			
 			>.label {
-				width: 32%;
+				width: 36%;
 			}
 			
 			>.show {
@@ -657,6 +639,5 @@
 				border-left: none;
 			}
 		}
-		
 	}
 </style>
