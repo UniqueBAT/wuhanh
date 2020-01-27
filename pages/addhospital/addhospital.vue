@@ -446,7 +446,7 @@
 						if(res.code == 10000){
 							uni.showModal({
 							    title: '提交成功',
-							    content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
+							    content: "您的申请已收到，稍后会进行内容核实，核实通过会在页面显示，请耐心等候",
 							    showCancel: false,
 							    success(res) {
 							        uni.navigateBack({

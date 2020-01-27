@@ -124,7 +124,7 @@
 				<view class="title">特别声明</view>
 				<view class="content">本平台系唯一官方认证网址：https://onwh.51rry.com（湖北医疗物资需求信息平台）</view>
 				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
-				<view class="mian-ben" @click="closeMian">关闭</view>
+				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
 		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
@@ -179,12 +179,12 @@
 				startNum: 1,
 				current: 0,
 				tabList: [{
-					title: '医院需求(0)',
+					title: '医院需求',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
 				}, {
-					title: '车辆资源(0)',
+					title: '车辆资源',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
@@ -198,14 +198,12 @@
 			};
 		},
 		methods: {
-
 			navToCarChange(itemData){
 				let id = itemData.id
 				uni.navigateTo({
 					url: '../addcar/addcar?id='+id
 				})
-      },
-
+			},
 			closeMian() {
 				this.showMian = false;
 
