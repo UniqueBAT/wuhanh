@@ -6,9 +6,11 @@
 			</view>
 			<view class="city-wrap">
 				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
-				<text v-for="(item,index) in cityList" :key="index" v-text="item" :class="['city-item',isCity == index ? 'city-active' : '']"
-				 @tap="checkCity(index)"></text>
-				<!-- <text class="city-item">选择更多地区</text> -->
+				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
+				 @tap="checkCity(index)">{{item | cityname}}</text>
+				<text :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
+					{{cityPickerValue.text || '选择更多地区'}}
+				</text>
 			</view>
 			<view class="city-search">
 				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
@@ -94,7 +96,7 @@
 						<view class="item-info">{{item.remark}}</view>
 						<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
 					</view>
-					
+
 				</view>
 			</PullScroll>
 		</section>
@@ -117,21 +119,30 @@
 				</view>
 			</view>
 		</view>
+		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
+		 :shouldShowArea="false" @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+<script type="text/javascript">
+	var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+	document.write(unescape("%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol +
+		"v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+</script>
 <script>
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
+	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+
 	import {
 		Request
 	} from '../../utils/http.js'
 	export default {
 		components: {
 			PullScroll,
-			tabs
+			tabs,
+			mpvueCityPicker,
 		},
 		watch: {
 			company(value) {
@@ -156,38 +167,26 @@
 				callList: [],
 				list: [],
 				bottomList: [],
-				carList: [{
-					company: '汉口义务运输队',
-					name: '王五',
-					phone: '18727460740',
-					area: '武汉市内',
-					time: '上午10：00 -- 下午14：00',
-					info: '请保持手机通常，我来了',
-					newTime: '2020-01-25 12:23'
-				}, {
-					company: '汉口义务运输队',
-					name: '王五',
-					phone: '18727460740',
-					area: '武汉市内',
-					time: '上午10：00 -- 下午14：00',
-					info: '请保持手机通常，我来了',
-					newTime: '2020-01-25 12:23'
-				}],
+				carList: [],
 				startNum: 1,
 				current: 0,
 				tabList: [{
-					title: '医院需求(32)',
+					title: '医院需求(0)',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
 				}, {
-					title: '车辆资源(56)',
+					title: '车辆资源(0)',
 					hasRed: false,
 					isShow: true,
 					num: '99+'
 				}],
 				isCity: -1,
-				cityList: ["武汉", "荆州", "黄石", "宜昌"]
+				cityList: ["武汉", "荆州", "黄石", "宜昌"],
+				cityPickerValue: {
+					pickerValue: [16, 0, 0],
+					text: '',
+				},
 			};
 		},
 		methods: {
@@ -263,7 +262,7 @@
 				Request.doInvoke('demand/city', 'GET')
 					.then(res => {
 						if (res.code === '10000') {
-							that.cityList = res.data
+							that.cityList = (res.data || []).filter(city => !!city)
 						}
 					}).catch(err => {
 						console.log(err)
@@ -365,7 +364,19 @@
 						that.carList = res.data.list
 					})
 				}
-			}
+			},
+			handleSelectCity() {
+				this.$refs.mpvueCityPicker.show()
+			},
+			onCityPickerConfirm(e) {
+				const city = e.label.split('-')[1];
+				this.cityPickerValue = {
+					pickerValue: e.value,
+					text: city
+				}
+				this.city = city;
+				this.loadData(this.PullScroll, 1);
+			},
 		},
 		onLoad() {
 			this.refresh();
@@ -376,6 +387,7 @@
 
 <style lang="scss">
 	$main: #80ADED;
+
 	.city-search {
 		box-sizing: border-box;
 		background: #F8F8F8;
@@ -402,18 +414,31 @@
 		align-items: center;
 
 		.city-item {
-			
 			font-size: 14px;
 			color: #80ADED;
 			letter-spacing: 0;
 			text-align: center;
 		}
 
+		.city-select {
+			&.city-active {
+				&::after {
+					display: inline-block;
+					content: "";
+					margin-left: 3px;
+					vertical-align: middle;
+					border: 5px dashed transparent;
+					border-top: 5px solid #fff;
+					border-bottom: 0 none;
+				}
+			}
+		}
+
 		.city-active {
 			background: #80ADED;
 			border-radius: 17px;
 			border-radius: 17px;
-			
+
 			font-size: 14px;
 			color: #FFFFFF;
 			letter-spacing: 0;
@@ -430,15 +455,17 @@
 		border-radius: 0;
 		line-height: 40px;
 		background-color: #fff;
+
 		&::after {
 			border: 1px solid $main;
 			border-radius: 4px;
 		}
+
 		&.button-hover {
 			background: darken(#fff, 10%)
 		}
 	}
-	
+
 	.PullScroll-Page {
 		height: 100vh;
 
@@ -483,14 +510,14 @@
 						background: #FFC936;
 						border-radius: 0 0 4px 4px;
 						height: 60upx;
-						
+
 						font-size: 24upx;
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
 
 					.text {
-						
+
 						font-size: 24upx;
 						color: #999999;
 						display: block;
@@ -514,7 +541,7 @@
 
 						.item-name {
 							width: 500upx;
-							
+
 							font-weight: 600;
 							font-size: 28upx;
 							color: #333333;
@@ -523,7 +550,7 @@
 
 						.item-sex {
 							font-weight: 600;
-							
+
 							font-size: 24upx;
 							color: #333;
 						}
@@ -532,6 +559,8 @@
 			}
 
 			.item-main {
+				padding-bottom: 10px;
+
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -548,15 +577,15 @@
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
-					
+
 					font-size: 24upx;
 					color: #000;
-					
+
 					&:last-child {
 						border-bottom: 0 none;
 					}
 				}
-				
+
 				.time {
 					color: #999999;
 				}
@@ -567,18 +596,18 @@
 				min-height: 40px;
 				border-bottom: 1upx solid #f2f2f2;
 			}
-			
+
 			.btn-edit {
-				margin: 10px 0;
+				margin-top: 10px;
 			}
-			
+
 			.item-call {
 				display: flex;
 				align-items: center;
 				height: 80upx;
 
 				.text {
-					
+
 					font-size: 14px;
 					color: #333333;
 				}
@@ -617,14 +646,14 @@
 				}
 
 				.text {
-					
+
 					font-size: 32upx;
 					color: #666666;
 				}
 
 				.model-email {
 					color: var(--mainColor);
-					
+
 					font-size: 32upx;
 				}
 			}
@@ -686,7 +715,7 @@
 		height: 100upx;
 		background-color: transparent;
 	}
-	
+
 	.blank-boxs {
 		width: 100%;
 		height: 165px;

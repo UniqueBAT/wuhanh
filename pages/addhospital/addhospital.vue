@@ -8,20 +8,28 @@
 					<textarea v-model="formData.company" placeholder="点击输入" />
 					</div>
 				<div>
-					<div class="label">是否接受物资付费购买：</div>
-					<div :class="`select ${formData.type ? 'on' : 'off'}`">
-						<div @click="formData.type = 1">是</div>
-						<div @click="formData.type = 0">否</div>
+					<div class="label">是否接受付费购买：</div>
+					<div :class="`select ${formData.needToPay ? 'on' : 'off'}`">
+						<div @click="formData.needToPay = 1">是</div>
+						<div @click="formData.needToPay = 0">否</div>
 					</div>
 				</div>
 				<div>
-					<div class="label">联系人：</div>
-					<input type="text" placeholder="点击输入"  v-model="formData.contact.name">
+					<div class="label">联系人</div>
+					<div>
+						<button class="mini-btn" type="primary" size="mini" @click="addContact">增加联系人</button>
+					</div>
 				</div>
-				<div>
-					<div class="label">联系电话：</div>
-					<input type="number" placeholder="点击输入"  v-model="formData.contact.phone">
-				</div>
+				<uni-card v-for="(item, index) in formData.contacts" :key="index" :title="'第' + (index + 1) + '个联系人'" extra="删除" @clickExtra="delContact" :outIndex="index">
+				    <div>
+				    	<div class="label">姓名：</div>
+				    	<input type="text" placeholder="点击输入"  v-model="formData.contacts[index].name">
+				    </div>
+				    <div>
+				    	<div class="label">联系电话：</div>
+				    	<input type="number" placeholder="点击输入"  v-model="formData.contacts[index].phone">
+				    </div>
+				</uni-card>
 				<div>
 					<div class="label">所在区域：</div>
 					<div @click="showSelectCityFlag = true">
@@ -36,7 +44,7 @@
 			<view class="area_2">
 				<div class="title">所需物资数量</div>
 				<template>
-					<div v-for="(item, index) in formData.details" @click="chooseNum(item, index)">
+					<div v-for="(item, index) in formData.details" @click="chooseNum(item, index)" :key="index">
 						<div class="label">{{item.name}}</div>
 						<div class="show">
 							<span>{{checkItem(item)}}</span>
@@ -75,6 +83,32 @@
 					<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.dockingerPhone">
 				</div>	
 			</view>
+			<view class="area_5">
+				<div class="title">医院基础信息</div>
+				<div>
+					<div class="label">医院级别：</div>
+					<input type="text" placeholder="点击输入" v-model="formData.level">
+				</div>
+				<div>
+					<div class="label">床位数：</div>
+					<input type="number" placeholder="点击输入" v-model="formData.amount">
+				</div>
+				<div>
+					<div class="label">医院人员数：</div>
+					<input type="number" placeholder="点击输入" v-model="formData.hosAmount">
+				</div>
+				
+				<div>
+					<div class="label">辖区人口总数：</div>
+					<input type="number" placeholder="点击输入" v-model="formData.totalAmount">
+				</div>
+				
+				<div>
+					<div class="label">辖区内医院数：</div>
+					<input type="number" placeholder="点击输入" v-model="formData.totalHos">
+				</div>
+						
+			</view>
 			<view v-show="showSelectCityFlag">
 				<view class="mask"></view>
 				<view class="select-time">
@@ -90,9 +124,10 @@
 							</view>
 						</view>
 						<view class="box-time">
+						<!-- <view class="box-time">
 							<view class="item-title">详细地址</view>
 							<input placeholder="输入详细地址" class="addrr-input" type="text" v-model="formData.deliveryArea"  />
-						</view>
+						</view> -->
 					</view>
 					<view class="box-btn">
 							<view class="btn-left" @click="showSelectCityFlag=false">取消</view>
@@ -100,7 +135,10 @@
 						</view>
 				</view>
 			</view>
-			<view class="submit" @click="submit">
+			<view class="submit" v-if="id" @click="submit">
+				提交医院名单修改申请
+			</view>
+			<view class="submit" v-else @click="submit">
 				提交医院名单申请
 			</view>
 			<view class="model" v-if="showModel">
@@ -139,6 +177,7 @@
 		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" 
 		:pickerValueDefault="cityPickerValueDefault" @onCancel="onCancel" @onConfirm="onCityConfirm"></mpvue-city-picker>
 	</view>
+	</view>
 </template>
 
 <!-- 站长统计工具 -->
@@ -146,10 +185,14 @@
 <script>
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
 	import navUrl from '../../components/nav-url.vue'
+	import uniIcons from "../../components/uni-icons/uni-icons.vue"
+	import uniCard from '@/components/uni-card/uni-card.vue'
+	
 	export default {
 		data() {
 			return {
-				showModel: true,
+				id: null,
+				details: {},
 				url: '/pages/index/index',
 				showSelectCityFlag: false,
 				showModel: false,
@@ -162,11 +205,13 @@
 				},
 				formData: {
 					company: '',
-					type: 0,
-					contact: {
-						name: '',
-						phone: ''
-					},
+					needToPay: 0,
+					contacts: [
+						{
+							name: '',
+							phone: ''
+						}
+					],
 					province: '',
 					city: '',
 					area: '',
@@ -237,15 +282,42 @@
 						dockingerPhone: '',
 						dockinger: '',
 						dockingAddress: ''
-					}
+					},
+					
+					level: '',
+					amount: '',
+					hosAmount: '',
+					totalAmount: '',
+					totalHos: ''
 				}
 			};
 		},
 		components: {
 			navUrl,
-			mpvueCityPicker
+			mpvueCityPicker,
+			uniIcons,
+			uniCard
 		},
 		methods: {
+			loadDetail(id) {
+				if (id) {
+					let that = this;
+					let params = {
+						'id': id
+					}
+					
+					that.id = id
+								
+					that.$api.getDemandDetail(params)
+						.then(res => {
+							if (res.code === '10000') {
+								that.details = res.data
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+				}
+			},
 			chooseNum(item, index) {
 				this.nowChoose.index = index;
 				this.nowChoose.type = item.amount === 0 ? 0 : item.amount > 0 ? 2 : 1;
@@ -289,6 +361,20 @@
 			showMulLinkageThreePickerSend() {
 			    this.$refs.mpvueCityPicker.show()
 			},
+			addContact() {
+				this.formData.contacts.push({
+					name: '',
+					phone: ''
+				})
+			},
+			delContact(index) {
+				if (index === 0) {
+					this.$utils.showModal("请至少保留一位联系人")
+					return
+				}
+				
+				this.formData.contacts.splice(index, 1)
+			},
 			submit() {
 				let _that = this
 				if (!_that.formData.company) {
@@ -322,6 +408,9 @@
 					}
 				})
 			}
+		},
+		onLoad(option) {
+		    this.loadDetail(option.id)
 		}
 	}
 </script>

@@ -63,6 +63,7 @@
                 <view class="main-text" style="text-align: center;" v-else>暂无内容</view>
             </swiper-item>
         </swiper>
+		<view class="bottom-btn" @tap="editDetails">医院信息有误，点这里提交修改申请</view>
     </view>
 </template>
 
@@ -168,7 +169,12 @@
                     }).catch(err => {
                         console.log(err)
                     })
-            }
+            },
+			editDetails() {
+				uni.navigateTo({
+					url: '/pages/addhospital/addhospital?id=' + this.details.id
+				})
+			}
         },
         onLoad(option) {
             this.loadDetail(option.id)
@@ -287,5 +293,21 @@
         width: 80%;
         margin: 0 auto;
     }
+	
+	.bottom-btn {
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 80upx;
+		background: rgba(255, 72, 0, 0.80);
+		font-family: PingFangSC-Semibold;
+		font-size: 12px;
+		color: #FFFFFF;
+	}
 
 </style>
