@@ -13,6 +13,10 @@ export default {
 	getDemandList: params => {
 		return http.get(`${host}demand/`, params)
 	},
+	// 获取车辆信息
+	getCarList: params => {
+		return http.get(`${host}car/list/`, params)
+	},
 	// 提交车辆信息
 	postCarInfo: params => {
 		return http.post(`${host}car/applyResource/`, params)

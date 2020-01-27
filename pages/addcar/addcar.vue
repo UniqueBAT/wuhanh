@@ -148,10 +148,20 @@
 		methods: {
 			subCarInfo(){
 				let _that = this
-				if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
-				    _that.$utils.showModal("请写正确的发货人手机号")
+				if (!_that.postInfo.carTeamName) {
+				    _that.$utils.showModal("请填写渠道名称")
 				    return;
 				}
+				if (!_that.postInfo.carTeamName) {
+				    _that.$utils.showModal("请填写联系人")
+				    return;
+				}
+				
+				if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
+				    _that.$utils.showModal("请写正确的手机号")
+				    return;
+				}
+				
 				_that.$api.postCarInfo(_that.postInfo).then(res => {
 					if(res.code == 10000){
 						uni.showModal({
@@ -159,7 +169,6 @@
 						    content: "感谢您为抗击肺炎所做贡献！",
 						    showCancel: false,
 						    success(res) {
-								
 						        uni.navigateBack({
 						        	delta: 1,
 						        	animationType: 'pop-out',
@@ -173,7 +182,6 @@
 				
 			}, 
 			showMulLinkageThreePickerSend() {
-			    //发
 			    this.$refs.mpvueCityPicker.show()
 			},
 			showSelect(type){
@@ -193,7 +201,6 @@
 				this.postInfo.deliveryEndTime = e.key
 			},
 			onCityConfirm(e){
-				console.log('onCityConfirm:===', e)
 				let areaArr = e.label.split('-')
 				if(areaArr && areaArr.length) {
 					this.postInfo.province = areaArr[0]
@@ -333,7 +340,8 @@
 	position: fixed;
 	width: 100%;
 	bottom:0rpx;
-	background: #4B8AE5;
+	background: #4B8AE5 !important;
+	border-radius: 0!important;
 	font-size: 18px;
 	color: #FFFFFF;
 	letter-spacing: 0;
