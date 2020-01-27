@@ -21,6 +21,11 @@
 			"style": {
 				"navigationBarTitleText": "补充医院"
 			}
+		}, {
+			"path": "pages/respos/respos",
+			"style": {
+				"navigationBarTitleText": "免责声明"
+			}
 		}
 	],
 	"globalStyle": {

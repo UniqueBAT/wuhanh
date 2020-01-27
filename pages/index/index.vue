@@ -24,13 +24,13 @@
 					<view class="item-top-v2">
 						<view class="item-types">
 							<view class="badge badge-orange"  v-if="item.needToPay">接受付费购买</view>
-							<view class="badge badge-green" v-if="item.status">信息已核实</view>
-							<view class="badge badge-gray" v-if="!item.status">信息未核实</view>
+							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
+							<view class="badge badge-gray" v-if="item.status==='0'">信息未核实</view>
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">
 							<view>{{item.createTime}}</view>
-							<view class="item-sub">来源：{{item.source}}</view>
+							<view class="item-sub">来源：{{item.source || '网站'}}</view>
 						</view>
 					</view>
 					<view class="item-main">
@@ -148,6 +148,7 @@
 					this.company = value
 					this.loadData(this.PullScroll, 1);
 				} else {
+					console.log("======", value)
 					this.company = value
 					this.loadData(this.PullScroll, 0);
 				}
@@ -385,7 +386,7 @@
 
 <style lang="scss">
 	@import "@/styles/variables.scss";
-
+	
 	.badge {
 		border-radius: 0 0 4px 4px;
 		height: 30px;
@@ -395,25 +396,24 @@
 		padding: 0 20upx;
 		display: inline-block;
 		background: $main;
-
+		
 		&-orange {
 			background: $orange;
 		}
-
+		
 		&-green {
 			background: $green;
 		}
-
+		
 		&-gray {
 			background: $gray;
 		}
 	}
-
+	
 	.city-search {
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
-
 		.search-input {
 			box-sizing: border-box;
 			background: #E6E6E6;
@@ -424,7 +424,6 @@
 			padding: 0 30upx;
 		}
 	}
-
 	.city-wrap {
 		height: 100rpx;
 		width: 100%;
@@ -433,7 +432,6 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-
 		.city-item {
 			font-size: 14px;
 			color: #80ADED;
@@ -462,7 +460,6 @@
 					}
 			}
 		}
-
 		.city-active {
 			background: #80ADED;
 			border-radius: 17px;
@@ -475,7 +472,6 @@
 			padding: 5px 9px;
 		}
 	}
-
 	.btn-edit {
 		font-size: 12px;
 		color: $main;
@@ -495,28 +491,25 @@
 	
 	.PullScroll-Page {
 		height: 100vh;
-
 		.btn {
 			width: 100%;
 			height: 80rpx;
 			font-size: 28rpx;
-
 			&:not(:first-child) {
 				margin-top: 40rpx;
 			}
 		}
-
 		.swiper-item {
 			background-color: #FFFFFF;
 			padding: 0 20upx;
 			margin-bottom: 20upx;
 			box-sizing: border-box;
 			font-size: 12px;
-
+			
 			.item-sub {
 				color: $gray;
 			}
-
+			
 			.item-top-v2 {
 				border-bottom: 1px solid $border;
 				padding-bottom: 10px;
@@ -530,7 +523,6 @@
 					}
 				}
 			}
-
 			.item-top {
 				position: relative;
 				display: flex;
@@ -538,12 +530,10 @@
 				justify-content: space-between;
 				height: 140upx;
 				border-bottom: 1upx solid #ededed;
-
 				.item-rights {
 					.tip-active {
 						background-color: #999 !important;
 					}
-
 					.top-right {
 						position: absolute;
 						right: 0upx;
@@ -560,7 +550,6 @@
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
-
 					.text {
 						
 						font-size: 24upx;
@@ -570,20 +559,16 @@
 						padding-top: 40upx;
 					}
 				}
-
 				.top-left {
 					display: flex;
 					align-items: center;
-
 					.item-avatar {
 						width: 88upx;
 						height: 88upx;
 					}
-
 					.left-box {
 						display: flex;
 						flex-direction: column;
-
 						.item-name {
 							width: 500upx;
 							font-weight: 600;
@@ -591,7 +576,6 @@
 							color: #333333;
 							padding-bottom: 20upx;
 						}
-
 						.item-sex {
 							font-weight: 600;
 							
@@ -601,7 +585,6 @@
 					}
 				}
 			}
-
 			.item-main {
 				padding-bottom: 10px;
 				.item-more {
@@ -610,13 +593,11 @@
 					height: 76upx;
 					color: #333;
 					font-size: 28upx;
-
 					.more-main {
 						margin-right: 30rpx;
 						color: var(--mainColor);
 					}
 				}
-
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
@@ -628,9 +609,8 @@
 						border-bottom: 0 none;
 					}
 				}
-
+			
 			}
-
 			.item-info {
 				line-height: 20px;
 				min-height: 40px;
@@ -645,7 +625,6 @@
 				display: flex;
 				align-items: center;
 				height: 80upx;
-
 				.text {
 					
 					font-size: 14px;
@@ -654,7 +633,6 @@
 			}
 		}
 	}
-
 	.model-wrap {
 		position: fixed;
 		top: 0;
@@ -666,31 +644,24 @@
 		justify-content: center;
 		z-index: 10;
 		background: rgba(#000000, 0.5);
-
-
-
 		.model {
 			width: 80%;
 			border-radius: 5px;
 			background-color: #fff;
 			padding: 0 20upx;
-
 			.model-item {
 				padding: 20upx 0;
 				display: flex;
 				align-items: center;
 				border-bottom: 1upx solid #ededed;
-
 				&:last-child {
 					border: none;
 				}
-
 				.text {
 					
 					font-size: 32upx;
 					color: #666666;
 				}
-
 				.model-email {
 					color: var(--mainColor);
 					
@@ -699,16 +670,13 @@
 			}
 		}
 	}
-
 	.right-us {
 		position: fixed;
 		right: 0;
 		bottom: 300upx;
-
 		.us-img {
 			width: 120upx;
 		}
-
 		.call-btns {
 			display: flex;
 			align-items: center;
@@ -722,7 +690,6 @@
 			font-size: 28upx;
 		}
 	}
-
 	.bottom-btn {
 		z-index: 100;
 		display: flex;
@@ -737,12 +704,10 @@
 		font-size: 12px;
 		color: #FFFFFF;
 	}
-
 	.phone-wrap {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-
 		.copy-key {
 			padding-right: 20upx;
 			font-size: 28upx;
