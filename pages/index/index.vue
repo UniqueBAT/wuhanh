@@ -24,13 +24,13 @@
 					<view class="item-top-v2">
 						<view class="item-types">
 							<view class="badge badge-orange"  v-if="item.needToPay">接受付费购买</view>
-							<view class="badge badge-green" v-if="item.status">信息已核实</view>
-							<view class="badge badge-gray" v-if="!item.status">信息未核实</view>
+							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
+							<view class="badge badge-gray" v-if="item.status==='0'">信息未核实</view>
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">
 							<view>{{item.createTime}}</view>
-							<view class="item-sub">来源：{{item.source}}</view>
+							<view class="item-sub">来源：{{item.source || '网站'}}</view>
 						</view>
 					</view>
 					<view class="item-main">
