@@ -363,19 +363,18 @@
 					}
 					that.$api.getDemandList(params)
 						.then(res => {
-							if (this.list.length > res.data.total) {
-								if (index == 1) {
-									that.list = res.data.list
-								}
+							const total = res.data.total
+							const list = res.data.list
+							that.tabList[0].title = '医院需求' + '(' + total + ')'
+							if (index == 1) {
+								that.list = list
+							} else {
+								that.list = that.list.concat(list)
+							}
+							if (this.list.length >= total) {
 								pullScroll.finish();
 							} else {
 								pullScroll.success();
-								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
-								if (index == 1) {
-									that.list = res.data.list
-								} else {
-									that.list = that.list.concat(res.data.list)
-								}
 							}
 						}).catch(err => {
 							console.log(err)
