@@ -430,23 +430,43 @@
 				}
 				
 				console.log('2222:===', _that.formData)
-				_that.$api.postHospitalInfo(_that.formData).then(res => {
-					if(res.code == 10000){
-						uni.showModal({
-						    title: '提示消息',
-						    content: "感谢您为抗击肺炎所做贡献！",
-						    showCancel: false,
-						    success(res) {
-						        uni.navigateBack({
-						        	delta: 1,
-						        	animationType: 'pop-out',
-						        	animationDuration: 200
-						        })
-						    }
-						})
-						
-					}
-				})
+				if (_that.id) {
+					_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的修改申请我们已收到，工作人员核实通过后会发布到平台",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+				} else {
+					_that.$api.postHospitalInfo(_that.formData).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的申请我们已收到，工作人员核实通过后会发布到平台",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+				}
 			}
 		},
 		onLoad(option) {
