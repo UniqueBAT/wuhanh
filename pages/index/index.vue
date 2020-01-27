@@ -21,16 +21,16 @@
 		<section class="PullScroll-Page" v-show="current == 0">
 			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
-					<view class="item-top">
-						<view class="top-left">
-							<view class="left-box">
-								<text class="item-name" v-text="item.company"></text>
-								<text class="item-sex">{{item.createTime ? item.createTime : '2020-01-24 19:00'}}</text>
-							</view>
+					<view class="item-top-v2">
+						<view class="item-types">
+							<view class="badge badge-orange"  v-if="item.needToPay">接受付费购买</view>
+							<view class="badge badge-green" v-if="item.status">信息已核实</view>
+							<view class="badge badge-gray" v-if="!item.status">信息未核实</view>
 						</view>
-						<view class="item-rights">
-							<view :class="['top-right',item.type == 0 ? '' : 'tip-active']">{{item.type == 0 ? '接受个人捐赠' : '不接受个人捐赠'}}</view>
-							<view class="text">来源：{{item.source ? item.source : '网络'}}</view>
+						<view class="item-name" v-text="item.company"></view>
+						<view class="flex-between">
+							<view>{{item.createTime}}</view>
+							<view class="item-sub">来源：{{item.source}}</view>
 						</view>
 					</view>
 					<view class="item-main">
@@ -56,11 +56,11 @@
 								<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
 								<text v-else>不限</text>
 							</view>
+							<view class="item-call flex-between">
+								<text></text>
+								<view class="call-btn" @tap="handleModel(index)">联系医院</view>
+							</view>
 						</view>
-					</view>
-					<view class="item-call flex-between">
-						<text></text>
-						<view class="call-btn" @tap="handleModel(index)">联系医院</view>
 					</view>
 				</view>
 			</PullScroll>
@@ -91,7 +91,7 @@
 							</view>
 							<view class="item-wuzi flex-between">
 								<text class="text">备注信息</text>
-								<text class="time">更新时间： {{item.updateTime}}</text>
+								<text class="item-sub">更新时间： {{item.updateTime}}</text>
 							</view>
 						</view>
 						<view class="item-info">{{item.remark}}</view>
@@ -386,6 +386,34 @@
 
 <style lang="scss">
 	$main: #80ADED;
+	$orange: #FA6400;
+	$green: #7FAE00 ;
+	$gray: #999;
+	$border: #EDEDED;
+	
+	.badge {
+		border-radius: 0 0 4px 4px;
+		height: 30px;
+		line-height: 30px;
+		font-size: 12px;
+		color: #FFFFFF;
+		padding: 0 20upx;
+		display: inline-block;
+		background: $main;
+		
+		&-orange {
+			background: $orange;
+		}
+		
+		&-green {
+			background: $green;
+		}
+		
+		&-gray {
+			background: $gray;
+		}
+	}
+	
 	.city-search {
 		box-sizing: border-box;
 		background: #F8F8F8;
@@ -489,6 +517,24 @@
 			margin-bottom: 20upx;
 			box-sizing: border-box;
 			font-size: 12px;
+			
+			.item-sub {
+				color: $gray;
+			}
+			
+			.item-top-v2 {
+				border-bottom: 1px solid $border;
+				padding-bottom: 10px;
+				.item-name {
+					font-size: 14px;
+					padding: 10px 0;
+				}
+				.item-types {
+					.badge {
+						margin-right: 10px;
+					}
+				}
+			}
 
 			.item-top {
 				position: relative;
@@ -545,7 +591,6 @@
 
 						.item-name {
 							width: 500upx;
-							
 							font-weight: 600;
 							font-size: 28upx;
 							color: #333333;
@@ -588,10 +633,7 @@
 						border-bottom: 0 none;
 					}
 				}
-				
-				.time {
-					color: #999999;
-				}
+			
 			}
 
 			.item-info {
