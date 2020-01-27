@@ -24,5 +24,9 @@ export default {
 	// 提交医院信息
 	postHospitalInfo: params => {
 		return http.post(`${host}demand/`, params)
+	},
+	// 修改医院信息
+	putHospitalInfo: (params, id) => {
+		return http.put(`${host}demand/apply/${id}`, params)
 	}
 }

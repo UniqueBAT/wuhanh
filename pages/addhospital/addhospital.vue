@@ -415,31 +415,43 @@
 				    return;
 				}
 				console.log('2222:===', _that.formData)
-				_that.$api.postHospitalInfo(_that.formData).then(res => {
-					if(res.code == 10000){
-						uni.showModal({
-						    title: '提交成功',
-						    content: "您的申请我们已收到，工作人员核实通过后会发布到平台！",
-						    showCancel: false,
-						    success(res) {
-						        uni.navigateBack({
-						        	delta: 1,
-						        	animationType: 'pop-out',
-						        	animationDuration: 200
-						        })
-						    }
-						})
-					}else if(res.code == 5003){
-						uni.showModal({
-						    title: '提交失败',
-						    content: "您提交的医院信息平台已存在，感谢参与。",
-						    showCancel: false,
-						    success(res) {
-						        console.log(res)
-						    }
-						})
-					}
-				})
+				if (_that.id) {
+					_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的修改申请我们已收到，工作人员核实通过后会发布到平台",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+				} else {
+					_that.$api.postHospitalInfo(_that.formData).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
+							
+						}
+					})
+				}
 			}
 		},
 		onLoad(option) {
