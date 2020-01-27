@@ -32,6 +32,10 @@ http.interceptor.request((config, cancel) => {
         config.params = {
             ...config.params,
         }
+    }else if (method == 'put') {
+        config.params = {
+            ...config.params,
+        }
     }
 	
     config.header = {
