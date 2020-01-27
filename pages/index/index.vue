@@ -132,7 +132,9 @@
 					this.company = value
 					this.loadData(this.PullScroll, 1);
 				} else {
-					this.city = value
+					// this.city = value
+					this.company = value
+					this.loadData(this.PullScroll, 0);
 				}
 			}
 		},
@@ -351,14 +353,13 @@
 				} else {
 					if (that.city) {
 						params.city = that.city
+						params.keyword = that.company
 					}
-					Request.doInvoke('car/list', 'GET')
-						.then(res => {
+					that.$api.getCarList(params).then(res => {
 							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
 							that.carList = res.data.list
-						}).catch(err => {
-							console.log(err)
-						})
+						}
+					)
 				}
 			}
 		},
