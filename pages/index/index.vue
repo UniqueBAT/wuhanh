@@ -805,7 +805,6 @@
 		left: 0;
 		right: 0;
 		height: 142px;
-		z-index: 1000;
 		background: #f8f8f8;
 	}
 
