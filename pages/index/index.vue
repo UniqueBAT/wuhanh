@@ -1,6 +1,6 @@
 <template>
 	<view class="list">
-		<view class="">
+		<view class="fixed-box">
 			<!-- fixed-box -->
 			<view class="home-head">
 				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
@@ -754,7 +754,7 @@
 	}
 	.fixed-box {
 		position: fixed;
-		top: 0;
+		top: 30px;
 		left: 0;
 		right: 0;
 		height: 142px;
