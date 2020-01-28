@@ -1,6 +1,6 @@
 <template>
 	<view class="list">
-		<view class="fixed-box">
+		<view class="">
 			<!-- fixed-box -->
 			<view class="home-head">
 				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
