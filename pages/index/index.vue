@@ -363,56 +363,39 @@
 					pageSize: 10,
 					start: index,
 				}
+				
+				const loadList = (method, tab, tabName, listKey) => {
+					method(params)
+						.then(res => {
+							const total = res.data.total
+							const list = res.data.list
+							tab.title = `${tabName}(${total})`
+							if (index == 1) {
+								that[listKey] = list
+							} else {
+								that[listKey] = that.list.concat(list)
+							}
+							if (that[listKey].length >= total) {
+								pullScroll.finish();
+							} else {
+								pullScroll.success();
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+				}
+				
 				if (that.current == 0) {
 					if (that.city) {
 						params.city = that.city
 					} else if (that.company) {
 						params.company = that.company
 					}
-					that.$api.getDemandList(params)
-						.then(res => {
-							if (res.data && res.data.total >= 0) {
-								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
-							}
-
-							if (that.list.length > res.data.total) {
-								if (index == 1) {
-									that.list = res.data.list
-								}
-								pullScroll.finish();
-							} else {
-								pullScroll.success();
-								if (index == 1) {
-									that.list = res.data.list
-								} else {
-									that.list = that.list.concat(res.data.list)
-								}
-							}
-						}).catch(err => {
-							console.log(err)
-						})
+					loadList(that.$api.getDemandList, that.tabList[0], '医院需求', 'list')
 				} else {
 					params.city = that.city
 					params.keyword = that.company
-					that.$api.getCarList(params).then(res => {
-						if (res.data && res.data.total >= 0) {
-							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
-						}
-
-						if (that.carList.length > res.data.total) {
-							if (index == 1 || index == 0) {
-								that.carList = res.data.list
-							}
-							pullScroll.finish();
-						} else {
-							pullScroll.success();
-							if (index == 1) {
-								that.carList = res.data.list
-							} else {
-								that.carList = that.carList.concat(res.data.list)
-							}
-						}
-					})
+					loadList(that.$api.getCarList, that.tabList[1], '车辆资源', 'carList')
 				}
 			},
 			handleSelectCity() {
