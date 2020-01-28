@@ -42,9 +42,9 @@
 				</view>
 			</view>
 		</view>
-		<view class="item-redCross" v-if="detail.type !== '0'">
+		<!-- <view class="item-redCross" v-if="detail.type !== '0'">
 			<button type="primary" @tap="callSomeOne('027-87327533')">联系红十字会</button>
-		</view>
+		</view> -->
 	</view>
 </template>
 

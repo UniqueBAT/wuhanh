@@ -1,7 +1,6 @@
 <template>
 	<view class="list">
-		<view class="">
-			<!-- fixed-box -->
+		<view class="fixed-box">
 			<view class="home-head">
 				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
 			</view>
@@ -18,7 +17,7 @@
 				<image src="../../static/icon_Search.svg" class="search-icon" mode="widthFix"></image>
 			</view>
 		</view>
-		<!-- <view class="blank-boxs"></view> -->
+		<view class="blank-boxs"></view>
 		<section class="PullScroll-Page" v-show="current == 0">
 			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
@@ -101,12 +100,13 @@
 						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
 				</view>
+				<view class="blank-boxs"></view>
 				<!-- <view class="none-data" v-if="carList.length == 0">
 					暂无更多了
 				</view> -->
 			</PullScroll>
 		</section>
-		<view class="blank-box"></view>
+
 		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
 		<!-- <view class="more-func"></view> -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
@@ -124,7 +124,7 @@
 		<view class="model-mianze-box" v-show="showMian">
 			<view class="model-mianze">
 				<view class="title">特别声明</view>
-				<view class="content">本平台系唯一官方认证网址：https://onwh.51rry.com（湖北医疗物资需求信息平台）</view>
+				<view class="content">本平台认证信息均由平台志愿者认证通过</view>
 				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
 				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
@@ -371,10 +371,10 @@
 					}
 					that.$api.getDemandList(params)
 						.then(res => {
-							if(res.data && res.data.total>=0){
+							if (res.data && res.data.total >= 0) {
 								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
 							}
-							
+
 							if (that.list.length > res.data.total) {
 								if (index == 1) {
 									that.list = res.data.list
@@ -395,10 +395,10 @@
 					params.city = that.city
 					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
-						if(res.data && res.data.total>=0){
+						if (res.data && res.data.total >= 0) {
 							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
 						}
-						
+
 						if (that.carList.length > res.data.total) {
 							if (index == 1 || index == 0) {
 								that.carList = res.data.list
@@ -439,6 +439,7 @@
 
 <style lang="scss">
 	@import "@/styles/variables.scss";
+
 	.badge {
 		border-radius: 0 0 4px 4px;
 		height: 30px;
@@ -448,22 +449,27 @@
 		padding: 0 20upx;
 		display: inline-block;
 		background: $main;
+
 		&-orange {
 			background: $orange;
 		}
+
 		&-green {
 			background: $green;
 		}
+
 		&-gray {
 			background: $gray;
 		}
 	}
+
 	.city-search {
 		display: flex;
 		position: relative;
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
+
 		.search-input {
 			box-sizing: border-box;
 			background: #E6E6E6;
@@ -473,6 +479,7 @@
 			line-height: 60upx;
 			padding: 0 30upx;
 		}
+
 		.search-icon {
 			width: 28upx;
 			height: 28upx;
@@ -481,6 +488,7 @@
 			top: 18px;
 		}
 	}
+
 	.city-wrap {
 		height: 100rpx;
 		width: 100%;
@@ -489,12 +497,14 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
+
 		.city-item {
 			font-size: 14px;
 			color: #80ADED;
 			letter-spacing: 0;
 			text-align: center;
 		}
+
 		.city-select {
 			&-text {
 				display: inline-block;
@@ -504,6 +514,7 @@
 				overflow: hidden;
 				vertical-align: middle;
 			}
+
 			&.city-active {
 				&::after {
 					display: inline-block;
@@ -516,6 +527,7 @@
 				}
 			}
 		}
+
 		.city-active {
 			background: #80ADED;
 			border-radius: 17px;
@@ -527,6 +539,7 @@
 			padding: 5px 9px;
 		}
 	}
+
 	.btn-edit {
 		font-size: 12px;
 		color: $main;
@@ -535,46 +548,58 @@
 		border-radius: 0;
 		line-height: 40px;
 		background-color: #fff;
+
 		&::after {
 			border: 1px solid $main;
 			border-radius: 4px;
 		}
+
 		&.button-hover {
 			background: darken(#fff, 10%)
 		}
 	}
+
 	.PullScroll-Page {
 		height: 100vh;
+		padding-bottom: 100upx;
+
 		.btn {
 			width: 100%;
 			height: 80rpx;
 			font-size: 28rpx;
+
 			&:not(:first-child) {
 				margin-top: 40rpx;
 			}
 		}
+
 		.swiper-item {
 			background-color: #FFFFFF;
 			padding: 0 20upx;
 			margin-bottom: 20upx;
 			box-sizing: border-box;
 			font-size: 12px;
+
 			.item-sub {
 				color: $gray;
 			}
+
 			.item-top-v2 {
 				border-bottom: 1px solid $border;
 				padding-bottom: 10px;
+
 				.item-name {
 					font-size: 14px;
 					padding: 10px 0;
 				}
+
 				.item-types {
 					.badge {
 						margin-right: 10px;
 					}
 				}
 			}
+
 			.item-top {
 				position: relative;
 				display: flex;
@@ -582,10 +607,12 @@
 				justify-content: space-between;
 				height: 140upx;
 				border-bottom: 1upx solid #ededed;
+
 				.item-rights {
 					.tip-active {
 						background-color: #999 !important;
 					}
+
 					.top-right {
 						position: absolute;
 						right: 0upx;
@@ -601,6 +628,7 @@
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
+
 					.text {
 						font-size: 24upx;
 						color: #999999;
@@ -609,16 +637,20 @@
 						padding-top: 40upx;
 					}
 				}
+
 				.top-left {
 					display: flex;
 					align-items: center;
+
 					.item-avatar {
 						width: 88upx;
 						height: 88upx;
 					}
+
 					.left-box {
 						display: flex;
 						flex-direction: column;
+
 						.item-name {
 							width: 500upx;
 							font-weight: 600;
@@ -626,6 +658,7 @@
 							color: #333333;
 							padding-bottom: 20upx;
 						}
+
 						.item-sex {
 							font-weight: 600;
 							font-size: 24upx;
@@ -634,6 +667,7 @@
 					}
 				}
 			}
+
 			.item-main {
 				.item-more {
 					display: flex;
@@ -641,33 +675,40 @@
 					height: 76upx;
 					color: #333;
 					font-size: 28upx;
+
 					.more-main {
 						margin-right: 30rpx;
 						color: var(--mainColor);
 					}
 				}
+
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
 					font-size: 24upx;
 					color: #000;
+
 					&:last-child {
 						border-bottom: 0 none;
 					}
 				}
 			}
+
 			.item-info {
 				line-height: 20px;
 				min-height: 40px;
 				border-bottom: 1upx solid #f2f2f2;
 			}
+
 			.btn-edit {
 				margin-top: 10px;
 			}
+
 			.item-call {
 				display: flex;
 				align-items: center;
 				height: 80upx;
+
 				.text {
 					font-size: 14px;
 					color: #333333;
@@ -675,6 +716,7 @@
 			}
 		}
 	}
+
 	.model-wrap {
 		position: fixed;
 		top: 0;
@@ -686,23 +728,28 @@
 		justify-content: center;
 		z-index: 10;
 		background: rgba(#000000, 0.5);
+
 		.model {
 			width: 80%;
 			border-radius: 5px;
 			background-color: #fff;
 			padding: 0 20upx;
+
 			.model-item {
 				padding: 20upx 0;
 				display: flex;
 				align-items: center;
 				border-bottom: 1upx solid #ededed;
+
 				&:last-child {
 					border: none;
 				}
+
 				.text {
 					font-size: 32upx;
 					color: #666666;
 				}
+
 				.model-email {
 					color: var(--mainColor);
 					font-size: 32upx;
@@ -710,13 +757,16 @@
 			}
 		}
 	}
+
 	.right-us {
 		position: fixed;
 		right: 0;
 		bottom: 300upx;
+
 		.us-img {
 			width: 120upx;
 		}
+
 		.call-btns {
 			display: flex;
 			align-items: center;
@@ -730,6 +780,7 @@
 			font-size: 28upx;
 		}
 	}
+
 	.bottom-btn {
 		z-index: 100;
 		display: flex;
@@ -744,21 +795,25 @@
 		font-size: 12px;
 		color: #FFFFFF;
 	}
+
 	.phone-wrap {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
 		.copy-key {
 			padding-right: 20upx;
 			font-size: 28upx;
 			color: #80ADED;
 		}
 	}
+
 	.blank-boxs {
 		width: 100%;
 		height: 155px;
 		background-color: transparent;
 	}
+
 	.fixed-box {
 		position: fixed;
 		top: 30px;
@@ -768,6 +823,7 @@
 		z-index: 1000;
 		background: #f8f8f8;
 	}
+
 	.none-data {
 		align-items: center;
 		font-size: 14px;
@@ -777,6 +833,7 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.model-mianze-box {
 		display: flex;
 		z-index: 1000;
@@ -787,7 +844,9 @@
 		top: 0;
 		bottom: 0;
 		right: 0;
+		left: 0;
 		bottom: 0;
+
 		.model-mianze {
 			display: flex;
 			justify-content: center;
@@ -796,12 +855,14 @@
 			padding: 40upx 100upx;
 			border-radius: 8px;
 			width: 80%;
+
 			.title {
 				font-family: PingFangSC-Medium;
 				font-size: 18px;
 				color: #000000;
 				text-align: center;
 			}
+
 			.content {
 				font-family: PingFangSC-Medium;
 				padding-top: 20upx;
@@ -809,6 +870,7 @@
 				color: #000000;
 				text-align: center;
 			}
+
 			.lianjie {
 				font-family: PingFangSC-Medium;
 				font-size: 14px;
@@ -817,6 +879,7 @@
 				text-align: center;
 				margin: 20upx 0;
 			}
+
 			.mian-ben {
 				display: flex;
 				align-items: center;

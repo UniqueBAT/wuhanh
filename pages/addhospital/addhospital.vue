@@ -6,13 +6,13 @@
 					<div class="label">医院名称:</div>
 					<textarea v-model="formData.company" placeholder="点击输入" />
 					</div>
-				<div>
+				<!-- <div>
 					<div class="label">是否接受付费购买：</div>
 					<div :class="`select ${formData.needToPay ? 'on' : 'off'}`">
 						<div @click="formData.needToPay = true">是</div>
 						<div @click="formData.needToPay = false">否</div>
 					</div>
-				</div>
+				</div> -->
 				<div>
 					<div class="label">联系人</div>
 					<div>
@@ -22,11 +22,11 @@
 				<uni-card v-for="(item, index) in formData.contacts" :key="index" :title="'第' + (index + 1) + '个联系人'" extra="删除" @clickExtra="delContact" :outIndex="index">
 				    <div>
 				    	<div class="label">姓名：</div>
-				    	<input type="text" placeholder="点击输入"  v-model="formData.contacts[index].name">
+				    	<input class="input-box" type="text" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].name">
 				    </div>
 				    <div>
 				    	<div class="label">联系电话：</div>
-				    	<input type="number" placeholder="点击输入"  v-model="formData.contacts[index].phone">
+				    	<input class="input-box" type="number" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].phone">
 				    </div>
 				</uni-card>
 				<div>
@@ -793,5 +793,10 @@
 				border-left: none;
 			}
 		}
+	}
+	.input-box{
+		height: 60upx;
+		direction: flex;
+		align-items: center;
 	}
 </style>

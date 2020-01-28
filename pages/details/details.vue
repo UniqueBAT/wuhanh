@@ -8,20 +8,22 @@
 			<!-- 需求物资清单 -->
 			<swiper-item>
 				<view class="item-wrap">
-					<view class="item-wuzi flex-between" v-for="(child,idx) in details.details" :key="idx">
+					<view class="item-wuzi flex-between" v-if="details.details.length > 0" v-for="(child,idx) in details.details" :key="idx">
 						<text>{{child.name}}</text>
 						<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
 						<text v-else>不限</text>
 					</view>
+					<view class="main-text none-text" v-if="details.details.length == 0">暂无内容</view>
 				</view>
 			</swiper-item>
 			<!-- 防护物资标准 -->
 			<swiper-item>
 				<view class="item-wrap">
-					<view class="item-wuzi flex-between" v-for="(child,idx) in details.details" :key="idx">
+					<view class="item-wuzi flex-between" v-if="details.details.length > 0" v-for="(child,idx) in details.details" :key="idx">
 						<text>{{child.name}}</text>
 						<text>{{child.standard ? child.standard : '正常标准'}}</text>
 					</view>
+					<view class="main-text none-text" v-if="details.details.length == 0">暂无内容</view>
 				</view>
 			</swiper-item>
 			<!-- 物资运输方式 -->
@@ -32,11 +34,11 @@
 							<text class="title">{{details.receiptInfo.dockingAddress}}</text>
 							<view class="btns-box">
 								<view>
-									<button type="default" class="btn-address" size="mini">{{details.receiptInfo.company1}}</button>
-									<button type="default" class="btn-address" size="mini">{{details.receiptInfo.company2}}</button>
+									<button type="default" class="btn-address" size="mini">顺丰快递</button>
+									<button type="default" class="btn-address" size="mini">京东快递</button>
 								</view>
 								<view>
-									<button type="default" class="copy" size="mini" @tap="copyAddress(details.receiptInfo.street)">复制快递地址</button>
+									<button type="default" class="copy" size="mini" @tap="copyAddress(details.receiptInfo.street + ' ' + details.receiptInfo.name + ' ' + details.receiptInfo.phone)">复制快递地址</button>
 								</view>
 							</view>
 							<view class="text-address">快递地址：</view>
@@ -236,6 +238,7 @@
 		margin-bottom: 20upx;
 
 		.title {
+			max-width: 400upx;
 			margin-bottom: 7upx;
 			display: block;
 			font-family: PingFangSC-Semibold;
