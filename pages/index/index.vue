@@ -19,7 +19,7 @@
 		</view>
 		<view class="blank-boxs"></view>
 		<section class="PullScroll-Page" v-show="current == 0">
-			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
+			<PullScroll ref="pullScrollHospital" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
 					<view class="item-top-v2">
 						<view class="item-types">
@@ -62,13 +62,11 @@
 						</view>
 					</view>
 				</view>
-				<view class="none-data" v-if="list.length == 0">
-					暂无更多了
-				</view>
+				<view class="blank-boxs"></view>
 			</PullScroll>
 		</section>
 		<section class="PullScroll-Page" v-show="current != 0">
-			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
+			<PullScroll ref="pullScrollCar" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0">
 					<view class="item-top">
 						<view class="top-left">
@@ -276,6 +274,7 @@
 					this.placeholder = '请输入你要搜索的车辆信息'
 				}
 				this.company = ''
+				this.PullScroll = current ? this.$refs.pullScrollCar : this.$refs.pullScrollHospital;
 				this.$refs.tab.tabToIndex(current);
 				this.loadData(this.PullScroll, 1);
 			},
@@ -342,20 +341,18 @@
 			//初始化下拉加载插件和数据
 			refresh() {
 				this.$nextTick(() => {
-					this.$refs.pullScroll.refresh();
+					this.PullScroll = this.$refs.pullScrollHospital;
+					this.$refs.pullScrollHospital.refresh();
 				});
 			},
-			pullDown(pullScroll) {
-				let that = this;
-				that.PullScroll = pullScroll
-				// that.list = [];
+			pullDown() {
+				// this.list = [];
 				setTimeout(() => {
-					that.loadData(pullScroll, 1);
+					this.loadData(this.PullScroll, 1);
 				}, 200);
 			},
-			pullUp(pullScroll) {
-				let that = this;
-				that.loadData(pullScroll, that.startNum);
+			pullUp() {
+				this.loadData(this.PullScroll, this.startNum);
 			},
 			loadCar(index) {
 				let that = this;
@@ -376,8 +373,8 @@
 					pageSize: 10,
 					start: index,
 				}
-				console.log('index', index)
-				if (index == 1) {
+				console.log('index', pullScroll)
+				if(index == 1) {
 					pullScroll.reset();
 				}
 				const loadList = (method, tab, tabName, listKey) => {
@@ -392,7 +389,9 @@
 							} else {
 								that[listKey] = that.list.concat(list)
 							}
-							console.log(that[listKey].length, total)
+							if(!that[listKey].length) {
+								pullScroll.empty();
+							}
 							if (that[listKey].length >= total) {
 								pullScroll.finish();
 							} else {
@@ -430,7 +429,7 @@
 				this.loadData(this.PullScroll, 1);
 			},
 		},
-		onLoad() {
+		onShow() {
 			this.refresh();
 			this.getTabList();
 			this.loadCar(1);
@@ -726,7 +725,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 10;
+		z-index: 1010;
 		background: rgba(#000000, 0.5);
 
 		.model {
@@ -782,7 +781,7 @@
 	}
 
 	.bottom-btn {
-		z-index: 100;
+		z-index: 1010;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -816,6 +815,7 @@
 
 	.fixed-box {
 		position: fixed;
+		z-index: 1000;
 		top: 30px;
 		left: 0;
 		right: 0;
@@ -835,7 +835,7 @@
 
 	.model-mianze-box {
 		display: flex;
-		z-index: 1000;
+		z-index: 10000;
 		align-items: center;
 		justify-content: center;
 		position: fixed;
