@@ -559,7 +559,14 @@ export default {
       this.hideUpLoading();
       this.isFinish = true;
       this.isShowFinishText = !!isShowFinishText;
-    }
+    },
+	reset () {
+	  console.log(this.page)
+	  this.isFinish = false;
+	  this.isShowFinishText = false;
+	  this.page = 0;
+	  this.scrollTo(0);
+	}
   },
   // 使用created初始化mescroll对象; 如果用mounted部分css样式编译到H5会失效
   created () {

@@ -341,7 +341,6 @@
 			},
 			pullUp(pullScroll) {
 				let that = this;
-				that.startNum++
 				that.loadData(pullScroll, that.startNum);
 			},
 			loadCar(index) {
@@ -363,10 +362,14 @@
 					pageSize: 10,
 					start: index,
 				}
-				
+				console.log('index', index)
+				if(index == 1) {
+					pullScroll.reset();
+				}
 				const loadList = (method, tab, tabName, listKey) => {
 					method(params)
 						.then(res => {
+							that.startNum = index + 1
 							const total = res.data.total
 							const list = res.data.list
 							tab.title = `${tabName}(${total})`
@@ -375,6 +378,7 @@
 							} else {
 								that[listKey] = that.list.concat(list)
 							}
+							console.log(that[listKey].length, total)
 							if (that[listKey].length >= total) {
 								pullScroll.finish();
 							} else {
@@ -543,7 +547,11 @@
 	}
 
 	.PullScroll-Page {
-		height: 100vh;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 344upx;
 		padding-bottom: 100upx;
 
 		.btn {
@@ -652,6 +660,7 @@
 			}
 
 			.item-main {
+				padding-bottom: 10px;
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -688,14 +697,7 @@
 			}
 
 			.item-call {
-				display: flex;
-				align-items: center;
-				height: 80upx;
-
-				.text {
-					font-size: 14px;
-					color: #333333;
-				}
+				padding-top: 10px;
 			}
 		}
 	}

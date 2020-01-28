@@ -10,6 +10,7 @@ import cityNameFilter from '@/filters/city-filter.js';
 import jswx from './components/jweixin-module/lib/index.js'
 // let wx_config = “后台返回的config”
 
+
 // jswx.config({
 // 	debug: false,
 // 	appId: wx_config.appId, // 必填，公众号的唯一标识  
