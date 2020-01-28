@@ -371,6 +371,10 @@
 					}
 					that.$api.getDemandList(params)
 						.then(res => {
+							if(res.data && res.data.total>=0){
+								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
+							}
+							
 							if (that.list.length > res.data.total) {
 								if (index == 1) {
 									that.list = res.data.list
@@ -379,7 +383,6 @@
 							} else {
 								pullScroll.success();
 								if (index == 1) {
-									that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
 									that.list = res.data.list
 								} else {
 									that.list = that.list.concat(res.data.list)
@@ -392,6 +395,10 @@
 					params.city = that.city
 					params.keyword = that.company
 					that.$api.getCarList(params).then(res => {
+						if(res.data && res.data.total>=0){
+							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
+						}
+						
 						if (that.carList.length > res.data.total) {
 							if (index == 1 || index == 0) {
 								that.carList = res.data.list
@@ -754,7 +761,7 @@
 	}
 	.fixed-box {
 		position: fixed;
-		top: 0;
+		top: 30px;
 		left: 0;
 		right: 0;
 		height: 142px;

@@ -32,14 +32,14 @@
 				<textarea style="height:80px" class="note-content" placeholder="请填写详细地址" v-model="postInfo.deliveryArea"></textarea>
 			</view>
 
-			<view class="item" @click="showSelect('time')">
+			<view class="item">
 				<view class="item-title">配送开始时间</view>
-				<timeSelector showType="dateToTime" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
+				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
 			</view>
 			
-			<view class="item" @click="showSelect('time')">
+			<view class="item">
 				<view class="item-title">配送结束时间</view>
-				<timeSelector showType="dateToTime" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
+				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
 			</view>
 
 			<view class="note">
@@ -48,62 +48,6 @@
 			</view>
 		</view>
 		<button class="btn" @click="subCarInfo">{{subMsg}}</button>
-
-
-
-		<view v-show="showSelectCityFlag">
-			<view class="mask"></view>
-			<view class="select-time">
-				<view class="time-title">配送区域范围选择</view>
-
-				<view class="content-box">
-					<view class="box-time">
-						<view class="item-title">省市区选择</view>
-						<view v-if="postInfo.province == ''" type="buttom" @click="showMulLinkageThreePickerSend" class="row-input plh need">选择省市区
-						</view>
-						<view v-else type="buttom" @click="showMulLinkageThreePickerSend" class="row-input">
-							{{postInfo.province+postInfo.city}}
-						</view>
-					</view>
-
-					<view class="box-time">
-						<view class="item-title">详细地址</view>
-						<input placeholder="输入详细地址" class="addrr-input" type="text" v-model="postInfo.deliveryArea" />
-					</view>
-				</view>
-
-				<view class="box-btn">
-					<view class="btn-left" @click="sureSelectTime">取消</view>
-					<view class="btn-right" @click="sureSelectTime">确定</view>
-				</view>
-			</view>
-		</view>
-
-
-		<view v-show="showSelectTimeFlag">
-			<view class="mask"></view>
-			<view class="select-time">
-				<view class="time-title">配送时间范围选择</view>
-
-				<view class="content-box">
-					<view class="box-time">
-						<view class="item-title">配送开始时间</view>
-						<timeSelector showType="dateToTime" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text>{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '点击选择时间'}}</text></timeSelector>
-					</view>
-
-					<view class="box-time">
-						<view class="item-title">配送结束时间</view>
-						<timeSelector showType="dateToTime" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text>{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '点击选择时间'}}</text></timeSelector>
-					</view>
-				</view>
-
-				<view class="box-btn">
-					<view class="btn-left" @click="sureSelectTime">取消</view>
-					<view class="btn-right" @click="sureSelectTime">确定</view>
-				</view>
-			</view>
-
-		</view>
 
 		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
 		 @onCancel="onCancel" @onConfirm="onCityConfirm"></mpvue-city-picker>
@@ -124,8 +68,6 @@
 		data() {
 			return {
 				url: '/pages/index/index',
-				showSelectTimeFlag: false,
-				showSelectCityFlag: false,
 				themeColor: '#007AFF',
 				cityPickerValueDefault: [16, 0, 0],
 				subMsg: '提交车辆资源名单申请',
@@ -180,18 +122,19 @@
 					_that.$utils.showModal("请填写联系人")
 					return;
 				}
-
-				if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
-					_that.$utils.showModal("请写正确的手机号")
-					return;
-				}
+				
+				// 可能存在社会团体的特殊电话（993292），暂不校验
+				// if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
+				// 	_that.$utils.showModal("请写正确的手机号")
+				// 	return;
+				// }
 
 				if (_that.params && _that.params.id && _that.params.id > 0) {
 					_that.$api.putCarDetail(_that.postInfo).then(res => {
 						if (res.code == 10000) {
 							uni.showModal({
 								title: '提示消息',
-								content: "感谢您为抗击肺炎所做贡献！",
+								content: "我们将尽快与您取得联系，感谢您为抗击肺炎所做贡献！",
 								showCancel: false,
 								success(res) {
 									uni.navigateBack({
@@ -229,16 +172,6 @@
 			showMulLinkageThreePickerSend() {
 				this.$refs.mpvueCityPicker.show()
 			},
-			showSelect(type) {
-				if (type == 'time') {
-					this.showSelectTimeFlag = true
-				} else {
-					this.showSelectCityFlag = true
-				}
-			},
-			btnSelectCancel() {
-				this.showSelectFlag = false
-			},
 			btnConfirmStart(e) {
 				this.postInfo.deliveryStartTime = e.key
 			},
@@ -254,12 +187,8 @@
 					this.postInfo.deliveryArea = areaArr[2]
 				}
 			},
-			sureSelectTime() {
-				this.showSelectTimeFlag = false
-				this.showSelectCityFlag = false
-			},
 			btnCancel(e) {
-				console.log('btnConfirm:===', e)
+				
 			}
 
 		}
