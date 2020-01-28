@@ -152,12 +152,12 @@
 		<view class="model" v-show="showModel">
 			<div class="area">
 				<div class="choose">
-					<div>
+					<!-- <div>
 						<div class="choose-item" @click="nowChoose.type = 0">
 							<span :class="{active: nowChoose.type === 0}"></span>
 							<span>数量不限</span>
 						</div>
-					</div>
+					</div> -->
 					<div>
 						<div class="choose-item" @click="nowChoose.type = 1">
 							<span :class="{active: nowChoose.type === 1}"></span>
@@ -230,55 +230,55 @@
 							name: '医用外科口罩',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '医用防护口罩',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '防护帽',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '一次性医用防护服',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '手术衣',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '防护眼镜',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '防护眼罩',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '护目镜',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 						{
 							name: '医用一次性乳胶手套',
 							standard: '',
 							unit: '个',
-							amount: 0
+							amount: -1
 						},
 					],
 					
@@ -431,43 +431,43 @@
 				    return;
 				}
 				console.log('2222:===', _that.formData)
-				// if (_that.id) {
-				// 	_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
-				// 		if(res.code == 10000){
-				// 			uni.showModal({
-				// 			    title: '提交成功',
-				// 			    content: "您的修改申请我们已收到，工作人员核实通过后会发布到平台",
-				// 			    showCancel: false,
-				// 			    success(res) {
-				// 			        uni.navigateBack({
-				// 			        	delta: 1,
-				// 			        	animationType: 'pop-out',
-				// 			        	animationDuration: 200
-				// 			        })
-				// 			    }
-				// 			})
+				if (_that.id) {
+					_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的修改申请我们已收到，工作人员核实通过后会发布到平台",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
 							
-				// 		}
-				// 	})
-				// } else {
-				// 	_that.$api.postHospitalInfo(_that.formData).then(res => {
-				// 		if(res.code == 10000){
-				// 			uni.showModal({
-				// 			    title: '提交成功',
-				// 			    content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
-				// 			    showCancel: false,
-				// 			    success(res) {
-				// 			        uni.navigateBack({
-				// 			        	delta: 1,
-				// 			        	animationType: 'pop-out',
-				// 			        	animationDuration: 200
-				// 			        })
-				// 			    }
-				// 			})
+						}
+					})
+				} else {
+					_that.$api.postHospitalInfo(_that.formData).then(res => {
+						if(res.code == 10000){
+							uni.showModal({
+							    title: '提交成功',
+							    content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
+							    showCancel: false,
+							    success(res) {
+							        uni.navigateBack({
+							        	delta: 1,
+							        	animationType: 'pop-out',
+							        	animationDuration: 200
+							        })
+							    }
+							})
 							
-				// 		}
-				// 	})
-				// }
+						}
+					})
+				}
 			}
 		},
 		onLoad(option) {
@@ -651,7 +651,7 @@
 		
 		>.area {
 			width: 100%;
-			height: 255px;
+			height: 180px;
 			background-color: #FFFFFF;
 			display: flex;
 			flex-direction: column;
