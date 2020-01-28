@@ -34,12 +34,12 @@
 
 			<view class="item" @click="showSelect('time')">
 				<view class="item-title">配送开始时间</view>
-				<timeSelector showType="dateToTime" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
+				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
 			</view>
 			
 			<view class="item" @click="showSelect('time')">
 				<view class="item-title">配送结束时间</view>
-				<timeSelector showType="dateToTime" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
+				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
 			</view>
 
 			<view class="note">
@@ -259,7 +259,7 @@
 				this.showSelectCityFlag = false
 			},
 			btnCancel(e) {
-				console.log('btnConfirm:===', e)
+				
 			}
 
 		}
