@@ -100,7 +100,7 @@
 						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
 				</view>
-				<view class="blank-boxs"></view>
+				<!-- <view class="blank-boxs"></view> -->
 				<!-- <view class="none-data" v-if="carList.length == 0">
 					暂无更多了
 				</view> -->
@@ -123,9 +123,18 @@
 		</view>
 		<view class="model-mianze-box" v-show="showMian">
 			<view class="model-mianze">
-				<view class="title">特别声明</view>
-				<view class="content">本平台认证信息均由平台志愿者认证通过</view>
-				<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+				<view v-show="showOne">
+					<view class="title">【紧急通知】</view>
+					<view class="content">接到举报反馈，发现部分医院物资数量真实性与实际需求并不符，现对审核标准，合规发布有如下说明：</view>
+					<view class="content">💥平台暂不发布“无医院官网”或“无医院微信公众号”或“无医院官方微博”的医院机构求助信息；</view>
+					<view class="content">💥只接受医院发布官方认证的，并接受社会监督，避免引发扰乱政府救助、社会治安秩序等违法乱纪的行为；</view>
+					<view class="content" style="padding-bottom: 10px;">💥审核规则标准更新，需待定更新！</view>
+				</view>
+				<view v-show="!showOne">
+					<view class="title">特别声明</view>
+					<view class="content">本平台认证信息均由平台志愿者认证通过</view>
+					<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+				</view>
 				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
 		</view>
@@ -166,6 +175,7 @@
 		},
 		data() {
 			return {
+				showOne: true,
 				showMian: true,
 				placeholder: '请输入你要搜索的医院名称',
 				PullScroll: '',
@@ -206,7 +216,11 @@
 				})
 			},
 			closeMian() {
-				this.showMian = false;
+				if (this.showOne) {
+					this.showOne = false
+				} else {
+					this.showMian = false;
+				}
 			},
 			copyPhone(phone, isWechat = false) {
 				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
@@ -363,7 +377,7 @@
 					start: index,
 				}
 				console.log('index', index)
-				if(index == 1) {
+				if (index == 1) {
 					pullScroll.reset();
 				}
 				const loadList = (method, tab, tabName, listKey) => {
@@ -388,7 +402,7 @@
 							console.log(err)
 						})
 				}
-				
+
 				if (that.current == 0) {
 					if (that.city) {
 						params.city = that.city
@@ -661,6 +675,7 @@
 
 			.item-main {
 				padding-bottom: 10px;
+
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -852,7 +867,7 @@
 				padding-top: 20upx;
 				font-size: 14px;
 				color: #000000;
-				text-align: center;
+				text-align: justify;
 			}
 
 			.lianjie {

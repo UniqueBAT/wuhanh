@@ -122,6 +122,20 @@
 					_that.$utils.showModal("请填写联系人")
 					return;
 				}
+				if (!_that.postInfo.phone) {
+					_that.$utils.showModal("请填写联系电话")
+					return;
+				}
+				
+				if (!_that.postInfo.deliveryArea) {
+					_that.$utils.showModal("请填写详细地址")
+					return;
+				}
+				
+				if (!_that.postInfo.deliveryStartTime || !_that.postInfo.deliveryEndTime) {
+					_that.$utils.showModal("请填写配送时间")
+					return;
+				}
 				
 				// 可能存在社会团体的特殊电话（993292），暂不校验
 				// if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
