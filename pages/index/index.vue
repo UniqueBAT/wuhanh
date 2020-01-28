@@ -62,7 +62,6 @@
 						</view>
 					</view>
 				</view>
-				<view class="blank-boxs"></view>
 			</PullScroll>
 		</section>
 		<section class="PullScroll-Page" v-show="current != 0">
