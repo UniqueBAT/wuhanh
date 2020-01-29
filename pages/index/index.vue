@@ -62,7 +62,6 @@
 						</view>
 					</view>
 				</view>
-				<view class="blank-boxs"></view>
 			</PullScroll>
 		</section>
 		<section class="PullScroll-Page" v-show="current != 0">
@@ -303,24 +302,19 @@
 				let that = this
 				uni.showActionSheet({
 					/* '拨打工作人员电话', '复制工作人员微信', */
-					itemList: ['拨打工作人员电话', '复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
+					itemList: ['复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
 					itemColor: '#007AFF',
 					success: (res) => {
 						switch (res.tapIndex) {
 							case 0:
-								uni.makePhoneCall({
-									phoneNumber: '15071369696' //仅为示例
-								});
-								break
-							case 1:
 								this.copyPhone('kindyin', true);
 								break
-							case 2:
+							case 1:
 								uni.navigateTo({
 									url: '/pages/addhospital/addhospital'
 								})
 								break
-							case 3:
+							case 2:
 								uni.navigateTo({
 									url: '/pages/addcar/addcar'
 								})
