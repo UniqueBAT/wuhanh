@@ -129,8 +129,9 @@
 				</view>
 				<view v-show="!showOne">
 					<view class="title">特别声明</view>
-					<view class="content">本平台认证信息均由平台志愿者认证通过</view>
+					<view class="content">本平台认证信息均由平台志愿者认证通过，仅作为捐助企业参考使用。</view>
 					<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+					<navigator url="../about/index" class="lianjie">关于我们</navigator>
 				</view>
 				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
@@ -871,6 +872,8 @@
 				letter-spacing: 0;
 				text-align: center;
 				margin: 20upx 0;
+				float: left;
+				width: 50%;
 			}
 
 			.mian-ben {
