@@ -3,7 +3,7 @@ import util from '@/utils/util';
 export default {
   onLaunch: function() {
     console.log('App Launch');
-    if (util.isWeixin()) {
+    if (util.isWeixin() || util.isDev()) {
       document.getElementsByTagName('html')[0].className += ' weixin-platform';
     } else {
       document.getElementsByTagName('html')[0].className += ' other-platform';
