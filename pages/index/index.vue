@@ -13,6 +13,14 @@
 				</view>
 			</view>
 			<view class="city-search">
+				<span @click="toggleSelectStatus(!showSelectStatus)">{{statusMap[currentStatus]}}<i class="down"></i>
+					<ul class="pop-fixed" v-if="!!showSelectStatus">
+						<li :class="currentStatus===99?'current':''" @click="selectStatus(99)">全部状态</li>
+						<li :class="currentStatus===1?'current':''" @click="selectStatus(1)">已核实</li>
+						<li :class="currentStatus===0?'current':''" @click="selectStatus(0)">核实中</li>
+						<li :class="currentStatus===-1?'current':''" @click="selectStatus(-1)">核实未通过</li>
+					</ul>
+				</span>
 				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
 				<image src="../../static/icon_Search.svg" class="search-icon" mode="widthFix"></image>
 			</view>
@@ -179,6 +187,8 @@
 				PullScroll: '',
 				company: '',
 				city: '',
+				showSelectStatus: false,
+				currentStatus: 99,
 				showFunc: false,
 				showModel: false,
 				callList: [],
@@ -187,6 +197,12 @@
 				carList: [],
 				startNum: 1,
 				current: 0,
+				statusMap:{
+					99: '全部状态',
+					0:'核实中',
+					1:'已核实',
+					'-1':'核实未通过'
+				},
 				tabList: [{
 					title: '医院需求(0)',
 					hasRed: false,
@@ -207,6 +223,13 @@
 			};
 		},
 		methods: {
+			selectStatus(status){
+				this.currentStatus = status;
+				this.loadData(this.PullScroll, 1);
+			},
+			toggleSelectStatus(bool){
+				this.showSelectStatus = !!bool;
+			},
 			navToCarChange(itemData) {
 				let id = itemData.id
 				uni.navigateTo({
@@ -368,6 +391,9 @@
 					pageSize: 10,
 					start: index,
 				}
+				if(this.currentStatus!==99){
+					params.status = this.currentStatus;
+				}
 				console.log('index', pullScroll)
 				if(index == 1) {
 					pullScroll.reset();
@@ -464,7 +490,74 @@
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
-
+		
+		span{
+			font-size: 14px;
+			display: inline-block;
+			line-height: 32px;
+			position: relative;
+			width: 100px;
+			padding-right:20px;
+			margin-left: 5px;
+			ul,li{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.pop-fixed{
+				position: absolute;
+				left: 50%;
+				// bottom: 0;
+				width: 90px;
+				margin-left: -50px;
+				background-color: #fff;
+				border-radius: 5px;
+				// border: 1px solid #fff;
+				box-shadow: grey 0px 0px 5px;
+				li {
+					text-align: center;
+					border-bottom: 1px solid #eee;
+				}
+				li:nth-last-child(1)
+				{
+					border:0px;
+				}
+				.current {
+					color: #80ADED;
+				}
+			}
+			.pop-fixed:before{
+				content:" ";
+				border-left: 10px solid transparent;
+				border-top: 10px solid transparent;
+				border-right:10px solid transparent;
+				border-bottom:10px solid #eee;
+				position: absolute;
+				left:50%;
+				top:-18px;
+				margin-left: -5px;
+			}
+			.pop-fixed:after{
+				content:" ";
+				border-left: 12px solid transparent;
+				border-top: 12px solid transparent;
+				border-right:12px solid transparent;
+				border-bottom:12px solid #fff;
+				position: absolute;
+				left:50%;
+				top:-19px;
+				margin-left: -7px;
+			}
+		}
+		i.down{
+			position: absolute;
+			right: 0px;
+			top:0;
+			background: url(../../static/icon_down.svg) no-repeat  center center;
+			width:20px;
+			display: inline-block;
+			height: 30px;
+		}
 		.search-input {
 			box-sizing: border-box;
 			background: #E6E6E6;
