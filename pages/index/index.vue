@@ -889,4 +889,16 @@
 			}
 		}
 	}
+
+	.weixin-platform {
+		uni-page-head {
+			display: none;
+		}
+		.fixed-box {
+			top: 0;
+		}
+		.PullScroll-Page {
+			top: 284upx;
+		}
+	}
 </style>
