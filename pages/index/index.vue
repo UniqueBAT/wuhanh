@@ -809,7 +809,7 @@
 
 	.fixed-box {
 		position: fixed;
-		z-index: 1000;
+		z-index: 999;
 		top: 30px;
 		left: 0;
 		right: 0;
