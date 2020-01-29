@@ -2,12 +2,16 @@
 	<view class="info">
 		<view class="info-content">
 			<view class="main-box">
-				<view style="display: flex;padding-bottom: 10px;">
-					<button type="default"  v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
-					<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
-					<button type="default" v-else class="btn-nocheck">信息未核实</button>
+				<view style="display: flex;padding-bottom: 10px;justify-content: space-between;width: 100%;">
+					<view>
+						<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
+						<button type="default" v-else class="btn-nocheck">信息未核实</button>
+					</view>
+					<view class="right-top">
+						<view>物资紧急度：</view>
+						<image class="right-fire" src="../../../static/icon_fire.svg" mode="widthFix"></image>
+					</view>
 				</view>
-				<text class="main-text"></text>
 			</view>
 			<view class="main-box">
 				<text class="main-text">{{detail.company}}</text>
@@ -42,9 +46,25 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view class="item-redCross" v-if="detail.type !== '0'">
-			<button type="primary" @tap="callSomeOne('027-87327533')">联系红十字会</button>
-		</view> -->
+		<view class="title-box">
+			<view class="title">医院物资紧急程度数据参考</view>
+			<view class="content">
+				<view class="cont-item">
+					<view class="item">医院级别：三甲</view>
+					<view class="item">床位数：200床</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">医护人员数：50人</view>
+					<view class="item">辖区覆盖人口：5万人</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">辖区内医院数：1家</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">剩余物资可用天数：3天【2020-01-28统计】</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -109,7 +129,7 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
-				
+
 				.btn-canpay {
 					margin-right: 20px;
 					width: 188upx;
@@ -212,6 +232,61 @@
 				height: 74upx;
 				line-height: 74upx;
 				border-radius: 4upx;
+			}
+		}
+	}
+
+	.right-top {
+		display: flex;
+		align-items: center;
+		font-family: PingFangSC-Regular;
+		font-size: 12px;
+		color: #666666;
+		padding-right: 20upx;
+
+		.right-fire {
+			width: 24upx;
+			height: 30upx;
+		}
+	}
+
+	.title-box {
+		background-color: #fff;
+		margin-top: 10px;
+		padding: 0 10px 10px;
+
+		.title {
+			line-height: 50px;
+			font-size: 16px;
+			color: #4B8AE5;
+			border-bottom: 1px solid #F2F2F2;
+			position: relative;
+
+			&:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 190px;
+				height: 3px;
+				background: #80ADED;
+				border-radius: 1px;
+			}
+		}
+
+		.content {
+			.cont-item {
+				display: flex;
+				align-items: center;
+				height: 36px;
+				box-shadow: inset 0 -1px 0 0 #EDEDED;
+				font-family: PingFangSC-Semibold;
+				font-size: 12px;
+				color: #333333;
+
+				.item {
+					flex: 1;
+				}
 			}
 		}
 	}

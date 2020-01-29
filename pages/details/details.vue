@@ -4,7 +4,7 @@
 		<view class="detail-head">
 			<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
 		</view>
-		<swiper class="swiper" :current="current" @change="tabClick" :style="{minHeight: '51vh'}">
+		<swiper class="swiper" :current="current" @change="tabClick" :style="{minHeight: '43vh'}">
 			<!-- 需求物资清单 -->
 			<swiper-item>
 				<view class="item-wrap">
@@ -13,7 +13,11 @@
 						<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
 						<text v-else>不限</text>
 					</view>
-					<view class="main-text none-text" v-if="details.details.length == 0">暂无内容</view>
+					<view class="main-text none-text" v-else>暂无内容</view>
+				</view>
+				<view class="item-note">
+					<view class="note-title">备注信息：</view>
+					<view class="note-cont">请在信息核实后再提供物资</view>
 				</view>
 			</swiper-item>
 			<!-- 防护物资标准 -->
@@ -23,7 +27,11 @@
 						<text>{{child.name}}</text>
 						<text>{{child.standard ? child.standard : '正常标准'}}</text>
 					</view>
-					<view class="main-text none-text" v-if="details.details.length == 0">暂无内容</view>
+					<view class="main-text none-text" v-else>暂无内容</view>
+				</view>
+				<view class="item-note">
+					<view class="note-title">备注信息：</view>
+					<view class="note-cont">标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准</view>
 				</view>
 			</swiper-item>
 			<!-- 物资运输方式 -->
@@ -65,6 +73,9 @@
 				<view class="main-text none-text" v-else>暂无内容</view>
 			</swiper-item>
 		</swiper>
+		<view class="img-box">
+			<image class="img" src="../../static/img_tianmen.png" mode="widthFix"></image>
+		</view>
 		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="editDetails">医院信息有误，点这里提交修改申请</view>
 	</view>
@@ -318,10 +329,40 @@
 		font-size: 12px;
 		color: #FFFFFF;
 	}
-	.none-text{
+
+	.none-text {
 		text-align: center;
 		line-height: 200upx;
 		font-size: 28upx;
 		color: #666;
+	}
+
+	.img-box {
+		background-color: #FFFFFF;
+		margin-top: 20upx;
+		padding: 20upx;
+
+		.img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	.item-note {
+		padding: 10px;
+
+		.note-title {
+			font-family: PingFangSC-Semibold;
+			font-size: 12px;
+			color: #333333;
+			line-height: 20upx;
+		}
+
+		.note-cont {
+			font-family: PingFangSC-Semibold;
+			font-size: 12px;
+			color: #333333;
+			padding-top: 20upx;
+		}
 	}
 </style>
