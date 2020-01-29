@@ -725,7 +725,7 @@
 
 		.model {
 			width: 80%;
-			border-radius: 5px;
+			border-radius: 10px;
 			background-color: #fff;
 			padding: 0 20upx;
 
