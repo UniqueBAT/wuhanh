@@ -1,33 +1,26 @@
 <template>
 	<view class="info">
-		<view class="info-title" @tap="goBack">
-			<svg width="10px" height="18px" viewBox="0 0 10 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				<!-- Generator: Sketch 59 (86127) - https://sketch.com -->
-				<title>返回</title>
-				<desc>Created with Sketch.</desc>
-				<g id="在线补充" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-					<g id="在线补充医院名单" transform="translate(-16.000000, -107.000000)" fill="#333333">
-						<g id="顶部信息栏" transform="translate(0.000000, 88.000000)">
-							<path d="M26,27.9703032 L17.3690593,36.7610719 C17.0543445,37.0817458 16.5454834,37.0793158 16.2331535,36.7556718 C15.9208236,36.4310378 15.9229435,35.9107414 16.2378349,35.5886274 L23.7139675,27.9745332 L16.2396015,20.4131798 C15.9233851,20.0921458 15.9196753,19.5716693 16.231387,19.2461353 C16.5392121,18.9240213 17.0448933,18.9171813 17.3610214,19.2308351 C17.3631413,19.2329052 17.3652612,19.2349752 17.3672927,19.2371352 L26,27.9703032 Z"
-							 id="返回" transform="translate(21.000000, 28.000000) scale(-1, 1) translate(-21.000000, -28.000000) "></path>
-						</g>
-					</g>
-				</g>
-			</svg>
-			<text class="title-item"> 返回列表</text>
-		</view>
 		<view class="info-content">
 			<view class="main-box">
-				<text class="main-text">{{detail.company}}</text>
-				<view>
-					<button type="default" v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
-					<button type="default" v-if="detail.status === '0'" class="btn-checked">信息已核实</button>
-					<button type="default" v-else class="btn-nocheck">信息未核实</button>
+				<view style="display: flex;padding-bottom: 10px;justify-content: space-between;width: 100%;">
+					<view>
+						<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
+						<button type="default" v-else class="btn-nocheck">信息未核实</button>
+					</view>
+					<view class="right-top">
+						<view>物资紧急度：</view>
+						<image class="right-fire" src="../../../static/icon_fire.svg" mode="widthFix"></image>
+					</view>
 				</view>
 			</view>
+			<view class="main-box">
+				<text class="main-text">{{detail.company}}</text>
+			</view>
 			<view class="info-box">
-				<text class="main-time">{{detail.createTime}}</text>
-				<text class="main-time">{{detail.viewTimes}} 人浏览</text>
+				<view>
+					<text class="main-time">{{detail.createTime}}</text>
+					<text class="come-text">{{detail.viewTimes}} 人浏览</text>
+				</view>
 				<view class="touch-box" v-show="detail.sourceUrl">
 					<text class="come-text" @tap="toOut(detail.sourceUrl)">来源：{{detail.source}}</text>
 					<svg width="10px" height="18px" viewBox="0 0 14 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -53,8 +46,24 @@
 				</view>
 			</view>
 		</view>
-		<view class="item-redCross" v-if="detail.type !== '0'">
-			<button type="primary" @tap="callSomeOne('027-87327533')">联系红十字会</button>
+		<view class="title-box">
+			<view class="title">医院物资紧急程度数据参考</view>
+			<view class="content">
+				<view class="cont-item">
+					<view class="item">医院级别：三甲</view>
+					<view class="item">床位数：200床</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">医护人员数：50人</view>
+					<view class="item">辖区覆盖人口：5万人</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">辖区内医院数：1家</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">剩余物资可用天数：3天【2020-01-28统计】</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -120,13 +129,14 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
-				
+
 				.btn-canpay {
+					margin-right: 20px;
 					width: 188upx;
 					height: 60upx;
 					padding: 0;
 					line-height: 60upx;
-					background: #FFC936;
+					background: #FA6400;
 					border-radius: 0 0 4px 4px;
 					font-size: 24upx;
 					color: #FFFFFF;
@@ -164,6 +174,7 @@
 
 			.main-time {
 				font-size: 28upx;
+				padding-right: 10px;
 				color: #333333;
 			}
 
@@ -177,6 +188,7 @@
 					font-size: 24upx;
 					color: #999999;
 					margin-right: 10upx;
+					font-family: PingFangSC-Semibold;
 				}
 
 				.touch-box {
@@ -220,6 +232,61 @@
 				height: 74upx;
 				line-height: 74upx;
 				border-radius: 4upx;
+			}
+		}
+	}
+
+	.right-top {
+		display: flex;
+		align-items: center;
+		font-family: PingFangSC-Regular;
+		font-size: 12px;
+		color: #666666;
+		padding-right: 20upx;
+
+		.right-fire {
+			width: 24upx;
+			height: 30upx;
+		}
+	}
+
+	.title-box {
+		background-color: #fff;
+		margin-top: 10px;
+		padding: 0 10px 10px;
+
+		.title {
+			line-height: 50px;
+			font-size: 16px;
+			color: #4B8AE5;
+			border-bottom: 1px solid #F2F2F2;
+			position: relative;
+
+			&:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 190px;
+				height: 3px;
+				background: #80ADED;
+				border-radius: 1px;
+			}
+		}
+
+		.content {
+			.cont-item {
+				display: flex;
+				align-items: center;
+				height: 36px;
+				box-shadow: inset 0 -1px 0 0 #EDEDED;
+				font-family: PingFangSC-Semibold;
+				font-size: 12px;
+				color: #333333;
+
+				.item {
+					flex: 1;
+				}
 			}
 		}
 	}

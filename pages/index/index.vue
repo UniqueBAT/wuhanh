@@ -1,29 +1,29 @@
 <template>
 	<view class="list">
-		<view class="home-head">
-			<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
-		</view>
-		<view class="city-wrap">
-			<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
-			<text 
-				v-for="(item,index) in cityList"
-				:key="index"
-				:class="['city-item',isCity == index ? 'city-active' : '']"
-				@tap="checkCity(index)"
-			>{{item | cityname}}</text>
-			<view :class="['city-item', 'city-select', !!cityPickerValue.text ? 'city-active' : '']" @tap="handleSelectCity">
-				<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
+		<view class="fixed-box">
+			<view class="home-head">
+				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
+			</view>
+			<view class="city-wrap">
+				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
+				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
+				 @tap="checkCity(index)">{{item | cityname}}</text>
+				<view :class="['city-item', 'city-select', isCity == '100' ? 'city-active' : '']" @tap="handleSelectCity">
+					<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
+				</view>
+			</view>
+			<view class="city-search">
+				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
+				<image src="../../static/icon_Search.svg" class="search-icon" mode="widthFix"></image>
 			</view>
 		</view>
-		<view class="city-search">
-			<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
-		</view>
+		<view class="blank-boxs"></view>
 		<section class="PullScroll-Page" v-show="current == 0">
-			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
+			<PullScroll ref="pullScrollHospital" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
 					<view class="item-top-v2">
 						<view class="item-types">
-							<view class="badge badge-orange"  v-if="item.needToPay">接受付费购买</view>
+							<view class="badge badge-orange" v-if="item.needToPay">接受付费购买</view>
 							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
 							<view class="badge badge-gray" v-if="item.status==='0'">信息未核实</view>
 						</view>
@@ -48,7 +48,6 @@
 									</g>
 								</svg>
 							</view>
-
 						</view>
 						<view class="item-content">
 							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
@@ -66,7 +65,7 @@
 			</PullScroll>
 		</section>
 		<section class="PullScroll-Page" v-show="current != 0">
-			<PullScroll ref="pullScroll" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
+			<PullScroll ref="pullScrollCar" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0">
 					<view class="item-top">
 						<view class="top-left">
@@ -95,18 +94,16 @@
 							</view>
 						</view>
 						<view class="item-info">{{item.remark}}</view>
-						<navigator :url="`/pages/addcar/addcar?id=${item.id}`" hover-class="navigator-hover">
-							<button class="btn-edit">车辆信息有误，点这里提交修改申请</button>
-						</navigator>
+						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
 					</view>
-					
 				</view>
+				<!-- <view class="blank-boxs"></view> -->
+				<!-- <view class="none-data" v-if="carList.length == 0">
+					暂无更多了
+				</view> -->
 			</PullScroll>
 		</section>
-		<!-- <view class="right-us" @tap="handleModel(-1)">
-			<image src="../../static/logo.png" mode="widthFix" class="us-img"></image>
-			<view class="call-btns">us</view>
-		</view> -->
+
 		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
 		<!-- <view class="more-func"></view> -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
@@ -121,18 +118,38 @@
 				</view>
 			</view>
 		</view>
+		<view class="model-mianze-box" v-show="showMian">
+			<view class="model-mianze">
+				<view v-show="showOne">
+					<view class="title">【紧急通知】</view>
+					<view class="content">接到举报反馈，发现部分医院物资数量真实性与实际需求并不符，现对审核标准，合规发布有如下说明：</view>
+					<view class="content">💥平台暂不发布“无医院官网”或“无医院微信公众号”或“无医院官方微博”的医院机构求助信息；</view>
+					<view class="content">💥只接受医院发布官方认证的，并接受社会监督，避免引发扰乱政府救助、社会治安秩序等违法乱纪的行为；</view>
+					<view class="content" style="padding-bottom: 10px;">💥审核规则标准更新，需待定更新！</view>
+				</view>
+				<view v-show="!showOne">
+					<view class="title">特别声明</view>
+					<view class="content">本平台认证信息均由平台志愿者认证通过</view>
+					<navigator url="../respos/respos" class="lianjie">平台免责说明</navigator>
+				</view>
+				<view class="mian-ben" @click="closeMian">确定</view>
+			</view>
+		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
-			   :shouldShowArea="false"
-			   @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
+		 :shouldShowArea="false" @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
+<script type="text/javascript">
+	var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+	document.write(unescape("%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol +
+		"v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+</script>
 <script>
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
-	
 	import {
 		Request
 	} from '../../utils/http.js'
@@ -148,7 +165,6 @@
 					this.company = value
 					this.loadData(this.PullScroll, 1);
 				} else {
-					console.log("======", value)
 					this.company = value
 					this.loadData(this.PullScroll, 0);
 				}
@@ -156,6 +172,8 @@
 		},
 		data() {
 			return {
+				showOne: true,
+				showMian: true,
 				placeholder: '请输入你要搜索的医院名称',
 				PullScroll: '',
 				company: '',
@@ -188,6 +206,19 @@
 			};
 		},
 		methods: {
+			navToCarChange(itemData) {
+				let id = itemData.id
+				uni.navigateTo({
+					url: '../addcar/addcar?id=' + id
+				})
+			},
+			closeMian() {
+				if (this.showOne) {
+					this.showOne = false
+				} else {
+					this.showMian = false;
+				}
+			},
 			copyPhone(phone, isWechat = false) {
 				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
 					text: function() {
@@ -242,6 +273,7 @@
 					this.placeholder = '请输入你要搜索的车辆信息'
 				}
 				this.company = ''
+				this.PullScroll = current ? this.$refs.pullScrollCar : this.$refs.pullScrollHospital;
 				this.$refs.tab.tabToIndex(current);
 				this.loadData(this.PullScroll, 1);
 			},
@@ -270,22 +302,19 @@
 				let that = this
 				uni.showActionSheet({
 					/* '拨打工作人员电话', '复制工作人员微信', */
-					itemList: ['复制工作人员 1 微信', '复制工作人员 2 微信', '在线补充医院名单', '在线补充车辆名单'],
+					itemList: ['复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
 					itemColor: '#007AFF',
 					success: (res) => {
-						switch(res.tapIndex) {
+						switch (res.tapIndex) {
 							case 0:
-								this.copyPhone('Best_jungle', true);
-								break
-							case 1:
 								this.copyPhone('kindyin', true);
 								break
-							case 2:
+							case 1:
 								uni.navigateTo({
 									url: '/pages/addhospital/addhospital'
 								})
 								break
-							case 3:
+							case 2:
 								uni.navigateTo({
 									url: '/pages/addcar/addcar'
 								})
@@ -306,21 +335,31 @@
 			//初始化下拉加载插件和数据
 			refresh() {
 				this.$nextTick(() => {
-					this.$refs.pullScroll.refresh();
+					this.PullScroll = this.$refs.pullScrollHospital;
+					this.$refs.pullScrollHospital.refresh();
 				});
 			},
-			pullDown(pullScroll) {
-				let that = this;
-				that.PullScroll = pullScroll
-				// that.list = [];
+			pullDown() {
+				// this.list = [];
 				setTimeout(() => {
-					that.loadData(pullScroll, 1);
+					this.loadData(this.PullScroll, 1);
 				}, 200);
 			},
-			pullUp(pullScroll) {
+			pullUp() {
+				this.loadData(this.PullScroll, this.startNum);
+			},
+			loadCar(index) {
 				let that = this;
-				that.startNum++
-				that.loadData(pullScroll, that.startNum);
+				let params = {
+					pageSize: 10,
+					start: index,
+				}
+				params.city = that.city
+				params.keyword = that.company
+				that.$api.getCarList(params).then(res => {
+					that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
+					that.carList = res.data.list
+				})
 			},
 			loadData(pullScroll, index) {
 				let that = this;
@@ -328,44 +367,50 @@
 					pageSize: 10,
 					start: index,
 				}
+				console.log('index', pullScroll)
+				if(index == 1) {
+					pullScroll.reset();
+				}
+				const loadList = (method, tab, tabName, listKey) => {
+					method(params)
+						.then(res => {
+							that.startNum = index + 1
+							const total = res.data.total
+							const list = res.data.list
+							tab.title = `${tabName}(${total})`
+							if (index == 1) {
+								that[listKey] = list
+							} else {
+								that[listKey] = that.list.concat(list)
+							}
+							if(!that[listKey].length) {
+								pullScroll.empty();
+							}
+							if (that[listKey].length >= total) {
+								pullScroll.finish();
+							} else {
+								pullScroll.success();
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+				}
+
 				if (that.current == 0) {
 					if (that.city) {
 						params.city = that.city
 					} else if (that.company) {
 						params.company = that.company
 					}
-					that.$api.getDemandList(params)
-						.then(res => {
-							if (this.list.length > res.data.total) {
-								if (index == 1) {
-									that.list = res.data.list
-								}
-								pullScroll.finish();
-							} else {
-								pullScroll.success();
-								console.log(res.data.total)
-								that.tabList[0].title = '医院需求' + '(' + res.data.total + ')'
-								if (index == 1) {
-									that.list = res.data.list
-								} else {
-									that.list = that.list.concat(res.data.list)
-								}
-							}
-						}).catch(err => {
-							console.log(err)
-						})
+					loadList(that.$api.getDemandList, that.tabList[0], '医院需求', 'list')
 				} else {
 					params.city = that.city
 					params.keyword = that.company
-					that.$api.getCarList(params).then(res => {
-							that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
-							that.carList = res.data.list
-						}
-					)
+					loadList(that.$api.getCarList, that.tabList[1], '车辆资源', 'carList')
 				}
 			},
 			handleSelectCity() {
-				this.$refs.mpvueCityPicker.show()
+				this.$refs.mpvueCityPicker.show();
 			},
 			onCityPickerConfirm(e) {
 				const city = e.label.split('-')[1];
@@ -373,20 +418,22 @@
 					pickerValue: e.value,
 					text: city
 				}
+				this.isCity = 100;
 				this.city = city;
 				this.loadData(this.PullScroll, 1);
 			},
 		},
-		onLoad() {
+		onShow() {
 			this.refresh();
 			this.getTabList();
+			this.loadCar(1);
 		}
 	};
 </script>
 
 <style lang="scss">
 	@import "@/styles/variables.scss";
-	
+
 	.badge {
 		border-radius: 0 0 4px 4px;
 		height: 30px;
@@ -396,21 +443,23 @@
 		padding: 0 20upx;
 		display: inline-block;
 		background: $main;
-		
+
 		&-orange {
 			background: $orange;
 		}
-		
+
 		&-green {
 			background: $green;
 		}
-		
+
 		&-gray {
 			background: $gray;
 		}
 	}
-	
+
 	.city-search {
+		display: flex;
+		position: relative;
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
@@ -423,6 +472,14 @@
 			height: 60upx;
 			line-height: 60upx;
 			padding: 0 30upx;
+		}
+
+		.search-icon {
+			width: 28upx;
+			height: 28upx;
+			position: absolute;
+			right: 25px;
+			top: 18px;
 		}
 	}
 
@@ -441,7 +498,7 @@
 			letter-spacing: 0;
 			text-align: center;
 		}
-		
+
 		.city-select {
 			&-text {
 				display: inline-block;
@@ -451,16 +508,17 @@
 				overflow: hidden;
 				vertical-align: middle;
 			}
+
 			&.city-active {
-					&::after {
-						display: inline-block;
-						content: "";
-						margin-left: 3px;
-						vertical-align: middle;
-						border: 5px dashed transparent;
-						border-top: 5px solid #fff;
-						border-bottom: 0 none;
-					}
+				&::after {
+					display: inline-block;
+					content: "";
+					margin-left: 3px;
+					vertical-align: middle;
+					border: 5px dashed transparent;
+					border-top: 5px solid #fff;
+					border-bottom: 0 none;
+				}
 			}
 		}
 
@@ -468,7 +526,6 @@
 			background: #80ADED;
 			border-radius: 17px;
 			border-radius: 17px;
-			
 			font-size: 14px;
 			color: #FFFFFF;
 			letter-spacing: 0;
@@ -485,17 +542,24 @@
 		border-radius: 0;
 		line-height: 40px;
 		background-color: #fff;
+
 		&::after {
 			border: 1px solid $main;
 			border-radius: 4px;
 		}
+
 		&.button-hover {
 			background: darken(#fff, 10%)
 		}
 	}
-	
+
 	.PullScroll-Page {
-		height: 100vh;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 344upx;
+		padding-bottom: 100upx;
 
 		.btn {
 			width: 100%;
@@ -513,18 +577,20 @@
 			margin-bottom: 20upx;
 			box-sizing: border-box;
 			font-size: 12px;
-			
+
 			.item-sub {
 				color: $gray;
 			}
-			
+
 			.item-top-v2 {
 				border-bottom: 1px solid $border;
 				padding-bottom: 10px;
+
 				.item-name {
 					font-size: 14px;
 					padding: 10px 0;
 				}
+
 				.item-types {
 					.badge {
 						margin-right: 10px;
@@ -556,14 +622,12 @@
 						background: #FFC936;
 						border-radius: 0 0 4px 4px;
 						height: 60upx;
-						
 						font-size: 24upx;
 						color: #FFFFFF;
 						padding: 0 20upx;
 					}
 
 					.text {
-						
 						font-size: 24upx;
 						color: #999999;
 						display: block;
@@ -595,7 +659,6 @@
 
 						.item-sex {
 							font-weight: 600;
-							
 							font-size: 24upx;
 							color: #333;
 						}
@@ -605,6 +668,7 @@
 
 			.item-main {
 				padding-bottom: 10px;
+
 				.item-more {
 					display: flex;
 					align-items: center;
@@ -621,15 +685,13 @@
 				.item-wuzi {
 					border-bottom: 1upx solid #f2f2f2;
 					height: 72upx;
-					
 					font-size: 24upx;
 					color: #000;
-					
+
 					&:last-child {
 						border-bottom: 0 none;
 					}
 				}
-			
 			}
 
 			.item-info {
@@ -637,21 +699,13 @@
 				min-height: 40px;
 				border-bottom: 1upx solid #f2f2f2;
 			}
-			
+
 			.btn-edit {
 				margin-top: 10px;
 			}
-			
-			.item-call {
-				display: flex;
-				align-items: center;
-				height: 80upx;
 
-				.text {
-					
-					font-size: 14px;
-					color: #333333;
-				}
+			.item-call {
+				padding-top: 10px;
 			}
 		}
 	}
@@ -665,10 +719,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 10;
+		z-index: 1010;
 		background: rgba(#000000, 0.5);
-
-
 
 		.model {
 			width: 80%;
@@ -687,14 +739,12 @@
 				}
 
 				.text {
-					
 					font-size: 32upx;
 					color: #666666;
 				}
 
 				.model-email {
 					color: var(--mainColor);
-					
 					font-size: 32upx;
 				}
 			}
@@ -725,7 +775,7 @@
 	}
 
 	.bottom-btn {
-		z-index: 100;
+		z-index: 1010;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -748,6 +798,95 @@
 			padding-right: 20upx;
 			font-size: 28upx;
 			color: #80ADED;
+		}
+	}
+
+	.blank-boxs {
+		width: 100%;
+		height: 155px;
+		background-color: transparent;
+	}
+
+	.fixed-box {
+		position: fixed;
+		z-index: 999;
+		top: 30px;
+		left: 0;
+		right: 0;
+		height: 142px;
+		background: #f8f8f8;
+	}
+
+	.none-data {
+		align-items: center;
+		font-size: 14px;
+		color: #969799;
+		height: 100upx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.model-mianze-box {
+		display: flex;
+		z-index: 10000;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		background-color: rgba(0, 0, 0, 0.5);
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+
+		.model-mianze {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			background: #FFFFFF;
+			padding: 40upx 100upx;
+			border-radius: 8px;
+			width: 80%;
+
+			.title {
+				font-family: PingFangSC-Medium;
+				font-size: 18px;
+				color: #000000;
+				text-align: center;
+			}
+
+			.content {
+				font-family: PingFangSC-Medium;
+				padding-top: 20upx;
+				font-size: 14px;
+				color: #000000;
+				text-align: justify;
+			}
+
+			.lianjie {
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+				letter-spacing: 0;
+				text-align: center;
+				margin: 20upx 0;
+			}
+
+			.mian-ben {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 72upx;
+				text-align: center;
+				background: #FFFFFF;
+				border: 1px solid #4B8AE5;
+				border-radius: 18px;
+				font-family: PingFangSC-Medium;
+				font-size: 14px;
+				color: #4B8AE5;
+			}
 		}
 	}
 </style>

@@ -315,7 +315,7 @@ export default {
 							day,
 							hour,
 							minute,
-							key:this.years[value[0]].substring(0,4)+'-'+(month.length==1?'0'+month:month)+'+'+(day.length==1?'0'+day:day)+' '+(hour.length==1?'0'+hour:hour)+':'+(minute.length==1?'0'+minute:minute),
+							key:this.years[value[0]].substring(0,4)+'-'+(month.length==1?'0'+month:month)+'-'+(day.length==1?'0'+day:day)+' '+(hour.length==1?'0'+hour:hour)+':'+(minute.length==1?'0'+minute:minute),
 							value:this.years[value[0]]+this.months[value[1]]+this.days[value[2]]+this.hours[value[3]]+this.minutes[value[4]]
 						}
 					}

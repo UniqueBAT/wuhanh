@@ -39,4 +39,10 @@
 		align-items: center;
 		justify-content: space-between;
 	}
+	
+	.blank-box {
+		width: 100%;
+		height: 100upx;
+		background-color: transparent;
+	}
 </style>
