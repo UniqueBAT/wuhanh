@@ -24,7 +24,7 @@
                     </template>
                     <template v-else>
                         <div class="label">{{item.name}}:</div>
-                        <input v-if="item.type === 'input'" type="text" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]">
+                        <input v-if="item.type === 'input'" type="text" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]" />
                         <textarea v-else-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea>
                     </template>
                 </div>
@@ -35,49 +35,48 @@
                 </div>
                 <div class="company">
                     <div class="label">医院名称:</div>
-                    <textarea v-model="formData.company" placeholder="点击输入" />
-                    </div>
-				<!-- <div>
+                    <textarea v-model="formData.company" placeholder="点击输入"></textarea>
+                </div>
+                <!-- <div>
 					<div class="label">是否接受付费购买：</div>
 					<div :class="`select ${formData.needToPay ? 'on' : 'off'}`">
 						<div @click="formData.needToPay = true">是</div>
 						<div @click="formData.needToPay = false">否</div>
 					</div>
 				</div> -->
-				<div>
-					<div class="label">联系人</div>
-					<div>
+                <div>
+                    <div class="label">联系人</div>
+                    <div>
                         <i class="icon icon-add" @click="addContact"></i>
-					</div>
-				</div>
-				<uni-card v-for="(item, index) in formData.contacts" :key="index" :title="'第' + (index + 1) + '个联系人'" extra="删除" @clickExtra="delContact" :outIndex="index">
-				    <div>
-				    	<div class="label">姓名：</div>
-				    	<input class="input-box" type="text" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].name">
-				    </div>
-				    <div>
-				    	<div class="label">联系电话：</div>
-				    	<input class="input-box" type="number" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].phone">
-				    </div>
-				</uni-card>
-				<div>
-					<div class="label">所在区域：</div>
-					<div>
-						<view v-if="formData.province == ''" type="buttom" @click="showMulLinkageThreePickerSend"
-							  class="row-input plh need">省/市/区
-						</view>
-						<view v-else type="buttom" @click="showMulLinkageThreePickerSend" class="row-input">
-							{{formData.province+formData.city + formData.area}}
-						</view>
-					</div>
-					<!-- <div @click="showSelectCityFlag = true">
+                    </div>
+                </div>
+                <uni-card v-for="(item, index) in formData.contacts" :key="index" :title="'第' + (index + 1) + '个联系人'" extra="删除" @clickExtra="delContact" :outIndex="index">
+                    <div>
+                        <div class="label">姓名：</div>
+                        <input class="input-box" type="text" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].name" />
+                    </div>
+                    <div>
+                        <div class="label">联系电话：</div>
+                        <input class="input-box" type="number" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].phone" />
+                    </div>
+                </uni-card>
+                <div>
+                    <div class="label">所在区域：</div>
+                    <div>
+                        <view v-if="formData.province == ''" type="buttom" @click="showMulLinkageThreePickerSend" class="row-input plh need">省/市/区
+                        </view>
+                        <view v-else type="buttom" @click="showMulLinkageThreePickerSend" class="row-input">
+                            {{formData.province+formData.city + formData.area}}
+                        </view>
+                    </div>
+                    <!-- <div @click="showSelectCityFlag = true">
 						{{formData.province ? formData.province + formData.city + formData.area + formData.deliveryArea : '省/市/区'  }}
 					</div> -->
-				</div>
-				<div class="street">
-					<div class="label">医院地址：</div>
-					<textarea value="" placeholder="点击输入"  v-model="formData.street"/>
-				</div>
+                </div>
+                <div class="street">
+                    <div class="label">医院地址：</div>
+                    <textarea value="" placeholder="点击输入" v-model="formData.street" />
+                    </div>
 			</view>
 			<view class="area_2">
 				<div class="title">所需物资数量</div>
@@ -150,8 +149,11 @@
         <input type="number" placeholder="点击输入" v-model="tempInfo.leftDate">
     </div>
     <div>
-        <div class="label">剩余物资统计截止日期：</div>
-        <input type="number" placeholder="选择" v-model="tempInfo.recordDate">
+    <div class="label">剩余物资统计截止日期：</div>
+        <!-- <input type="number" placeholder="选择" v-model="tempInfo.recordDate"> -->
+        <picker mode="date" :value="tempInfo.recordDate" @change="bindDateChange">
+            <view class="">{{tempInfo.recordDate || '选择'}}</view>
+        </picker>
     </div>
 </view>
 
@@ -407,9 +409,12 @@ export default {
         uniCard
     },
     methods: {
+        bindDateChange (e) {
+            this.$set(this.tempInfo, 'recordDate', e.target.value);
+        },
         uploadImage (item) {
             console.log('addhospital.vue ==> uploadImage | item', item);
-            this.$set(this.tempInfo,item.valueKey, true);
+            this.$set(this.tempInfo, item.valueKey, true);
         },
         removeImage (item) {
             console.log('addhospital.vue ==> removeImage | item', item);
