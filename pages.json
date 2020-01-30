@@ -19,7 +19,7 @@
 		}, {
 			"path": "pages/addhospital/addhospital",
 			"style": {
-				"navigationBarTitleText": "补充医院"
+				"navigationBarTitleText": "在线补充医院名单"
 			}
 		}, {
 			"path": "pages/respos/respos",
