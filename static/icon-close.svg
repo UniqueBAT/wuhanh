@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>叉</title>
+    <desc>Created with Sketch.</desc>
+    <g id="医院信息补充与修改" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="在线补充医院名单-卫计委医师证明样例" transform="translate(-338.000000, -252.000000)" fill="#4B8AE5">
+            <g id="编组-14" transform="translate(10.000000, 236.000000)">
+                <path d="M334,14 C334.441828,14 334.8,14.3581722 334.8,14.8 L334.799,21.2 L341.2,21.2 C341.641828,21.2 342,21.5581722 342,22 C342,22.4418278 341.641828,22.8 341.2,22.8 L334.799,22.8 L334.8,29.2 C334.8,29.6418278 334.441828,30 334,30 C333.558172,30 333.2,29.6418278 333.2,29.2 L333.199,22.8 L326.8,22.8 C326.358172,22.8 326,22.4418278 326,22 C326,21.5581722 326.358172,21.2 326.8,21.2 L333.199,21.2 L333.2,14.8 C333.2,14.3581722 333.558172,14 334,14 Z" id="叉" transform="translate(334.000000, 22.000000) rotate(45.000000) translate(-334.000000, -22.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>
