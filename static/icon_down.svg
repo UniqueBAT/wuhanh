@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="7px" viewBox="0 0 10 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>向下</title>
+    <desc>Created with Sketch.</desc>
+    <g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页-医院需求" transform="translate(-71.000000, -213.000000)" fill="#5A5A68" fill-rule="nonzero">
+            <g id="编组-9" transform="translate(0.000000, 192.000000)">
+                <path d="M80.9161927,21.70366 L76.6640827,27.650944 C76.5068864,27.8707761 76.2611529,28 76.0003143,28 C75.7394757,28 75.4937423,27.8707761 75.336546,27.650944 L71.084436,21.7045384 C70.9890154,21.5715633 70.9731702,21.3929722 71.0435391,21.2435901 C71.113908,21.094208 71.2583393,20.999831 71.4163201,21 L80.5834767,21 C80.7413063,20.9997497 80.8856701,21.0938734 80.9561832,21.2430011 C81.0266962,21.3921289 81.0112064,21.5705601 80.9161927,21.70366 L80.9161927,21.70366 Z" id="向下"></path>
+            </g>
+        </g>
+    </g>
+</svg>
