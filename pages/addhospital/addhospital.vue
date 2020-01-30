@@ -539,8 +539,9 @@ export default {
                     if (res.code == 10000) {
                         uni.showModal({
                             title: '提交成功',
-                            content: "您的修改申请我们已收到，工作人员核实通过后会发布到平台",
+                            content: "您的申请已收到，稍后会进行内容核实，请耐心等候。",
                             showCancel: false,
+                            confirmText: '好的',
                             success (res) {
                                 uni.navigateBack({
                                     delta: 1,
@@ -885,29 +886,37 @@ uni-view.area_1 > div {
                 display: flex;
                 justify-content: space-between;
 
-                & > span:first-child {
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    border: 1px solid #ededed;
-                    position: relative;
-                    margin-right: 6px;
-
-                    &::before {
-                        content: "";
-                        position: absolute;
-                        opacity: 0;
-                        transition: all 0.3s;
-                        top: 2px;
-                        left: 2px;
-                        width: 14px;
-                        height: 14px;
+                & > span {
+                    &:first-child {
+                        width: 20px;
+                        height: 20px;
                         border-radius: 50%;
-                        background-color: #4b8ae5;
+                        border: 1px solid #ededed;
+                        position: relative;
+                        margin-right: 6px;
+
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            opacity: 0;
+                            transition: all 0.3s;
+                            top: 2px;
+                            left: 2px;
+                            width: 14px;
+                            height: 14px;
+                            border-radius: 50%;
+                            background-color: #4b8ae5;
+                        }
+
+                        &.active::before {
+                            opacity: 1;
+                        }
                     }
 
-                    &.active::before {
-                        opacity: 1;
+                    &:last-child {
+                        font-size: 18px;
+                        color: #4b8ae5;
+                        line-height: 1;
                     }
                 }
             }
@@ -924,6 +933,12 @@ uni-view.area_1 > div {
                     text-align: right;
                     padding: 4px;
                     margin-right: 14px;
+                }
+
+                span {
+                    font-size: 18px;
+                    color: #4b8ae5;
+                    line-height: 1;
                 }
             }
         }
