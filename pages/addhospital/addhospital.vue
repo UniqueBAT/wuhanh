@@ -12,11 +12,14 @@
                 <div v-for="(item, index) in formData.proposerInfos" :key="index" class="item" :class="item.type">
                     <template v-if="item.type === 'upload'">
                         <div class="label">{{item.name}}:</div>
-                        <span class="tips" @click="showDemoImageModel (item)">点击查看上传样例</span>
-                        <div class="image">
+                        <span class="tips" @click="showDemoImageModel(item)">点击查看上传样例</span>
+                        <div class="image" v-if="tempInfo[item.valueKey]">
                             <!-- <img :alt="`${item.alt}.jpg`" /> -->
                             <span>{{item.alt}}.jpg</span>
-                            <i class="icon icon-close" @click="removeImage"></i>
+                            <i class="icon icon-close" @click="removeImage(item)"></i>
+                        </div>
+                        <div class="add" v-else @click="uploadImage(item)">
+                            +上传{{item.alt}}
                         </div>
                     </template>
                     <template v-else>
@@ -83,7 +86,7 @@
                     <div v-else @click="chooseNum(item, index)">
                         <div class="label">{{item.name}}</div>
                         <div class="show">
-                            <span>{{checkItem(item)}}</span>
+                            <span style="font-size: 12px;">{{checkItem(item)}}</span>
                             <span class="icon"></span>
                         </div>
                     </div>
@@ -148,7 +151,7 @@
     </div>
     <div>
         <div class="label">剩余物资统计截止日期：</div>
-        <input type="number" placeholder="请选择" v-model="tempInfo.recordDate">
+        <input type="number" placeholder="选择" v-model="tempInfo.recordDate">
     </div>
 </view>
 
@@ -156,7 +159,7 @@
     提交医院信息修改申请
 </view>
 <view class="submit" v-else @click="submit">
-    提交医院信息修改申请
+    提交医院名单申请
 </view>
 
 <view v-show="showSelectCityFlag">
@@ -257,46 +260,56 @@ export default {
                 needToPay: false,
                 proposerInfos: [{
                     name: '姓名',
+                    valueKey: 'applicantName',
                     type: 'input',
                     placeholder: '点击输入'
                 }, {
                     name: '联系电话',
+                    valueKey: 'applicantPhone',
                     type: 'input',
                     placeholder: '点击输入'
                 }, {
                     name: '所在科室+职务',
+                    valueKey: 'applicantDuty',
                     type: 'input',
                     placeholder: '如：呼吸科+主任医师'
                 }, {
                     name: '医院求助信息来源',
+                    valueKey: 'source',
                     type: 'input',
                     placeholder: '如：医院官方微博'
                 }, {
                     name: '医院求助信息访问链接地址',
+                    valueKey: 'url',
                     type: 'textarea',
                     placeholder: '没有链接请填写“暂无”'
                 }, {
                     name: '上传本人卫计委医师证明',
+                    valueKey: '1',
                     type: 'upload',
                     alt: '卫计委医师证明',
                     demoImage: '../../static/卫计委医师证明.png'
                 }, {
                     name: '上传医院授权发布证明图片',
+                    valueKey: '2',
                     type: 'upload',
                     alt: '医院授权发布证明',
                     demoImage: '../../static/医院授权发布证明.png'
                 }, {
                     name: '上传接受爱心捐赠公告图片',
+                    valueKey: '3',
                     type: 'upload',
                     alt: '接受爱心捐赠公告',
                     demoImage: '../../static/接受爱心捐赠公告.png'
                 }, {
                     name: '医疗机构执业许可证图片',
+                    valueKey: '4',
                     type: 'upload',
                     alt: '医疗机构执业许可证',
                     demoImage: '../../static/医疗机构执业许可证.jpg'
                 }, {
                     name: '医疗物资需求申请单图片',
+                    valueKey: '5',
                     type: 'upload',
                     alt: '医疗物资需求申请单',
                     demoImage: '../../static/医疗物资需求申请单.png'
@@ -361,11 +374,11 @@ export default {
                 }, {
                     type: 'textarea',
                     placeholder: '所需物资种类和数量要补充点这里填写',
-                    valueKey: 'description1'
+                    valueKey: 'additionalDetail'
                 }, {
                     type: 'textarea',
                     placeholder: '所需物资如有防护标准请在这里标明',
-                    valueKey: 'description2'
+                    valueKey: 'additinalStandard'
                 }],
 
                 receiptInfo: {
@@ -394,8 +407,13 @@ export default {
         uniCard
     },
     methods: {
-        removeImage () {
-
+        uploadImage (item) {
+            console.log('addhospital.vue ==> uploadImage | item', item);
+            this.$set(this.tempInfo,item.valueKey, true);
+        },
+        removeImage (item) {
+            console.log('addhospital.vue ==> removeImage | item', item);
+            this.tempInfo[item.valueKey] = null;
         },
         showDemoImageModel (item) {
             console.log('addhospital.vue ==> showDemoImageModel | item', item);
@@ -640,6 +658,17 @@ export default {
                 color: #4b8ae5;
             }
         }
+
+        & > .add {
+            margin: 6px auto;
+            color: #4b8ae5;
+            border-radius: 4px;
+            border: 1px solid #4b8ae5;
+            font-size: 14px;
+            width: 210px;
+            line-height: 36px;
+            text-align: center;
+        }
     }
 }
 
@@ -679,6 +708,17 @@ export default {
             width: 100%;
             padding: 20px 10px;
         }
+    }
+}
+
+.uni-modal {
+    & > .uni-modal__bd {
+        &:nth-child(2) {
+            color: #000;
+            font-size: 14px;
+        }
+    }
+    & > .uni-modal__ft {
     }
 }
 
@@ -756,7 +796,7 @@ uni-view[class^="area"] {
             &::placeholder {
                 font-family: PingFangSC-Regular;
                 font-size: 14px;
-                color: #999999;
+                color: #999;
             }
         }
 
