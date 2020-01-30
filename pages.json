@@ -26,6 +26,11 @@
 			"style": {
 				"navigationBarTitleText": "免责声明"
 			}
+		}, {
+			"path": "pages/about/index",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
 		}
 	],
 	"globalStyle": {

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>湖北医疗物资需求信息平台</title>
+    <meta
+      name="viewport"
+      content="width=640,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <script type="text/javascript">
+      var phoneWidth = parseInt(window.screen.width);
+      var phoneScale = phoneWidth / 640;
+      var ua = navigator.userAgent;
+      if (/Android (\d+\.\d+)/.test(ua)) {
+        var version = parseFloat(RegExp.$1);
+        // andriod 2.3
+        if (version > 2.3) {
+          document.write(
+            '<meta name="viewport" content="width=640, initial-scale= ' +
+              phoneScale +
+              ' ,minimum-scale = ' +
+              phoneScale +
+              ', maximum-scale = ' +
+              phoneScale +
+              ', target-densitydpi=device-dpi">'
+          );
+          // andriod 2.3以上
+        } else {
+          document.write(
+            '<meta name="viewport" content="width=640, initial-scale= ' +
+              phoneScale +
+              ' , target-densitydpi=device-dpi">'
+          );
+        }
+        // 其他系统
+      } else {
+        document.write(
+          '<meta name="viewport" content="width=device-width, user-scalable=no, target-densitydpi=device-dpi">'
+        );
+      }
+    </script>
+  </head>
+  <body style="margin:0">
+    <div style="max-width:640px;margin:0 auto;">
+      <iframe id="iframepage" src="//localhost:8080/" frameborder="0" width="100%"></iframe>
+    </div>
+    <script type="text/javascript" language="javascript">
+      window.onload = function() {
+        function auto_height() {
+          document.getElementById('iframepage').style.height =
+            document.documentElement.clientHeight + 'px';
+        }
+        auto_height();
+      };
+    </script>
+    <script>
+      var dataForWeixin = {
+        appId: '',
+        MsgImg: 'https://mat1.gtimg.com/hb/0000huangshi/ewm1.png',
+        TLImg: 'https://mat1.gtimg.com/hb/0000huangshi/ewm1.png',
+        url: document.location.href,
+        title: '湖北医疗物资需求信息平台',
+        desc: '湖北医疗物资需求信息平台',
+        fakeid: '',
+        callback: function() {}
+      };
+    </script>
+
+    <script type="text/javascript" src="http://hb.qq.com/chenz/khdxh1/share3.js"></script>
+    <div style="display:none;">
+      <script language="javascript" src="//mat1.gtimg.com/ping.js"></script>
+      <script language="javascript">
+        if (typeof pgvMain == 'function') {
+          pvCSTM = 'all';
+          pgvMain();
+        }
+      </script>
+      <script
+        type="text/javascript"
+        src="http://tajs.qq.com/stats?sId=30786701"
+        charset="UTF-8"
+      ></script>
+    </div>
+    <!--[if !IE]>|xGv00|df0dcb6851f826b318528feb53b3ddab<![endif]-->
+  </body>
+</html>
+<!--[if !IE]>|xGv00|581b39e227b1149155b3566acc719d51<![endif]-->
