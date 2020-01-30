@@ -4,7 +4,7 @@
 		<view class="detail-head">
 			<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
 		</view>
-		<swiper class="swiper" :current="current" @change="tabClick" :style="{minHeight: '43vh'}">
+		<swiper class="swiper" :current="current" @change="tabClick" :style="{minHeight: '49vh'}">
 			<!-- 需求物资清单 -->
 			<swiper-item>
 				<view class="item-wrap">
@@ -73,8 +73,8 @@
 				<view class="main-text none-text" v-else>暂无内容</view>
 			</swiper-item>
 		</swiper>
-		<view class="img-box">
-			<image class="img" src="../../static/img_tianmen.png" mode="widthFix"></image>
+		<view class="img-box" v-if="details.files">
+			<image v-for="(item,index) in details.files" :key="index" class="img" :src="item.url || '../../static/img_tianmen.png'" mode="widthFix"></image>
 		</view>
 		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="editDetails">医院信息有误，点这里提交修改申请</view>
@@ -340,7 +340,6 @@
 	.img-box {
 		background-color: #FFFFFF;
 		margin-top: 20upx;
-		padding: 20upx;
 
 		.img {
 			width: 100%;
