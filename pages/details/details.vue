@@ -74,7 +74,7 @@
 			</swiper-item>
 		</swiper>
 		<view class="img-box" v-if="details.files">
-			<image v-for="(item,index) in details.files" :key="index" class="img" :src="item.url || '../../static/img_tianmen.png'" mode="widthFix"></image>
+			<image v-for="(item,index) in details.files" :key="index" class="img" :src="item.url || '../../static/logo.png'" mode="widthFix"></image>
 		</view>
 		<view class="blank-box"></view>
 		<view class="bottom-btn" @tap="editDetails">医院信息有误，点这里提交修改申请</view>

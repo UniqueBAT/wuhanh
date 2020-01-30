@@ -29,11 +29,11 @@
 					<div class="label">医院求助链接:</div>
 					<input type="text" placeholder="没有链接请填写“暂无”" v-model="formData.sourceUrl" />
 				</div>
-				<div v-for="(item, index) in formData.files" :key="index" class="item" :class="item.type">
+				<div v-for="(item, index) in file" :key="index" class="item" :class="item.type">
 					<template v-if="item.type === 'upload'">
 						<div class="label">{{item.name}}:</div>
 						<span class="tips" @click="showDemoImageModel(item)">点击查看上传样例</span>
-						<div class="image" v-if="tempInfo[item.valueKey]">
+						<div class="image" v-if="formData.files[item.valueKey - 1].url != ''">
 							<!-- <img :alt="`${item.alt}.jpg`" /> -->
 							<span>{{item.alt}}.jpg</span>
 							<i class="icon icon-close" @click="removeImage(item)"></i>
@@ -258,6 +258,9 @@
 	import navUrl from '../../components/nav-url.vue'
 	import uniIcons from "../../components/uni-icons/uni-icons.vue"
 	import uniCard from '@/components/uni-card/uni-card.vue'
+	import {
+		Request
+	} from '../../utils/http.js'
 
 	export default {
 		data() {
@@ -275,40 +278,61 @@
 					type: -1,
 					num: null
 				},
+				file: [{
+					name: '上传本人卫计委医师证明',
+					valueKey: '1',
+					type: 'upload',
+					alt: '卫计委医师证明',
+					demoImage: '../../static/卫计委医师证明.png'
+				}, {
+					name: '上传医院授权发布证明图片',
+					valueKey: '2',
+					type: 'upload',
+					alt: '医院授权发布证明',
+					demoImage: '../../static/医院授权发布证明.png'
+				}, {
+					name: '上传接受爱心捐赠公告图片',
+					valueKey: '3',
+					type: 'upload',
+					alt: '接受爱心捐赠公告',
+					demoImage: '../../static/接受爱心捐赠公告.png'
+				}, {
+					name: '医疗机构执业许可证图片',
+					valueKey: '4',
+					type: 'upload',
+					alt: '医疗机构执业许可证',
+					demoImage: '../../static/医疗机构执业许可证.jpg'
+				}, {
+					name: '医疗物资需求申请单图片',
+					valueKey: '5',
+					type: 'upload',
+					alt: '医疗物资需求申请单',
+					demoImage: '../../static/医疗物资需求申请单.png'
+				}],
 				formData: {
 					company: '',
 					needToPay: false,
 					files: [{
-						name: '上传本人卫计委医师证明',
-						valueKey: '1',
-						type: 'upload',
-						alt: '卫计委医师证明',
-						demoImage: '../../static/卫计委医师证明.png'
-					}, {
-						name: '上传医院授权发布证明图片',
-						valueKey: '2',
-						type: 'upload',
-						alt: '医院授权发布证明',
-						demoImage: '../../static/医院授权发布证明.png'
-					}, {
-						name: '上传接受爱心捐赠公告图片',
-						valueKey: '3',
-						type: 'upload',
-						alt: '接受爱心捐赠公告',
-						demoImage: '../../static/接受爱心捐赠公告.png'
-					}, {
-						name: '医疗机构执业许可证图片',
-						valueKey: '4',
-						type: 'upload',
-						alt: '医疗机构执业许可证',
-						demoImage: '../../static/医疗机构执业许可证.jpg'
-					}, {
-						name: '医疗物资需求申请单图片',
-						valueKey: '5',
-						type: 'upload',
-						alt: '医疗物资需求申请单',
-						demoImage: '../../static/医疗物资需求申请单.png'
-					}],
+							type: 1,
+							url: ''
+						},
+						{
+							type: 2,
+							url: ''
+						},
+						{
+							type: 3,
+							url: ''
+						},
+						{
+							type: 4,
+							url: ''
+						},
+						{
+							type: 5,
+							url: ''
+						},
+					],
 					contacts: [{
 						name: '',
 						phone: ''
@@ -402,30 +426,32 @@
 			bindDateChange(e) {
 				this.$set(this.tempInfo, 'recordDate', e.target.value);
 			},
+			// 选择图片
 			uploadImage(item) {
-				console.log(item)
+				let that = this;
 				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
 					success: (chooseImageRes) => {
 						const tempFilePaths = chooseImageRes.tempFilePaths;
 						uni.uploadFile({
-							url: 'https://www.example.com/upload', //仅为示例，非真实的接口地址
+							url: 'http://120.79.211.179:5566/upload', //仅为示例，非真实的接口地址
 							filePath: tempFilePaths[0],
 							name: 'file',
-							formData: {
-								'user': 'test'
-							},
 							success: (uploadFileRes) => {
-								console.log(uploadFileRes.data);
+								let data = JSON.parse(uploadFileRes.data)
+								that.formData.files[item.valueKey - 1].url = data.message;
+								console.log(that.formData.files);
 							}
 						});
 					}
 				});
-				// console.log('addhospital.vue ==> uploadImage | item', item);
-				// this.$set(this.tempInfo, item.valueKey, true);
 			},
+			// 删除图片
 			removeImage(item) {
 				console.log('addhospital.vue ==> removeImage | item', item);
-				this.tempInfo[item.valueKey] = null;
+				this.formData.files[item.valueKey - 1].url = '';
 			},
 			showDemoImageModel(item) {
 				console.log('addhospital.vue ==> showDemoImageModel | item', item);
@@ -563,44 +589,44 @@
 					return;
 				}
 				console.log('2222:===', _that.formData)
-				// if (_that.id) {
-				// 	_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
-				// 		if (res.code == 10000) {
-				// 			uni.showModal({
-				// 				title: '提交成功',
-				// 				content: "您的申请已收到，稍后会进行内容核实，请耐心等候。",
-				// 				showCancel: false,
-				// 				confirmText: '好的',
-				// 				success(res) {
-				// 					uni.navigateBack({
-				// 						delta: 1,
-				// 						animationType: 'pop-out',
-				// 						animationDuration: 200
-				// 					})
-				// 				}
-				// 			})
+				if (_that.id) {
+					_that.$api.putHospitalInfo(_that.formData, _that.id).then(res => {
+						if (res.code == 10000) {
+							uni.showModal({
+								title: '提交成功',
+								content: "您的申请已收到，稍后会进行内容核实，请耐心等候。",
+								showCancel: false,
+								confirmText: '好的',
+								success(res) {
+									uni.navigateBack({
+										delta: 1,
+										animationType: 'pop-out',
+										animationDuration: 200
+									})
+								}
+							})
 
-				// 		}
-				// 	})
-				// } else {
-				// 	_that.$api.postHospitalInfo(_that.formData).then(res => {
-				// 		if (res.code == 10000) {
-				// 			uni.showModal({
-				// 				title: '提交成功',
-				// 				content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
-				// 				showCancel: false,
-				// 				success(res) {
-				// 					uni.navigateBack({
-				// 						delta: 1,
-				// 						animationType: 'pop-out',
-				// 						animationDuration: 200
-				// 					})
-				// 				}
-				// 			})
+						}
+					})
+				} else {
+					_that.$api.postHospitalInfo(_that.formData).then(res => {
+						if (res.code == 10000) {
+							uni.showModal({
+								title: '提交成功',
+								content: "您的申请已收到，马上电话进行核实，核实后方可以显示出来，请耐心等待",
+								showCancel: false,
+								success(res) {
+									uni.navigateBack({
+										delta: 1,
+										animationType: 'pop-out',
+										animationDuration: 200
+									})
+								}
+							})
 
-				// 		}
-				// 	})
-				// }
+						}
+					})
+				}
 			}
 		},
 		onLoad(option) {
