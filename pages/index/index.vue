@@ -31,9 +31,9 @@
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
 					<view class="item-top-v2">
 						<view class="item-types">
-							<view class="badge badge-orange" v-if="item.needToPay">接受付费购买</view>
 							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
-							<view class="badge badge-gray" v-if="item.status==='0'">信息未核实</view>
+							<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
+							<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">
@@ -996,5 +996,8 @@
 		.PullScroll-Page {
 			top: 284upx;
 		}
+	}
+	.badge-red{
+		background: #FF4B4B !important;
 	}
 </style>

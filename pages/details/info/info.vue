@@ -5,13 +5,19 @@
 				<view style="display: flex;padding-bottom: 10px;justify-content: space-between;width: 100%;">
 					<view>
 						<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
-						<button type="default" v-else class="btn-nocheck">信息未核实</button>
+						<button type="default" v-if="detail.status === '0'" class="checking">信息核实中</button>
+						<button type="default" v-if="detail.status === '-1'" class="reject-type">核实未通过</button>
 					</view>
 					<view class="right-top">
 						<view>物资紧急度：</view>
-						<image class="right-fire" src="../../../static/icon_fire.svg" mode="widthFix"></image>
+						<image v-for="(item,index) in (detail.critical ? detail.critical : 1)" :key="index" class="right-fire" src="../../../static/icon_fire.svg" mode="widthFix"></image>
 					</view>
 				</view>
+			</view>
+			<view class="reject-box" v-if="detail.status === '-1'">
+				<view class="title">信息核实未通过原因：</view>
+				<view class="title">{{detail.rejectReason || '上传的证明图片不符合要求，请参考样例上传。'}}</view>
+				<view class="reject-btn" @tap="editHospital">点这里修改申请内容</view>
 			</view>
 			<view class="main-box">
 				<text class="main-text">{{detail.company}}</text>
@@ -50,18 +56,18 @@
 			<view class="title">医院物资紧急程度数据参考</view>
 			<view class="content">
 				<view class="cont-item">
-					<view class="item">医院级别：三甲</view>
-					<view class="item">床位数：200床</view>
+					<view class="item">医院级别：{{detail.level || '0'}}甲</view>
+					<view class="item">床位数：{{detail.amount || '0'}}床</view>
 				</view>
 				<view class="cont-item">
-					<view class="item">医护人员数：50人</view>
-					<view class="item">辖区覆盖人口：5万人</view>
+					<view class="item">医护人员数：{{detail.hosAmount || '0'}}人</view>
+					<view class="item">辖区覆盖人口：{{detail.totalAmount || '0'}}万人</view>
 				</view>
 				<view class="cont-item">
-					<view class="item">辖区内医院数：1家</view>
+					<view class="item">辖区内医院数：{{detail.totalHos || '0'}}家</view>
 				</view>
 				<view class="cont-item">
-					<view class="item">剩余物资可用天数：3天【2020-01-28统计】</view>
+					<view class="item">剩余物资可用天数：{{detail.remainDays || 0}}天【{{detail.statisDate || '2020-01-29'}}统计】</view>
 				</view>
 			</view>
 		</view>
@@ -92,6 +98,11 @@
 			goBack() {
 				uni.navigateTo({
 					url: '/pages/index/index'
+				})
+			},
+			editHospital() {
+				uni.navigateTo({
+					url: '/pages/addhospital/addhospital?id=' + this.detail.id
 				})
 			}
 		}
@@ -288,6 +299,46 @@
 					flex: 1;
 				}
 			}
+		}
+	}
+
+	.reject-type {
+		background: #FF4B4B;
+		border-radius: 0 0 4px 4px;
+	}
+
+	.checking {
+		background: #999999;
+		border-radius: 0 0 4px 4px;
+		font-family: PingFangSC-Semibold;
+		font-size: 12px;
+		color: #FFFFFF;
+	}
+
+	.reject-box {
+		background: #FFEDED;
+		border: 1px solid #FFC1C1;
+		border-radius: 4px;
+		padding: 20upx;
+
+		.title {
+			font-family: PingFangSC-Semibold;
+			font-size: 14px;
+			color: #FF4B4B;
+			line-height: 20px;
+			padding-bottom: 20upx;
+		}
+
+		.reject-btn {
+			padding: 20upx 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #FF4B4B;
+			border-radius: 2px;
+			font-family: PingFangSC-Semibold;
+			font-size: 14px;
+			color: #FFFFFF;
 		}
 	}
 </style>
