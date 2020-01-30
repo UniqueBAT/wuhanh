@@ -16,7 +16,7 @@
 				<input placeholder="点击请输入" maxlength="11" type="number" v-model="postInfo.phone" />
 			</view>
 
-			<view class="item">
+			<!-- <view class="item">
 				<view class="item-title">配送范围</view>
 				<view class="time-arr plh">
 					<view v-if="postInfo.province == ''" type="buttom" @click="showMulLinkageThreePickerSend" class="row-input plh need">省/市/区
@@ -30,16 +30,30 @@
 			<view class="note" style="margin: 0;">
 				<view class="note-title">详细地址</view>
 				<textarea style="height:80px" class="note-content" placeholder="请填写详细地址" v-model="postInfo.deliveryArea"></textarea>
+			</view> -->
+
+			<view class="note" style="margin: 0;">
+				<view class="note-title">配送范围</view>
+				<textarea style="height:80px" class="note-content" placeholder="请输入详细配送范围" v-model="postInfo.deliveryArea"></textarea>
 			</view>
 
 			<view class="item">
 				<view class="item-title">配送开始时间</view>
-				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
+				<timeSelector showType="yearToMinute" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
 			</view>
-			
+
 			<view class="item">
 				<view class="item-title">配送结束时间</view>
-				<timeSelector showType="hourToMinute" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
+				<timeSelector showType="yearToMinute" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
+			</view>
+
+			<view class="item carType">
+				<view class="item-title">车辆资源类型</view>
+				<picker mode="selector" :range="carTypes" :value="postInfo.category" @change="bindCarTypeChange">
+					<view>
+						<span class="value">{{carTypes[postInfo.category] || '请选择'}}</span>
+					</view>
+				</picker>
 			</view>
 
 			<view class="note">
@@ -67,6 +81,8 @@
 	export default {
 		data() {
 			return {
+				tempInfo: {},
+				//
 				url: '/pages/index/index',
 				themeColor: '#007AFF',
 				cityPickerValueDefault: [16, 0, 0],
@@ -75,6 +91,7 @@
 				postInfo: {
 					"carTeamName": "",
 					"city": "",
+					category: 0,
 					"createTime": 0,
 					"deliveryArea": "",
 					"deliveryEndTime": "",
@@ -86,7 +103,14 @@
 					"remark": "",
 					"status": 0,
 					"updateTime": 0
-				}
+				},
+				carTypes: [
+					'请选择',
+					"政府车辆资源",
+					"民间志愿者",
+					"物流公司",
+					"其他"
+				]
 			}
 		},
 		components: {
@@ -112,6 +136,9 @@
 			}
 		},
 		methods: {
+			bindCarTypeChange(e) {
+				this.postInfo.category = e.target.value;
+			},
 			subCarInfo() {
 				let _that = this
 				if (!_that.postInfo.carTeamName) {
@@ -126,17 +153,17 @@
 					_that.$utils.showModal("请填写联系电话")
 					return;
 				}
-				
+
 				if (!_that.postInfo.deliveryArea) {
 					_that.$utils.showModal("请填写详细地址")
 					return;
 				}
-				
+
 				if (!_that.postInfo.deliveryStartTime || !_that.postInfo.deliveryEndTime) {
 					_that.$utils.showModal("请填写配送时间")
 					return;
 				}
-				
+
 				// 可能存在社会团体的特殊电话（993292），暂不校验
 				// if (!_that.postInfo.phone || !_that.$utils.StringUtils.checkStrType(_that.postInfo.phone, 'phone')) {
 				// 	_that.$utils.showModal("请写正确的手机号")
@@ -147,9 +174,10 @@
 					_that.$api.putCarDetail(_that.postInfo).then(res => {
 						if (res.code == 10000) {
 							uni.showModal({
-								title: '提示消息',
-								content: "我们将尽快与您取得联系，感谢您为抗击肺炎所做贡献！",
+								title: '提交成功',
+								content: "您的申请已收到，稍后会进行内容核实，请耐心等候。",
 								showCancel: false,
+								confirmText: '好的',
 								success(res) {
 									uni.navigateBack({
 										delta: 1,
@@ -179,9 +207,7 @@
 
 						}
 					})
-
 				}
-
 			},
 			showMulLinkageThreePickerSend() {
 				this.$refs.mpvueCityPicker.show()
@@ -202,9 +228,8 @@
 				}
 			},
 			btnCancel(e) {
-				
-			}
 
+			}
 		}
 	}
 </script>
@@ -219,7 +244,7 @@
 			flex-direction: row;
 			height: 90rpx;
 			line-height: 90rpx;
-			background-color: #FFFFFF;
+			background-color: #ffffff;
 			border-bottom: 1rpx solid #eeeeee;
 			padding-left: 28rpx;
 			padding-right: 28rpx;
@@ -240,6 +265,13 @@
 				text-align: right;
 				margin-right: 14rpx;
 			}
+
+			&.carType {
+				.value {
+					font-size: 14px;
+					margin-right: 6px;
+				}
+			}
 		}
 
 		.item-title {
@@ -257,13 +289,12 @@
 			padding-left: 28rpx;
 			color: #333333;
 			letter-spacing: 0;
-			background: #FFFFFF;
+			background: #ffffff;
 
 			.note-title {
 				margin: 30rpx 0;
 			}
 		}
-
 	}
 
 	.select-time {
@@ -272,7 +303,7 @@
 		top: 20%;
 		left: 50%;
 		transform: translate(-50%, 0);
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		width: 85%;
 		height: 360rpx;
 		box-sizing: content-box;
@@ -317,7 +348,6 @@
 				border-left: none;
 			}
 		}
-
 	}
 
 	.mask {
@@ -342,10 +372,10 @@
 		position: fixed;
 		width: 100%;
 		bottom: 0rpx;
-		background: #4B8AE5 !important;
+		background: #4b8ae5 !important;
 		border-radius: 0 !important;
 		font-size: 18px;
-		color: #FFFFFF;
+		color: #ffffff;
 		letter-spacing: 0;
 		text-align: center;
 	}

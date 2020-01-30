@@ -17,7 +17,7 @@
 				</view>
 				<view class="item-note">
 					<view class="note-title">备注信息：</view>
-					<view class="note-cont">请在信息核实后再提供物资</view>
+					<view class="note-cont">{{details.additionalDetail || '暂无'}}</view>
 				</view>
 			</swiper-item>
 			<!-- 防护物资标准 -->
@@ -31,7 +31,7 @@
 				</view>
 				<view class="item-note">
 					<view class="note-title">备注信息：</view>
-					<view class="note-cont">标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准</view>
+					<view class="note-cont">{{details.additinalStandard || '标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准标准请参考国家卫健委及湖北省卫健委防护物资标准'}}</view>
 				</view>
 			</swiper-item>
 			<!-- 物资运输方式 -->

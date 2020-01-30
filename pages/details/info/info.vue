@@ -56,12 +56,12 @@
 			<view class="title">医院物资紧急程度数据参考</view>
 			<view class="content">
 				<view class="cont-item">
-					<view class="item">医院级别：{{detail.level || '0'}}甲</view>
+					<view class="item">医院级别：{{detail.level || '0'}}</view>
 					<view class="item">床位数：{{detail.amount || '0'}}床</view>
 				</view>
 				<view class="cont-item">
 					<view class="item">医护人员数：{{detail.hosAmount || '0'}}人</view>
-					<view class="item">辖区覆盖人口：{{detail.totalAmount || '0'}}万人</view>
+					<view class="item">辖区覆盖人口：{{detail.totalAmount || '0'}}人</view>
 				</view>
 				<view class="cont-item">
 					<view class="item">辖区内医院数：{{detail.totalHos || '0'}}家</view>

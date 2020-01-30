@@ -4,16 +4,20 @@
 			<view class="home-head">
 				<tabs ref="tab" :tabData="tabList" :defaultIndex="current" @tabClick='tabClick'></tabs>
 			</view>
-			<view class="city-wrap">
-				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1)">全部地区</text>
+			<view class="city-wrap" v-if="current == 0">
+				<text :class="['city-item',isCity == '-1' ? 'city-active' : '']" @tap="checkCity(-1,1)">全部地区</text>
 				<text v-for="(item,index) in cityList" :key="index" :class="['city-item',isCity == index ? 'city-active' : '']"
-				 @tap="checkCity(index)">{{item | cityname}}</text>
+				 @tap="checkCity(index,1)">{{item | cityname}}</text>
 				<view :class="['city-item', 'city-select', isCity == '100' ? 'city-active' : '']" @tap="handleSelectCity">
 					<text class="city-select-text">{{cityPickerValue.text || '选择更多地区'}}</text>
 				</view>
 			</view>
+			<view class="city-wrap" v-if="current == 1">
+				<text v-for="(item,index) in typeList" :key="index" :class="['city-item',isType == index ? 'city-active' : '']"
+				 @tap="checkCity(index,2)">{{item}}</text>
+			</view>
 			<view class="city-search">
-				<span @click="toggleSelectStatus(!showSelectStatus)">{{statusMap[currentStatus]}}<i class="down"></i>
+				<span v-if="current == 0" @click="toggleSelectStatus(!showSelectStatus)">{{statusMap[currentStatus]}}<i class="down"></i>
 					<ul class="pop-fixed" v-if="!!showSelectStatus">
 						<li :class="currentStatus===99?'current':''" @click="selectStatus(99)">全部状态</li>
 						<li :class="currentStatus===1?'current':''" @click="selectStatus(1)">已核实</li>
@@ -31,9 +35,17 @@
 				<view class="swiper-item" v-for="(item,index) in list" :key="index" v-if="list.length > 0">
 					<view class="item-top-v2">
 						<view class="item-types">
-							<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
-							<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
-							<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
+							<view>
+								<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
+								<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
+								<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
+							</view>
+							<view class="right-top">
+								<view>物资紧急度：</view>
+								<image v-for="(child,index) in (item.critical ? item.critical : 1)" :key="index" class="right-fire" src="../../static/img_fire.png"
+								 mode="widthFix"></image>
+							</view>
+
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">
@@ -75,6 +87,10 @@
 		<section class="PullScroll-Page" v-show="current != 0">
 			<PullScroll ref="pullScrollCar" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0">
+					<view class="type-box" v-if="item.category == 1">政府资源</view>
+					<view class="type-box type-min" v-if="item.category == 2">民间志愿者</view>
+					<view class="type-box type-wuliu" v-if="item.category == 3">物流公司</view>
+					<view class="type-box type-other" v-if="item.category == 4">其它</view>
 					<view class="item-top">
 						<view class="top-left">
 							<view class="left-box">
@@ -197,12 +213,14 @@
 				carList: [],
 				startNum: 1,
 				current: 0,
-				statusMap:{
+				statusMap: {
 					99: '全部状态',
-					0:'核实中',
-					1:'已核实',
-					'-1':'核实未通过'
+					0: '核实中',
+					1: '已核实',
+					'-1': '核实未通过'
 				},
+				typeList: ['政府车辆资源', '民间志愿者', '物流公司', '其它'],
+				isType: 0,
 				tabList: [{
 					title: '医院需求(0)',
 					hasRed: false,
@@ -223,11 +241,11 @@
 			};
 		},
 		methods: {
-			selectStatus(status){
+			selectStatus(status) {
 				this.currentStatus = status;
 				this.loadData(this.PullScroll, 1);
 			},
-			toggleSelectStatus(bool){
+			toggleSelectStatus(bool) {
 				this.showSelectStatus = !!bool;
 			},
 			navToCarChange(itemData) {
@@ -301,15 +319,20 @@
 				this.$refs.tab.tabToIndex(current);
 				this.loadData(this.PullScroll, 1);
 			},
-			checkCity(index) {
-				this.isCity = index;
-				this.company = ''
-				if (index == -1) {
-					this.city = ''
+			checkCity(index, type) {
+				if (type == 1) {
+					this.isCity = index;
+					this.company = ''
+					if (index == -1) {
+						this.city = ''
+					} else {
+						this.city = this.cityList[index]
+					}
+					this.loadData(this.PullScroll, 1);
 				} else {
-					this.city = this.cityList[index]
+					this.isType = index;
+					this.loadData(this.PullScroll, 1);
 				}
-				this.loadData(this.PullScroll, 1);
 			},
 			getTabList() {
 				let that = this;
@@ -378,7 +401,6 @@
 					pageSize: 10,
 					start: index,
 				}
-				params.city = that.city
 				params.keyword = that.company
 				that.$api.getCarList(params).then(res => {
 					that.tabList[1].title = '车辆资源' + '(' + res.data.total + ')'
@@ -391,11 +413,11 @@
 					pageSize: 10,
 					start: index,
 				}
-				if(this.currentStatus!==99){
+				if (this.currentStatus !== 99) {
 					params.status = this.currentStatus;
 				}
 				console.log('index', pullScroll)
-				if(index == 1) {
+				if (index == 1) {
 					pullScroll.reset();
 				}
 				const loadList = (method, tab, tabName, listKey) => {
@@ -410,7 +432,7 @@
 							} else {
 								that[listKey] = that.list.concat(list)
 							}
-							if(!that[listKey].length) {
+							if (!that[listKey].length) {
 								pullScroll.empty();
 							}
 							if (that[listKey].length >= total) {
@@ -431,8 +453,8 @@
 					}
 					loadList(that.$api.getDemandList, that.tabList[0], '医院需求', 'list')
 				} else {
-					params.city = that.city
 					params.keyword = that.company
+					params.category = that.isType + 1;
 					loadList(that.$api.getCarList, that.tabList[1], '车辆资源', 'carList')
 				}
 			},
@@ -490,21 +512,24 @@
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
-		
-		span{
+
+		span {
 			font-size: 14px;
 			display: inline-block;
 			line-height: 32px;
 			position: relative;
 			width: 100px;
-			padding-right:20px;
+			padding-right: 20px;
 			margin-left: 5px;
-			ul,li{
+
+			ul,
+			li {
 				margin: 0;
 				padding: 0;
 				list-style: none;
 			}
-			.pop-fixed{
+
+			.pop-fixed {
 				position: absolute;
 				left: 50%;
 				// bottom: 0;
@@ -514,50 +539,56 @@
 				border-radius: 5px;
 				// border: 1px solid #fff;
 				box-shadow: grey 0px 0px 5px;
+
 				li {
 					text-align: center;
 					border-bottom: 1px solid #eee;
 				}
-				li:nth-last-child(1)
-				{
-					border:0px;
+
+				li:nth-last-child(1) {
+					border: 0px;
 				}
+
 				.current {
 					color: #80ADED;
 				}
 			}
-			.pop-fixed:before{
-				content:" ";
+
+			.pop-fixed:before {
+				content: " ";
 				border-left: 10px solid transparent;
 				border-top: 10px solid transparent;
-				border-right:10px solid transparent;
-				border-bottom:10px solid #eee;
+				border-right: 10px solid transparent;
+				border-bottom: 10px solid #eee;
 				position: absolute;
-				left:50%;
-				top:-18px;
+				left: 50%;
+				top: -18px;
 				margin-left: -5px;
 			}
-			.pop-fixed:after{
-				content:" ";
+
+			.pop-fixed:after {
+				content: " ";
 				border-left: 12px solid transparent;
 				border-top: 12px solid transparent;
-				border-right:12px solid transparent;
-				border-bottom:12px solid #fff;
+				border-right: 12px solid transparent;
+				border-bottom: 12px solid #fff;
 				position: absolute;
-				left:50%;
-				top:-19px;
+				left: 50%;
+				top: -19px;
 				margin-left: -7px;
 			}
 		}
-		i.down{
+
+		i.down {
 			position: absolute;
 			right: 0px;
-			top:0;
-			background: url(../../static/icon_down.svg) no-repeat  center center;
-			width:20px;
+			top: 0;
+			background: url(../../static/icon_down.svg) no-repeat center center;
+			width: 20px;
 			display: inline-block;
 			height: 30px;
 		}
+
 		.search-input {
 			box-sizing: border-box;
 			background: #E6E6E6;
@@ -672,6 +703,31 @@
 			box-sizing: border-box;
 			font-size: 12px;
 
+			.type-box {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-family: PingFangSC-Semibold;
+				background: #6236FF;
+				border-radius: 0 0 4px 4px;
+				font-size: 12px;
+				color: #FFFFFF;
+				width: 200upx;
+				height: 60upx;
+			}
+
+			.type-min {
+				background: #7FAE00 !important;
+			}
+
+			.type-wuliu {
+				background: #00B8B2 !important;
+			}
+
+			.type-other {
+				background: #5B95A2 !important;
+			}
+
 			.item-sub {
 				color: $gray;
 			}
@@ -686,6 +742,10 @@
 				}
 
 				.item-types {
+					justify-content: space-between;
+					align-items: center;
+					display: flex;
+
 					.badge {
 						margin-right: 10px;
 					}
@@ -990,14 +1050,31 @@
 		uni-page-head {
 			display: none;
 		}
+
 		.fixed-box {
 			top: 0;
 		}
+
 		.PullScroll-Page {
 			top: 284upx;
 		}
 	}
-	.badge-red{
+
+	.badge-red {
 		background: #FF4B4B !important;
+	}
+
+	.right-top {
+		display: flex;
+		align-items: center;
+		font-family: PingFangSC-Regular;
+		font-size: 12px;
+		color: #666666;
+		padding-right: 20upx;
+
+		.right-fire {
+			width: 24upx;
+			height: 30upx;
+		}
 	}
 </style>
