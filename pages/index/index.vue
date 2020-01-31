@@ -307,7 +307,8 @@
 					let params = {
 						pageSize: 0,
 						start: 1,
-						keyword: value
+						keyword: value,
+						category: that.isType + 1
 					}
 					that.$api.getCarList(params).then(res => {
 						that.carList = res.data.list
