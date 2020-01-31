@@ -45,7 +45,6 @@
 								<image v-for="(child,index) in (item.critical ? item.critical : 0)" :key="index" class="right-fire" src="../../static/img_fire.png"
 								 mode="widthFix"></image>
 							</view>
-
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">
@@ -153,7 +152,6 @@
 				<view class="mian-ben" @click="closeMian">确定</view>
 			</view>
 		</view>
-		
 		<view class="model-mianze-box" v-show="showMoveMian">
 			<view class="model-mianze-move" style="padding: 20px 10px;width: 90%;">
 				<view class="move">
@@ -185,15 +183,11 @@
 						</br>4.5 	本平台仅提供技术服务，非捐赠方、受赠方、物流提供方等其他第三方之间的权利义务（包括但不限于赠与法律行为、运输合同行为、产品侵权责任等）主体，不介入用户与受赠方、捐赠物资使用方或物流提供方之间的纠纷，但本平台将提供一切与本平台信息发布相关的合法范围内的必要协助，保护用户的合法权益。
 						</br>4.6 	本平台如被恶意篡改用于不正当募捐使用，一律追责。。
 						</br>4.7 	本平台唯一官方网址：https：//www.eqizhiyuan.qq.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。
-						
 						</br>第五条 争议解决及法律适用
 						</br>5.1	在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。
-
 						<view class="mian-ben" @click="closeMoveMian">免责申请已阅读完毕</view>
 					</view>
-
 				</view>
-
 			</view>
 		</view>
 		
@@ -480,10 +474,18 @@
 							const total = res.data.total
 							const list = res.data.list
 							tab.title = `${tabName}(${total})`
-							if (index == 1) {
-								that[listKey] = list
-							} else {
-								that[listKey] = that.list.concat(list)
+							if(that.current == 0){
+								if (index == 1) {
+									that[listKey] = list
+								} else {
+									that[listKey] = that.list.concat(list)
+								}
+							}else{
+								if (total < 10) {
+									that[listKey] = list
+								} else {
+									that[listKey] = that.list.concat(list)
+								}
 							}
 							if (!that[listKey].length) {
 								pullScroll.empty();
@@ -790,7 +792,8 @@
 				padding-bottom: 10px;
 
 				.item-name {
-					font-size: 14px;
+					font-weight: 600;
+					font-size: 16px;
 					padding: 10px 0;
 				}
 

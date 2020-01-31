@@ -2,17 +2,17 @@
 	<view>
 		<view class="content-box">
 			<view class="item">
-				<view class="item-title">运输渠道</view>
+				<view class="item-title"><text class="subTitle">*</text>运输渠道</view>
 				<input placeholder="点击请输入" type="text" v-model="postInfo.carTeamName" />
 			</view>
 
 			<view class="item">
-				<view class="item-title">联系人</view>
+				<view class="item-title"><text class="subTitle">*</text>联系人</view>
 				<input placeholder="点击请输入" type="text" v-model="postInfo.name" />
 			</view>
 
 			<view class="item">
-				<view class="item-title">联系电话</view>
+				<view class="item-title"><text class="subTitle">*</text>联系电话</view>
 				<input placeholder="点击请输入" maxlength="11" type="number" v-model="postInfo.phone" />
 			</view>
 
@@ -33,22 +33,22 @@
 			</view> -->
 
 			<view class="note" style="margin: 0;">
-				<view class="note-title">配送范围</view>
+				<view class="note-title"><text class="subTitle">*</text>配送范围</view>
 				<textarea style="height:80px" class="note-content" placeholder="请输入详细配送范围" v-model="postInfo.deliveryArea"></textarea>
 			</view>
 
 			<view class="item">
-				<view class="item-title">配送开始时间</view>
+				<view class="item-title"><text class="subTitle">*</text>配送开始时间</view>
 				<timeSelector showType="yearToMinute" @btnConfirm="btnConfirmStart" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryStartTime ? postInfo.deliveryStartTime : '选择开始时间'}}</text></timeSelector>
 			</view>
 
 			<view class="item">
-				<view class="item-title">配送结束时间</view>
+				<view class="item-title"><text class="subTitle">*</text>配送结束时间</view>
 				<timeSelector showType="yearToMinute" @btnConfirm="btnConfirmEnd" @btnCancel="btnCancel"><text class="time-arr plh">{{postInfo.deliveryEndTime ? postInfo.deliveryEndTime : '选择结束时间'}}</text></timeSelector>
 			</view>
 
 			<view class="item carType">
-				<view class="item-title">车辆资源类型</view>
+				<view class="item-title"><text class="subTitle">*</text>车辆资源类型</view>
 				<picker mode="selector" :range="carTypes" :value="postInfo.category" @change="bindCarTypeChange">
 					<view>
 						<span class="value">{{carTypes[postInfo.category] || '请选择'}}</span>
@@ -57,7 +57,7 @@
 			</view>
 
 			<view class="note">
-				<view class="note-title">备注信息</view>
+				<view class="note-title"><text class="subTitle">*</text>备注信息</view>
 				<textarea class="note-content" placeholder="填写其它备注信息" v-model="postInfo.remark"></textarea>
 			</view>
 		</view>

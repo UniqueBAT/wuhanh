@@ -10,19 +10,19 @@
 					<span class="subTitle">*在线补充医院名单仅限该医院物资负责人填写</span>
 				</div>
 				<div class="item input">
-					<div class="label">姓名:</div>
+					<div class="label"><span class="subTitle">*</span>姓名:</div>
 					<input type="text" placeholder="请输入" v-model="formData.applicantName" />
 				</div>
 				<div class="item input">
-					<div class="label">电话:</div>
+					<div class="label"><span class="subTitle">*</span>电话:</div>
 					<input type="text" placeholder="请输入" v-model="formData.applicantPhone" />
 				</div>
 				<div class="item input">
-					<div class="label">所在科室+职务:</div>
+					<div class="label"><span class="subTitle">*</span>所在科室+职务:</div>
 					<input type="text" placeholder="如：呼吸科+主任医师" v-model="formData.applicantDuty" />
 				</div>
 				<div class="item input">
-					<div class="label">医院求助信息来源:</div>
+					<div class="label"><span class="subTitle">*</span>医院求助信息来源:</div>
 					<input type="text" placeholder="如：医院官方微博" v-model="formData.source" />
 				</div>
 				<div class="item input">
@@ -31,7 +31,7 @@
 				</div>
 				<div v-for="(item, index) in file" :key="index" class="item" :class="item.type">
 					<template v-if="item.type === 'upload'">
-						<div class="label">{{item.name}}:</div>
+						<div class="label"><span class="subTitle">*</span>{{item.name}}:</div>
 						<span class="tips" @click="showDemoImageModel(item)">点击查看上传样例</span>
 						<div class="image" v-if="formData.files && formData.files[item.valueKey - 1].url != ''">
 							<!-- <img :alt="`${item.alt}.jpg`" /> -->
@@ -49,7 +49,7 @@
 					医院信息填写
 				</div>
 				<div class="company">
-					<div class="label">医院名称:</div>
+					<div class="label"><span class="subTitle">*</span>医院名称:</div>
 					<textarea v-model="formData.company" placeholder="点击输入"></textarea>
 				</div>
 				<!-- <div>
@@ -60,7 +60,7 @@
 					</div>
 				</div> -->
 				<div>
-					<div class="label">联系人</div>
+					<div class="label"><span class="subTitle">*</span>联系人</div>
 					<div>
 						<i class="icon icon-add" @click="addContact"></i>
 					</div>
@@ -68,16 +68,16 @@
 				<uni-card v-for="(item, index) in formData.contacts" :key="index" :title="'第' + (index + 1) + '个联系人'" extra="删除"
 				 @clickExtra="delContact" :outIndex="index">
 					<div>
-						<div class="label">姓名：</div>
+						<div class="label"><span class="subTitle">*</span>姓名：</div>
 						<input class="input-box" type="text" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].name" />
 					</div>
 					<div>
-						<div class="label">联系电话：</div>
+						<div class="label"><span class="subTitle">*</span>联系电话：</div>
 						<input class="input-box" type="number" placeholder="点击输入" placeholder-style="color:#4B8AE5" v-model="formData.contacts[index].phone" />
 					</div>
 				</uni-card>
 				<div>
-					<div class="label">所在区域：</div>
+					<div class="label"><span class="subTitle">*</span>所在区域：</div>
 					<div>
 						<view v-if="formData.province == ''" type="buttom" @click="showMulLinkageThreePickerSend" class="row-input plh need">省/市/区
 						</view>
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 				<div class="street">
-					<div class="label">医院地址：</div>
+					<div class="label"><span class="subTitle">*</span>医院地址：</div>
 					<textarea value="" placeholder="点击输入" v-model="formData.street" />
 					</div>
 			</view>
@@ -95,7 +95,7 @@
 				<div class="title">所需物资数量</div>
 				<template v-for="(item, index) in formData.details">
 					<textarea  v-bind:key="index" v-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea>
-					<div v-else @click="chooseNum(item, index)"  v-bind:key="index">
+					<div v-else @click="chooseNum(item, index)" v-bind:key="index">
 						<div class="label">{{item.name}}</div>
 						<div class="show">
 							<span style="font-size: 12px;">{{checkItem(item)}}</span>
@@ -107,58 +107,58 @@
 <view class="area_4">
 	<div class="title">物资对接信息</div>
 	<div>
-		<div class="label">物资对接地址：</div>
+		<div class="label"><span class="subTitle">*</span>物资对接地址：</div>
 		<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.dockingAddress">
 	</div>
 	<div>
-		<div class="label">对接人：</div>
+		<div class="label"><span class="subTitle">*</span>对接人：</div>
 		<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.dockinger">
 	</div>
 	<div>
-		<div class="label">联系电话：</div>
+		<div class="label"><span class="subTitle">*</span>联系电话：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.dockingerPhone">
 	</div>
 </view>
 <view class="area_3">
 	<div class="title">快递信息</div>
 	<div>
-		<div class="label">快递地址：</div>
+		<div class="label"><span class="subTitle">*</span>快递地址：</div>
 		<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.street">
 	</div>
 	<div>
-		<div class="label">收件人：</div>
+		<div class="label"><span class="subTitle">*</span>收件人：</div>
 		<input type="text" placeholder="点击输入" v-model="formData.receiptInfo.name">
 	</div>
 	<div>
-		<div class="label">联系电话：</div>
+		<div class="label"><span class="subTitle">*</span>联系电话：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.receiptInfo.phone">
 	</div>
 </view>
 <view class="area_5">
 	<div class="title">医院基础信息</div>
 	<div>
-		<div class="label">医院级别：</div>
+		<div class="label"><span class="subTitle">*</span>医院级别：</div>
 		<input type="text" placeholder="点击输入" v-model="formData.level">
 	</div>
 	<div>
-		<div class="label">床位数：</div>
+		<div class="label"><span class="subTitle">*</span>床位数：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.amount">
 	</div>
 	<div>
-		<div class="label">医院人员数：</div>
+		<div class="label"><span class="subTitle">*</span>医院人员数：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.hosAmount">
 	</div>
 
 	<div>
-		<div class="label">辖区人口总数：</div>
+		<div class="label"><span class="subTitle">*</span>辖区人口总数：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.totalAmount">
 	</div>
 	<div>
-		<div class="label">辖区内医院数：</div>
+		<div class="label"><span class="subTitle">*</span>辖区内医院数：</div>
 		<input type="number" placeholder="点击输入" v-model="formData.totalHos">
 	</div>
 	<div>
-		<div class="label">剩余物资可用天数：</div>
+		<div class="label"><span class="subTitle">*</span>剩余物资可用天数：</div>
 		<input type="number" placeholder="点击输入" v-model="tempInfo.remainDays">
 	</div>
 	<div>
@@ -477,7 +477,7 @@
 					that.id = id
 					that.$api.getDemandDetail(params)
 						.then(res => {
-							console.log('加载的数据',res);
+							console.log('加载的数据', res);
 							if (res.code === '10000') {
 								that.details = res.data
 
@@ -510,7 +510,7 @@
 									totalAmount: that.details.totalAmount || '',
 									totalHos: that.details.totalHos || '',
 								}
-								
+
 								// that.formData = res.data
 							}
 						}).catch(err => {
@@ -598,7 +598,16 @@
 					_that.$utils.showModal("请填写联系人信息")
 					return;
 				}
-				
+
+				if (!formData.receiptInfo.dockingAddress) {
+					_that.$utils.showModal("请填写寄送地址")
+					return;
+				}
+				if (!formData.receiptInfo.street) {
+					_that.$utils.showModal("请填写快递地址")
+					return;
+				}
+
 				_that.formData.remainDays = _that.tempInfo.remainDays;
 				_that.formData.statisDate = _that.tempInfo.statisDate;
 				if (_that.id) {
@@ -618,7 +627,7 @@
 								}
 							})
 
-						}else {
+						} else {
 							uni.showModal({
 								title: '提交失败',
 								content: res.message ? res.message : "网络繁忙，请稍后再试。",
@@ -907,12 +916,6 @@
 				height: 4px;
 				background: #4b8ae5;
 				border-radius: 1px;
-			}
-
-			.subTitle {
-				color: #ff3500;
-				font-size: 12px;
-				text-align: right;
 			}
 		}
 	}
