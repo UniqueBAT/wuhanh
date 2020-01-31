@@ -11,6 +11,7 @@
 					<view class="right-top">
 						<view>物资紧急度：</view>
 						<image v-for="(item,index) in (detail.critical ? detail.critical : 1)" :key="index" class="right-fire" src="/static/icon_fire.svg" mode="widthFix"></image>
+
 					</view>
 				</view>
 			</view>
