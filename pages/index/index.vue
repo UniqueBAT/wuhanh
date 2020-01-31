@@ -85,7 +85,7 @@
 		</section>
 		<section class="PullScroll-Page" v-show="current != 0">
 			<PullScroll ref="pullScrollCar" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
-				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0">
+				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0 && item.name">
 					<view class="type-box" v-if="item.category == 1">政府资源</view>
 					<view class="type-box type-min" v-if="item.category == 2">民间志愿者</view>
 					<view class="type-box type-wuliu" v-if="item.category == 3">物流公司</view>
@@ -94,7 +94,7 @@
 						<view class="top-left">
 							<view class="left-box">
 								<text class="item-name" v-text="item.carTeamName"></text>
-								<text class="item-sex" style="color: #666;">车队联系人：{{item.name ? item.name : '张三'}}</text>
+								<text class="item-sex" style="color: #666;">车队联系人：{{item.name ? item.name : ''}}</text>
 							</view>
 						</view>
 						<view class="item-rights">
@@ -481,10 +481,10 @@
 									that[listKey] = that.list.concat(list)
 								}
 							}else{
-								if (total < 10) {
-									that[listKey] = list
+								if (index == 1) {
+									that.carList = list
 								} else {
-									that[listKey] = that.list.concat(list)
+									that.carList = that.carList.concat(list)
 								}
 							}
 							if (!that[listKey].length) {

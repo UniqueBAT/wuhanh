@@ -502,7 +502,6 @@
 							console.log('加载的数据', res);
 							if (res.code === '10000') {
 								that.details = res.data
-
 								that.formData = {
 									company: that.details.company || '',
 									contacts: that.details.contacts && that.details.contacts.length ? that.details.contacts : [{
@@ -516,7 +515,7 @@
 									street: that.details.street || '',
 
 									details: that.details.details && that.details.details.length ? that.details.details : [],
-
+									files: (that.details.files && that.details.files.length > 0) ? that.details.files : [{type: 1,url: ''},{type: 2,url: ''},{type: 3,url: ''},{type: 4,url: ''},{type: 5,url: ''}],
 									receiptInfo: that.details.receiptInfo || {
 										name: '',
 										phone: '',
@@ -621,12 +620,60 @@
 					return;
 				}
 
-				if (!formData.receiptInfo.dockingAddress) {
+				if (!_that.formData.receiptInfo.dockingAddress) {
 					_that.$utils.showModal("请填写寄送地址")
 					return;
 				}
-				if (!formData.receiptInfo.street) {
+				if (!_that.formData.receiptInfo.street) {
 					_that.$utils.showModal("请填写快递地址")
+					return;
+				}
+				if(!_that.formData.applicantName){
+					_that.$utils.showModal("请填写姓名")
+					return;
+				}
+				if(!_that.formData.applicantPhone ){
+					_that.$utils.showModal("请填写联系方式")
+					return;
+				}
+				if(!_that.formData.applicantDuty){
+					_that.$utils.showModal("请填写职位")
+					return;
+				}
+				if(!_that.formData.source){
+					_that.$utils.showModal("请填写来源")
+					return;
+				}
+				if(!_that.formData.receiptInfo.dockinger){
+					_that.$utils.showModal("请填写对接人")
+					return;
+				}
+				if(!_that.formData.receiptInfo.dockingerPhone){
+					_that.$utils.showModal("请填写对接人电话")
+					return;
+				}
+				if(!_that.formData.receiptInfo.name || !_that.formData.receiptInfo.phone){
+					_that.$utils.showModal("请将收件人信息填写完整")
+					return;
+				}
+				if(!_that.formData.level){
+					_that.$utils.showModal("请将填写医院级别")
+					return;
+				}
+				if(!_that.formData.amount){
+					_that.$utils.showModal("请将填写医院床位数")
+					return;
+				}
+				if(!_that.formData.hosAmount){
+					_that.$utils.showModal("请将填写医院总人数")
+					return;
+				}
+				if(!_that.formData.totalAmount){
+					_that.$utils.showModal("请将填写医院辖区人口总数")
+					return;
+				}
+				if(!_that.formData.totalHos){
+					_that.$utils.showModal("请将填写医院辖区内医院数")
 					return;
 				}
 
@@ -673,7 +720,6 @@
 									})
 								}
 							})
-
 						}
 					})
 				}
@@ -818,7 +864,7 @@
 		& * {
 			box-sizing: border-box;
 			font-family: PingFangSC-Regular;
-			font-size: 14px;
+			font-size: 13px;
 			letter-spacing: 0;
 		}
 	}
