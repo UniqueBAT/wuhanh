@@ -25,6 +25,10 @@
 		<view class="content">4.7 本平台唯一官方网址：https：//www.eqizhiyuan.qq.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。</view>
 		<view class="title">第五条 争议解决及法律适用</view>
 		<view class="content">5.1在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。</view>
+		
+		<navigator url="../index/index">
+			<button class="btn info">免责申请已阅读完毕</button>
+		</navigator>
 	</view>
 </template>
 
@@ -46,6 +50,12 @@
 </script>
 
 <style lang="less" scoped>
+	.info{
+		margin-top: 30rpx;
+		margin-bottom: 30rpx;
+		background: #80ADED;
+		color: #FFFFFF;
+	}
 	.respos {
 		background-color: #fff;
 		padding: 20upx;
