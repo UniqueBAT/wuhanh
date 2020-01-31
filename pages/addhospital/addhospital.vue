@@ -94,8 +94,8 @@
 			<view class="area_2">
 				<div class="title">所需物资数量</div>
 				<template v-for="(item, index) in formData.details">
-					<textarea v-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea>
-					<div v-else @click="chooseNum(item, index)">
+					<textarea  v-bind:key="index" v-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea>
+					<div v-else @click="chooseNum(item, index)"  v-bind:key="index">
 						<div class="label">{{item.name}}</div>
 						<div class="show">
 							<span style="font-size: 12px;">{{checkItem(item)}}</span>
@@ -258,6 +258,7 @@
 	import navUrl from '../../components/nav-url.vue'
 	import uniIcons from "../../components/uni-icons/uni-icons.vue"
 	import uniCard from '@/components/uni-card/uni-card.vue'
+	import config from '@/utils/config.js'
 	import {
 		Request
 	} from '../../utils/http.js'
@@ -437,7 +438,8 @@
 					success: (chooseImageRes) => {
 						const tempFilePaths = chooseImageRes.tempFilePaths;
 						uni.uploadFile({
-							url: 'http://120.79.211.179:5566/upload', //仅为示例，非真实的接口地址
+							// url: 'http://120.79.211.179:5566/upload', //仅为示例，非真实的接口地址
+							url: `${config.HOST}upload`,
 							filePath: tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {

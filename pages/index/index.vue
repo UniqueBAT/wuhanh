@@ -40,9 +40,9 @@
 								<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
 								<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
 							</view>
-							<view class="right-top">
+							<view class="right-top" v-if="item.critical">
 								<view>物资紧急度：</view>
-								<image v-for="(child,index) in (item.critical ? item.critical : 1)" :key="index" class="right-fire" src="../../static/img_fire.png"
+								<image v-for="(child,index) in (item.critical ? item.critical : 0)" :key="index" class="right-fire" src="../../static/img_fire.png"
 								 mode="widthFix"></image>
 							</view>
 
@@ -155,14 +155,14 @@
 		</view>
 		
 		<view class="model-mianze-box" v-show="showMoveMian">
-			<view class="model-mianze" style="padding: 20px 10px;width: 90%;">
+			<view class="model-mianze-move" style="padding: 20px 10px;width: 90%;">
 				<view class="move">
 					<view class="m-title">网址迁移声明</view>
 					<view class="m-title" style="font-size: 12px;line-height: 22px;">因近期平台访问数据量过大，为保证平台数据稳定和安全性对原有访问网址进行了更换请知悉</view>
 					<view class="title" style="font-size: 14px;margin: 10px 0;">《湖北医疗物资供需信息平台免责协议》</view>
 					<view class="m-content">
 						第一条 协议订立</br>
-						1.1 	用户在同意本网站：湖北医疗物资供需信息平台(https：//onwh.51rry.com)公示的《湖北医疗物资供需信息平台免责协议》后，方可使用本网络服务平台（以下简称“平台”）提供的湖北省辖区内医疗物资供需信息相关服务（以下简称“服务”）。
+						1.1 用户在同意本网站：E起支援-疫情物资供需平台(https：//www.eqizhiyuan.qq.com)公示的《E起支援-疫情物资供需平台免责协议》后，方可使用本网络服务平台（以下简称“平台”）提供的湖北省辖区内医疗物资供需信息相关服务（以下简称“服务”）。
 						</br>1.2 	用户在使用本平台提供的服务前务必认真阅读本协议，一旦用户使用本平台提供的服务即表示用户同意与本平台签订本协议且同意接受本协议之约束。
 						
 						</br>第二条 服务说明
@@ -171,26 +171,29 @@
 						</br>2.3 	关于平台发布的物资需求内容请以疫区医疗机构在各大官方渠道发布的信息为准（包括但不限于医疗机构官方网站、认证微博、官方微信公众号、已在互联发布并经核实属实的医疗机构签章文件等），本平台仅对搜集获取的内容进行整理编辑及展示。
 						
 						</br>第三条 用户的权利和义务
-						</br>3.1   捐赠方在进行捐赠前,应仔细阅读并接受受赠方所公示的内容。本协议中涉及受赠方与捐赠方之间权利义务的内容，如有与我国相关法律冲突的，以我国相关法律为准。
+						</br>3.1    捐赠方在进行捐赠前,应仔细阅读并接受受赠方所公示的内容。本协议中涉及受赠方与捐赠方之间权利义务的内容，如有与我国相关法律冲突的，以我国相关法律为准。
 						</br>3.2    捐赠方进行捐赠时，应当准确填写捐赠物资类目及具体数量、详细联系方式、涉及相关技术规范要求的合格证编号等信息内容。
 						</br>3.3    捐赠方提交捐赠信息后，应及时将捐赠物资向受赠方进行送达工作。
-						</br>3.4 如捐赠方需取得相应凭证，应自行与受赠方联系取得。捐赠方因捐赠各项事宜产生争议由用户自行与受赠方协商解决。
-						</br>3.5 用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。 
+						</br>3.4    如捐赠方需取得相应凭证，应自行与受赠方联系取得。捐赠方因捐赠各项事宜产生争议由用户自行与受赠方协商解决。
+						</br>3.5    用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。
 						
 						</br>第四条 免责说明
-						</br>4.1       因疫情变化，本平台显示的信息仅供参考，最终以受赠方实际需求为准。
+						</br>4.1    因疫情变化，本平台显示的信息仅供参考，最终以受赠方实际需求为准。
 						</br>4.2    因用户提供错误信息或虚假信息所导致的损失，由用户自行承担，本平台不承担任何责任。
-						</br>4.3      本平台为公益性信息平台，受赠方与捐赠方产生任何纠纷与本平台无关。
-						</br>4.4 本平台会尽力维护平台信息的安全，但因出现法律规定的不可抗力情形，以及因为黑客入侵、计算机病毒等原因造成用户资料泄露、丢失、被盗用、被篡改的，本平台不承担任何责任。
+						</br>4.3    本平台为公益性信息平台，受赠方与捐赠方产生任何纠纷与本平台无关。
+						</br>4.4 	本平台会尽力维护平台信息的安全，但因出现法律规定的不可抗力情形，以及因为黑客入侵、计算机病毒等原因造成用户资料泄露、丢失、被盗用、被篡改的，本平台不承担任何责任。
 						</br>4.5 	本平台仅提供技术服务，非捐赠方、受赠方、物流提供方等其他第三方之间的权利义务（包括但不限于赠与法律行为、运输合同行为、产品侵权责任等）主体，不介入用户与受赠方、捐赠物资使用方或物流提供方之间的纠纷，但本平台将提供一切与本平台信息发布相关的合法范围内的必要协助，保护用户的合法权益。
-						</br>4.6 本平台如被恶意篡改用于不正当募捐使用，一律追责。
-						</br>4.7 本平台唯一官方网址：https：//onwh.51rry.com（湖北医疗物资供需信息)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。
+						</br>4.6 	本平台如被恶意篡改用于不正当募捐使用，一律追责。。
+						</br>4.7 	本平台唯一官方网址：https：//www.eqizhiyuan.qq.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。
 						
 						</br>第五条 争议解决及法律适用
 						</br>5.1	在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。
+
+						<view class="mian-ben" @click="closeMoveMian">免责申请已阅读完毕</view>
 					</view>
+
 				</view>
-				<view class="mian-ben" @click="closeMoveMian">免责申请已阅读完毕</view>
+
 			</view>
 		</view>
 		
@@ -276,10 +279,22 @@
 				},
 			};
 		},
+		onLoad() {
+			let _that = this
+			if(!_that.$redis.get('showMoveMian')) {
+				_that.showMoveMian = true
+				_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
+			} else {
+				_that.showMoveMian = false
+			}
+		},
 		mounted() {
 			this.debouncedLoadData = util.debounce(this.loadData)
 		},
 		methods: {
+			closeMoveMian(){
+				this.showMoveMian = false
+			},
 			selectStatus(status) {
 				this.currentStatus = status;
 				this.loadData(this.PullScroll, 1);
@@ -1032,11 +1047,16 @@
 		right: 0;
 		left: 0;
 		bottom: 0;
-
-		.model-mianze {
+		.model-mianze{
 			display: flex;
 			justify-content: center;
 			flex-direction: column;
+		}
+		.model-mianze-move{
+			height: 465px;
+		}
+		.model-mianze, .model-mianze-move {
+
 			background: #FFFFFF;
 			padding: 40upx 100upx;
 			border-radius: 8px;
@@ -1081,6 +1101,7 @@
 				font-family: PingFangSC-Medium;
 				font-size: 14px;
 				color: #4B8AE5;
+				margin-top: 20px;
 			}
 		}
 	}
@@ -1131,6 +1152,31 @@
 			color: #000000;
 			letter-spacing: 0;
 			line-height: 17px;
+			height: 305px;
+			overflow-y: auto;
 		}
+
+	}
+	/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+	::-webkit-scrollbar
+	{
+	    width: 8px;  /*滚动条宽度*/
+	    height: 8px;  /*滚动条高度*/
+	}
+
+	/*定义滚动条轨道 内阴影+圆角*/
+	::-webkit-scrollbar-track
+	{
+	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+	    border-radius: 5px;  /*滚动条的背景区域的圆角*/
+	   background-color: #E5E5E5;/*滚动条的背景颜色*/
+	}
+
+	/*定义滑块 内阴影+圆角*/
+	::-webkit-scrollbar-thumb
+	{
+	    border-radius: 5px;  /*滚动条的圆角*/
+	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
+	    background-color: #dddddd;  /*滚动条的背景颜色*/
 	}
 </style>
