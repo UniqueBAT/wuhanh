@@ -1,0 +1,64 @@
+{
+  "_from": "cos-js-sdk-v5@^0.5.22",
+  "_id": "cos-js-sdk-v5@0.5.22",
+  "_inBundle": false,
+  "_integrity": "sha512-h7KcZvsbUzWotU2cVMEtGN6eMr1oPsfL/06f9o6yA/ZgAC6LMIXZlU2gNeFko0VuyGYvz57cLfxE7huCjCXjwQ==",
+  "_location": "/cos-js-sdk-v5",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cos-js-sdk-v5@^0.5.22",
+    "name": "cos-js-sdk-v5",
+    "escapedName": "cos-js-sdk-v5",
+    "rawSpec": "^0.5.22",
+    "saveSpec": null,
+    "fetchSpec": "^0.5.22"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cos-js-sdk-v5/-/cos-js-sdk-v5-0.5.22.tgz",
+  "_shasum": "ff2d330047e23688afb8d8f64606f1b09d9fb28b",
+  "_spec": "cos-js-sdk-v5@^0.5.22",
+  "_where": "E:\\Company\\20200125\\project\\wuhanh",
+  "author": {
+    "name": "carsonxu"
+  },
+  "bugs": {
+    "url": "https://github.com/tencentyun/cos-js-sdk-v5/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "xmldom": "^0.1.27"
+  },
+  "deprecated": false,
+  "description": "JavaScript SDK for [腾讯云对象存储](https://cloud.tencent.com/product/cos)",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "qcloud-cos-sts": "^3.0.2",
+    "request": "^2.87.0",
+    "webpack": "^3.8.1"
+  },
+  "homepage": "https://github.com/tencentyun/cos-js-sdk-v5#readme",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "cos-js-sdk-v5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tencentyun/cos-js-sdk-v5.git"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "cos-auth.min.js": "uglifyjs ./demo/common/cos-auth.js -o ./demo/common/cos-auth.min.js -c -m",
+    "dev": "cross-env NODE_ENV=development webpack -w",
+    "sts.js": "node server/sts.js"
+  },
+  "version": "0.5.22"
+}

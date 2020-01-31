@@ -2,12 +2,22 @@
 	<view class="info">
 		<view class="info-content">
 			<view class="main-box">
-				<view style="display: flex;padding-bottom: 10px;">
-					<button type="default"  v-if="detail.needToPay" class="btn-canpay">接受付费购买</button>
-					<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
-					<button type="default" v-else class="btn-nocheck">信息未核实</button>
+				<view style="display: flex;padding-bottom: 10px;justify-content: space-between;width: 100%;">
+					<view>
+						<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
+						<button type="default" v-if="detail.status === '0'" class="checking">信息核实中</button>
+						<button type="default" v-if="detail.status === '-1'" class="reject-type">核实未通过</button>
+					</view>
+					<view class="right-top">
+						<view>物资紧急度：</view>
+						<image v-for="(item,index) in (detail.critical ? detail.critical : 1)" :key="index" class="right-fire" src="/static/icon_fire.svg" mode="widthFix"></image>
+					</view>
 				</view>
-				<text class="main-text"></text>
+			</view>
+			<view class="reject-box" v-if="detail.status === '-1'">
+				<view class="title">信息核实未通过原因：</view>
+				<view class="title">{{detail.rejectReason || '上传的证明图片不符合要求，请参考样例上传。'}}</view>
+				<view class="reject-btn" @tap="editHospital">点这里修改申请内容</view>
 			</view>
 			<view class="main-box">
 				<text class="main-text">{{detail.company}}</text>
@@ -42,9 +52,25 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view class="item-redCross" v-if="detail.type !== '0'">
-			<button type="primary" @tap="callSomeOne('027-87327533')">联系红十字会</button>
-		</view> -->
+		<view class="title-box">
+			<view class="title">医院物资紧急程度数据参考</view>
+			<view class="content">
+				<view class="cont-item">
+					<view class="item">医院级别：{{detail.level || '0'}}</view>
+					<view class="item">床位数：{{detail.amount || '0'}}床</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">医护人员数：{{detail.hosAmount || '0'}}人</view>
+					<view class="item">辖区覆盖人口：{{detail.totalAmount || '0'}}人</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">辖区内医院数：{{detail.totalHos || '0'}}家</view>
+				</view>
+				<view class="cont-item">
+					<view class="item">剩余物资可用天数：{{detail.remainDays || 0}}天【{{detail.statisDate || '2020-01-29'}}统计】</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -72,6 +98,11 @@
 			goBack() {
 				uni.navigateTo({
 					url: '/pages/index/index'
+				})
+			},
+			editHospital() {
+				uni.navigateTo({
+					url: '/pages/addhospital/addhospital?id=' + this.detail.id
 				})
 			}
 		}
@@ -109,7 +140,7 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
-				
+
 				.btn-canpay {
 					margin-right: 20px;
 					width: 188upx;
@@ -213,6 +244,101 @@
 				line-height: 74upx;
 				border-radius: 4upx;
 			}
+		}
+	}
+
+	.right-top {
+		display: flex;
+		align-items: center;
+		font-family: PingFangSC-Regular;
+		font-size: 12px;
+		color: #666666;
+		padding-right: 20upx;
+
+		.right-fire {
+			width: 24upx;
+			height: 30upx;
+		}
+	}
+
+	.title-box {
+		background-color: #fff;
+		margin-top: 10px;
+		padding: 0 10px 10px;
+
+		.title {
+			line-height: 50px;
+			font-size: 16px;
+			color: #4B8AE5;
+			border-bottom: 1px solid #F2F2F2;
+			position: relative;
+
+			&:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 190px;
+				height: 3px;
+				background: #80ADED;
+				border-radius: 1px;
+			}
+		}
+
+		.content {
+			.cont-item {
+				display: flex;
+				align-items: center;
+				height: 36px;
+				box-shadow: inset 0 -1px 0 0 #EDEDED;
+				font-family: PingFangSC-Semibold;
+				font-size: 12px;
+				color: #333333;
+
+				.item {
+					flex: 1;
+				}
+			}
+		}
+	}
+
+	.reject-type {
+		background: #FF4B4B;
+		border-radius: 0 0 4px 4px;
+	}
+
+	.checking {
+		background: #999999;
+		border-radius: 0 0 4px 4px;
+		font-family: PingFangSC-Semibold;
+		font-size: 12px;
+		color: #FFFFFF;
+	}
+
+	.reject-box {
+		background: #FFEDED;
+		border: 1px solid #FFC1C1;
+		border-radius: 4px;
+		padding: 20upx;
+
+		.title {
+			font-family: PingFangSC-Semibold;
+			font-size: 14px;
+			color: #FF4B4B;
+			line-height: 20px;
+			padding-bottom: 20upx;
+		}
+
+		.reject-btn {
+			padding: 20upx 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #FF4B4B;
+			border-radius: 2px;
+			font-family: PingFangSC-Semibold;
+			font-size: 14px;
+			color: #FFFFFF;
 		}
 	}
 </style>

@@ -1,6 +1,5 @@
-// const URL_PREV = "http://192.168.3.56:9999/";
-// const URL_PREV = "http://127.0.0.1:9999/";
-const URL_PREV = "https://whapi.51rry.com/";
+const URL_PREV = "http://120.79.211.179:5566/";
+// const URL_PREV = "https://whapi.51rry.com/";
 //一级封装：封装wx通用请求（get/post/put/delete） 
 //1. 有用户登录请求头带有token，无用户登录请求头不带token
 //2. 添加请求url域名前缀

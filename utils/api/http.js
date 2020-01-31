@@ -82,7 +82,14 @@ http.interceptor.response((response) => {
     }
 }, (error) => {
     /* 请求错误的处理, 可以在此处做一个报警机制的处理 */
-    console.log(error)
+	if(error.data.code == '30003') {
+		uni.showToast({
+			icon: 'none',
+		    title: error.data.data ? error.data.data : '网络繁忙，请稍后再试。',
+		    duration: 2000
+		});
+	}
+	
     return error
 })
 
