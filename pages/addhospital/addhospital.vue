@@ -94,15 +94,17 @@
 			<view class="area_2">
 				<div class="title">所需物资数量</div>
 				<template v-for="(item, index) in formData.details">
-					<textarea  v-bind:key="index" v-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea>
-					<div v-else @click="chooseNum(item, index)" v-bind:key="index">
+					<!-- <textarea v-bind:key="index" v-if="item.type === 'textarea'" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;" :placeholder="item.placeholder" v-model="tempInfo[item.valueKey]"></textarea> -->
+					<div v-if="item.type !== 'textarea'" @click="chooseNum(item, index)" v-bind:key="index">
 						<div class="label">{{item.name}}</div>
 						<div class="show">
 							<span style="font-size: 12px;">{{checkItem(item)}}</span>
 							<span class="icon"></span>
 						</div>
 					</div>
-</template>
+				</template>
+				<textarea placeholder="所需物资种类和数量要补充点这里填写" v-model="formData.additionalDetail" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;"></textarea>
+				<textarea placeholder="所需物资如有防护标准请在这里标明" v-model="formData.additinalStandard" style="height:120px;width:100%;border-radius: 4px;padding: 10px;border: 1px solid #EDEDED;margin: 10px 0;"></textarea>
 </view>
 <view class="area_4">
 	<div class="title">物资对接信息</div>

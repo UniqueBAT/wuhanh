@@ -305,6 +305,9 @@
 	.reject-type {
 		background: #FF4B4B;
 		border-radius: 0 0 4px 4px;
+		font-family: PingFangSC-Semibold;
+		font-size: 12px;
+		color: #FFFFFF;
 	}
 
 	.checking {

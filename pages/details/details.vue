@@ -8,12 +8,12 @@
 			<!-- 需求物资清单 -->
 			<swiper-item>
 				<view class="item-wrap">
-					<view class="item-wuzi flex-between" v-if="details.details.length > 0" v-for="(child,idx) in details.details" :key="idx">
+					<view class="item-wuzi flex-between" v-if="details.details.length > 0 && child.amount > 0" v-for="(child,idx) in details.details" :key="idx">
 						<text>{{child.name}}</text>
 						<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
-						<text v-else>不限</text>
+						<text v-else>不需要</text>
 					</view>
-					<view class="main-text none-text" v-else>暂无内容</view>
+					<!-- <view class="main-text none-text" v-if="details.details">暂无内容</view> -->
 				</view>
 				<view class="item-note">
 					<view class="note-title">备注信息：</view>
@@ -77,7 +77,7 @@
 			<image v-for="(item,index) in details.files" :key="index" class="img" :src="item.url || '../../static/logo.png'" mode="widthFix"></image>
 		</view>
 		<view class="blank-box"></view>
-		<view class="bottom-btn" v-if="details.status != 0" @tap="editDetails">医院信息有误，点这里提交修改申请</view>
+		<view class="bottom-btn" v-if="details.status != 0 && details.status != -1" @tap="editDetails">医院信息有误，点这里提交修改申请</view>
 	</view>
 </template>
 
