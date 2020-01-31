@@ -138,6 +138,20 @@ module.exports = {
       }
     };
   },
+  debounce: function(fn, wait = 200) {
+		let timer = null
+		const noopObj = Object.create(null)
+		const debounceFn = (...args) => {
+			if (timer) {
+				clearTimeout(timer)
+			}
+			timer = setTimeout(() => {
+				fn.apply(noopObj, args)
+				timer = null
+			}, wait)
+		}
+		return debounceFn
+	},
   once: function(fn) {
     let result;
 

@@ -209,6 +209,7 @@
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import util from '@/utils/util';
 	import {
 		Request
 	} from '../../utils/http.js'
@@ -222,10 +223,10 @@
 			company(value) {
 				if (this.current == 0) {
 					this.company = value
-					this.loadData(this.PullScroll, 1);
+					this.debouncedLoadData(this.PullScroll, 1);
 				} else {
 					this.company = value
-					this.loadData(this.PullScroll, 0);
+					this.debouncedLoadData(this.PullScroll, 0);
 				}
 			}
 		},
@@ -274,6 +275,9 @@
 					text: '',
 				},
 			};
+		},
+		mounted() {
+			this.debouncedLoadData = util.debounce(this.loadData)
 		},
 		methods: {
 			selectStatus(status) {
