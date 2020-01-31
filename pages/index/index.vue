@@ -40,12 +40,11 @@
 								<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
 								<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
 							</view>
-							<view class="right-top">
+							<view class="right-top" v-if="item.critical">
 								<view>物资紧急度：</view>
-								<image v-for="(child,index) in (item.critical ? item.critical : 1)" :key="index" class="right-fire" src="../../static/img_fire.png"
+								<image v-for="(child,index) in item.critical" :key="index" class="right-fire" src="../../static/img_fire.png"
 								 mode="widthFix"></image>
 							</view>
-
 						</view>
 						<view class="item-name" v-text="item.company"></view>
 						<view class="flex-between">

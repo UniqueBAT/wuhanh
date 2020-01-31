@@ -39,5 +39,9 @@ export default {
 	},
 	getDemandCount: () => {
 		return http.get(`${host}demand/count`)
+	},
+	// 根据名字名字获取医院信息
+	getHospitalCountByName: params => {
+		return http.get(`${host}demand/countByName`, params)
 	}
 }

@@ -50,7 +50,7 @@
 				</div>
 				<div class="company">
 					<div class="label">医院名称:</div>
-					<textarea v-model="formData.company" placeholder="点击输入"></textarea>
+					<textarea v-model="formData.company" @blur="onCompanyTextareaBlur" placeholder="点击输入"></textarea>
 				</div>
 				<!-- <div>
 					<div class="label">是否接受付费购买：</div>
@@ -426,6 +426,28 @@
 		methods: {
 			bindDateChange(e) {
 				this.$set(this.tempInfo, 'statisDate', e.target.value);
+			},
+			onCompanyTextareaBlur() {
+				const that = this
+				const params = {
+					company: that.formData.company
+				}
+				that.$api.getHospitalCountByName(params)
+					.then((res) => {
+						if (res.code === '10000') {
+							if (res.data.length > 0) {
+								uni.showModal({
+									content: "您提交的医院信息平台已存在或正在审核中，感谢您的无私奉献。",
+									showCancel: false,
+									success(res) {
+										that.formData.company = ''
+									}
+								})
+							}
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
 			},
 			// 选择图片
 			uploadImage(item) {
