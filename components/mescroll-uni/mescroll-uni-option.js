@@ -15,7 +15,7 @@ const GlobalOption = {
 		isBounce: false, // 默认禁止橡皮筋的回弹效果, 必读事项: http://www.mescroll.com/qa.html?v=190725#q25
 		toTop: {
 			// 回到顶部按钮,需配置src才显示
-			src: "http://www.mescroll.com/img/mescroll-totop.png?v=1", // 图片路径 (建议放入static目录, 如 /static/img/mescroll-totop.png )
+			src: "https://www.mescroll.com/img/mescroll-totop.png?v=1", // 图片路径 (建议放入static目录, 如 /static/img/mescroll-totop.png )
 			offset: 1000, // 列表滚动多少距离才显示回到顶部按钮,默认1000px
 			right: 20, // 到右边的距离, 默认20 (支持"20rpx", "20px", "20%"格式的值, 纯数字则默认单位rpx)
 			bottom: 120, // 到底部的距离, 默认120 (支持"20rpx", "20px", "20%"格式的值, 纯数字则默认单位rpx)
@@ -23,7 +23,7 @@ const GlobalOption = {
 		},
 		empty: {
 			use: true, // 是否显示空布局
-			icon: "http://www.mescroll.com/img/mescroll-empty.png?v=1", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
+			icon: "https://www.mescroll.com/img/mescroll-empty.png?v=1", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
 			tip: '~ 暂无相关数据 ~' // 提示
 		}
 	}
