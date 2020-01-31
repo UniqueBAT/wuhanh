@@ -455,7 +455,6 @@
 				if (this.currentStatus !== 99) {
 					params.status = this.currentStatus;
 				}
-				console.log('index', pullScroll)
 				if (index == 1) {
 					pullScroll.reset();
 				}
@@ -1109,9 +1108,9 @@
 		font-family: PingFangSC-Regular;
 		font-size: 12px;
 		color: #666666;
-		padding-right: 20upx;
 
 		.right-fire {
+			margin-left: 10upx;
 			width: 24upx;
 			height: 30upx;
 		}
