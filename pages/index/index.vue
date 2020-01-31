@@ -344,7 +344,15 @@
 				} else {
 					this.callList = this.list[index].contacts;
 				}
-				this.showModel = true;
+				if(this.callList.length){
+					this.showModel = true;
+				}else{
+					uni.showToast({
+						title: '暂无联系方式',
+						icon: 'none',
+						duration: 1500
+					})
+				}
 			},
 			hideModel() {
 				this.showModel = false;
