@@ -168,14 +168,14 @@
 						</br>第二条 服务说明
 						</br>2.1 	疫区医疗机构（以下简称“受赠方”）通过本平台获取的捐赠物资均由第三方提供（以下简称“捐赠方”），本平台仅为技术服务提供方。
 						</br>2.2 	由于疫情期间存在客观情况限制或政府政策原因等多种不确定因素影响，本平台不对捐赠方的实际捐赠情况进行任何形式的承诺，同时所有捐赠方目前亦无法对实际捐赠情况作出相关承诺。
-						</br>2.3 	关于平台发布的物资需求内容请以疫区医疗机构在各大官方渠道发布的信息为准（包括但不限于医疗机构官方网站、认证微博、官方微信公众号、已在互联发布并经核实属实的医疗机构签章文件等），本平台仅对搜集获取的内容进行整理编辑及展示。 
+						</br>2.3 	关于平台发布的物资需求内容请以疫区医疗机构在各大官方渠道发布的信息为准（包括但不限于医疗机构官方网站、认证微博、官方微信公众号、已在互联发布并经核实属实的医疗机构签章文件等），本平台仅对搜集获取的内容进行整理编辑及展示。
 						
 						</br>第三条 用户的权利和义务
 						</br>3.1    捐赠方在进行捐赠前,应仔细阅读并接受受赠方所公示的内容。本协议中涉及受赠方与捐赠方之间权利义务的内容，如有与我国相关法律冲突的，以我国相关法律为准。
 						</br>3.2    捐赠方进行捐赠时，应当准确填写捐赠物资类目及具体数量、详细联系方式、涉及相关技术规范要求的合格证编号等信息内容。
 						</br>3.3    捐赠方提交捐赠信息后，应及时将捐赠物资向受赠方进行送达工作。
 						</br>3.4    如捐赠方需取得相应凭证，应自行与受赠方联系取得。捐赠方因捐赠各项事宜产生争议由用户自行与受赠方协商解决。
-						</br>3.5    用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。 
+						</br>3.5    用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。
 						
 						</br>第四条 免责说明
 						</br>4.1    因疫情变化，本平台显示的信息仅供参考，最终以受赠方实际需求为准。
@@ -188,12 +188,12 @@
 						
 						</br>第五条 争议解决及法律适用
 						</br>5.1	在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。
-						
+
 						<view class="mian-ben" @click="closeMoveMian">免责申请已阅读完毕</view>
 					</view>
-					
+
 				</view>
-				
+
 			</view>
 		</view>
 		
@@ -212,6 +212,7 @@
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
 	import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
+	import util from '@/utils/util';
 	import {
 		Request
 	} from '../../utils/http.js'
@@ -225,10 +226,10 @@
 			company(value) {
 				if (this.current == 0) {
 					this.company = value
-					this.loadData(this.PullScroll, 1);
+					this.debouncedLoadData(this.PullScroll, 1);
 				} else {
 					this.company = value
-					this.loadData(this.PullScroll, 0);
+					this.debouncedLoadData(this.PullScroll, 0);
 				}
 			}
 		},
@@ -280,12 +281,15 @@
 		},
 		onLoad() {
 			let _that = this
-			// if(!_that.$redis.get('showMoveMian')) {
-			// 	_that.showMoveMian = true
-			// 	_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
-			// } else {
-			// 	_that.showMoveMian = false
-			// }
+			if(!_that.$redis.get('showMoveMian')) {
+				_that.showMoveMian = true
+				_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
+			} else {
+				_that.showMoveMian = false
+			}
+		},
+		mounted() {
+			this.debouncedLoadData = util.debounce(this.loadData)
 		},
 		methods: {
 			closeMoveMian(){
@@ -1052,7 +1056,7 @@
 			height: 465px;
 		}
 		.model-mianze, .model-mianze-move {
-			
+
 			background: #FFFFFF;
 			padding: 40upx 100upx;
 			border-radius: 8px;
@@ -1151,28 +1155,28 @@
 			height: 305px;
 			overflow-y: auto;
 		}
-		
+
 	}
-	/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
-	::-webkit-scrollbar  
-	{  
+	/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+	::-webkit-scrollbar
+	{
 	    width: 8px;  /*滚动条宽度*/
 	    height: 8px;  /*滚动条高度*/
-	}  
-	  
-	/*定义滚动条轨道 内阴影+圆角*/  
-	::-webkit-scrollbar-track  
-	{  
-	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);  
+	}
+
+	/*定义滚动条轨道 内阴影+圆角*/
+	::-webkit-scrollbar-track
+	{
+	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
 	    border-radius: 5px;  /*滚动条的背景区域的圆角*/
-	   background-color: #E5E5E5;/*滚动条的背景颜色*/  
-	}  
-	  
-	/*定义滑块 内阴影+圆角*/  
-	::-webkit-scrollbar-thumb  
-	{  
+	   background-color: #E5E5E5;/*滚动条的背景颜色*/
+	}
+
+	/*定义滑块 内阴影+圆角*/
+	::-webkit-scrollbar-thumb
+	{
 	    border-radius: 5px;  /*滚动条的圆角*/
-	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);  
+	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
 	    background-color: #dddddd;  /*滚动条的背景颜色*/
 	}
 </style>
