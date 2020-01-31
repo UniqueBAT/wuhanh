@@ -8,10 +8,9 @@
 						<button type="default" v-if="detail.status === '0'" class="checking">信息核实中</button>
 						<button type="default" v-if="detail.status === '-1'" class="reject-type">核实未通过</button>
 					</view>
-					<view class="right-top">
+					<view class="right-top" v-if="detail.critical">
 						<view>物资紧急度：</view>
 						<image v-for="(item,index) in (detail.critical ? detail.critical : 1)" :key="index" class="right-fire" src="/static/icon_fire.svg" mode="widthFix"></image>
-
 					</view>
 				</view>
 			</view>
