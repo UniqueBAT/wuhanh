@@ -160,37 +160,40 @@
 					<view class="title" style="font-size: 14px;margin: 10px 0;">《湖北医疗物资供需信息平台免责协议》</view>
 					<view class="m-content">
 						第一条 协议订立</br>
-						1.1 用户在同意本网站：E起支援-疫情物资供需平台(https：//www.eqizhiyuan.qq.com)公示的《E起支援-疫情物资供需平台免责协议》后，方可使用本网络服务平台（以下简称“平台”）提供的湖北省辖区内医疗物资供需信息相关服务（以下简称“服务”）。
-						</br>1.2 	用户在使用本平台提供的服务前务必认真阅读本协议，一旦用户使用本平台提供的服务即表示用户同意与本平台签订本协议且同意接受本协议之约束。
-						
+						1.1
+						用户在同意本网站：E起支援-疫情物资供需平台(https：//www.eqizhiyuan.qq.com)公示的《E起支援-疫情物资供需平台免责协议》后，方可使用本网络服务平台（以下简称“平台”）提供的湖北省辖区内医疗物资供需信息相关服务（以下简称“服务”）。
+						</br>1.2 用户在使用本平台提供的服务前务必认真阅读本协议，一旦用户使用本平台提供的服务即表示用户同意与本平台签订本协议且同意接受本协议之约束。
+
 						</br>第二条 服务说明
-						</br>2.1 	疫区医疗机构（以下简称“受赠方”）通过本平台获取的捐赠物资均由第三方提供（以下简称“捐赠方”），本平台仅为技术服务提供方。
-						</br>2.2 	由于疫情期间存在客观情况限制或政府政策原因等多种不确定因素影响，本平台不对捐赠方的实际捐赠情况进行任何形式的承诺，同时所有捐赠方目前亦无法对实际捐赠情况作出相关承诺。
-						</br>2.3 	关于平台发布的物资需求内容请以疫区医疗机构在各大官方渠道发布的信息为准（包括但不限于医疗机构官方网站、认证微博、官方微信公众号、已在互联发布并经核实属实的医疗机构签章文件等），本平台仅对搜集获取的内容进行整理编辑及展示。
-						
+						</br>2.1 疫区医疗机构（以下简称“受赠方”）通过本平台获取的捐赠物资均由第三方提供（以下简称“捐赠方”），本平台仅为技术服务提供方。
+						</br>2.2 由于疫情期间存在客观情况限制或政府政策原因等多种不确定因素影响，本平台不对捐赠方的实际捐赠情况进行任何形式的承诺，同时所有捐赠方目前亦无法对实际捐赠情况作出相关承诺。
+						</br>2.3
+						关于平台发布的物资需求内容请以疫区医疗机构在各大官方渠道发布的信息为准（包括但不限于医疗机构官方网站、认证微博、官方微信公众号、已在互联发布并经核实属实的医疗机构签章文件等），本平台仅对搜集获取的内容进行整理编辑及展示。
+
 						</br>第三条 用户的权利和义务
-						</br>3.1    捐赠方在进行捐赠前,应仔细阅读并接受受赠方所公示的内容。本协议中涉及受赠方与捐赠方之间权利义务的内容，如有与我国相关法律冲突的，以我国相关法律为准。
-						</br>3.2    捐赠方进行捐赠时，应当准确填写捐赠物资类目及具体数量、详细联系方式、涉及相关技术规范要求的合格证编号等信息内容。
-						</br>3.3    捐赠方提交捐赠信息后，应及时将捐赠物资向受赠方进行送达工作。
-						</br>3.4    如捐赠方需取得相应凭证，应自行与受赠方联系取得。捐赠方因捐赠各项事宜产生争议由用户自行与受赠方协商解决。
-						</br>3.5    用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。
-						
+						</br>3.1 捐赠方在进行捐赠前,应仔细阅读并接受受赠方所公示的内容。本协议中涉及受赠方与捐赠方之间权利义务的内容，如有与我国相关法律冲突的，以我国相关法律为准。
+						</br>3.2 捐赠方进行捐赠时，应当准确填写捐赠物资类目及具体数量、详细联系方式、涉及相关技术规范要求的合格证编号等信息内容。
+						</br>3.3 捐赠方提交捐赠信息后，应及时将捐赠物资向受赠方进行送达工作。
+						</br>3.4 如捐赠方需取得相应凭证，应自行与受赠方联系取得。捐赠方因捐赠各项事宜产生争议由用户自行与受赠方协商解决。
+						</br>3.5 用户同意本平台向捐赠方、受赠方、物流提供方等相关单位、个人披露用户提交捐赠信息中所涉及的个人信息。
+
 						</br>第四条 免责说明
-						</br>4.1    因疫情变化，本平台显示的信息仅供参考，最终以受赠方实际需求为准。
-						</br>4.2    因用户提供错误信息或虚假信息所导致的损失，由用户自行承担，本平台不承担任何责任。
-						</br>4.3    本平台为公益性信息平台，受赠方与捐赠方产生任何纠纷与本平台无关。
-						</br>4.4 	本平台会尽力维护平台信息的安全，但因出现法律规定的不可抗力情形，以及因为黑客入侵、计算机病毒等原因造成用户资料泄露、丢失、被盗用、被篡改的，本平台不承担任何责任。
-						</br>4.5 	本平台仅提供技术服务，非捐赠方、受赠方、物流提供方等其他第三方之间的权利义务（包括但不限于赠与法律行为、运输合同行为、产品侵权责任等）主体，不介入用户与受赠方、捐赠物资使用方或物流提供方之间的纠纷，但本平台将提供一切与本平台信息发布相关的合法范围内的必要协助，保护用户的合法权益。
-						</br>4.6 	本平台如被恶意篡改用于不正当募捐使用，一律追责。。
-						</br>4.7 	本平台唯一官方网址：https：//www.eqizhiyuan.qq.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。
+						</br>4.1 因疫情变化，本平台显示的信息仅供参考，最终以受赠方实际需求为准。
+						</br>4.2 因用户提供错误信息或虚假信息所导致的损失，由用户自行承担，本平台不承担任何责任。
+						</br>4.3 本平台为公益性信息平台，受赠方与捐赠方产生任何纠纷与本平台无关。
+						</br>4.4 本平台会尽力维护平台信息的安全，但因出现法律规定的不可抗力情形，以及因为黑客入侵、计算机病毒等原因造成用户资料泄露、丢失、被盗用、被篡改的，本平台不承担任何责任。
+						</br>4.5
+						本平台仅提供技术服务，非捐赠方、受赠方、物流提供方等其他第三方之间的权利义务（包括但不限于赠与法律行为、运输合同行为、产品侵权责任等）主体，不介入用户与受赠方、捐赠物资使用方或物流提供方之间的纠纷，但本平台将提供一切与本平台信息发布相关的合法范围内的必要协助，保护用户的合法权益。
+						</br>4.6 本平台如被恶意篡改用于不正当募捐使用，一律追责。。
+						</br>4.7 本平台唯一官方网址：https：//www.eqizhiyuan.qq.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。
 						</br>第五条 争议解决及法律适用
-						</br>5.1	在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。
+						</br>5.1 在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。
 						<view class="mian-ben" @click="closeMoveMian">免责申请已阅读完毕</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		
+
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
 		 :shouldShowArea="false" @onConfirm="onCityPickerConfirm"></mpvue-city-picker>
 	</view>
@@ -218,12 +221,15 @@
 		},
 		watch: {
 			company(value) {
+				
 				if (this.current == 0) {
 					this.company = value
-					this.debouncedLoadData(this.PullScroll, 1);
+					// this.debouncedLoadData(this.PullScroll, 1);
+					this.search(value);
 				} else {
 					this.company = value
-					this.debouncedLoadData(this.PullScroll, 0);
+					// this.debouncedLoadData(this.PullScroll, 0);
+					this.search(value)
 				}
 			}
 		},
@@ -275,7 +281,7 @@
 		},
 		onLoad() {
 			let _that = this
-			if(!_that.$redis.get('showMoveMian')) {
+			if (!_that.$redis.get('showMoveMian')) {
 				_that.showMoveMian = true
 				_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
 			} else {
@@ -286,7 +292,29 @@
 			this.debouncedLoadData = util.debounce(this.loadData)
 		},
 		methods: {
-			closeMoveMian(){
+			search(value){
+				let that = this;
+				if(that.current == 0){
+					let params = {
+						pageSize: 0,
+						start: 1,
+						company: value
+					}
+					that.$api.getDemandList(params).then(res => {
+						that.list = res.data.list
+					})
+				}else{
+					let params = {
+						pageSize: 0,
+						start: 1,
+						keyword: value
+					}
+					that.$api.getCarList(params).then(res => {
+						that.carList = res.data.list
+					})
+				}
+			},
+			closeMoveMian() {
 				this.showMoveMian = false
 			},
 			selectStatus(status) {
@@ -344,9 +372,9 @@
 				} else {
 					this.callList = this.list[index].contacts;
 				}
-				if(this.callList.length){
+				if (this.callList.length) {
 					this.showModel = true;
-				}else{
+				} else {
 					uni.showToast({
 						title: '暂无联系方式',
 						icon: 'none',
@@ -482,16 +510,17 @@
 							const total = res.data.total
 							const list = res.data.list
 							tab.title = `${tabName}(${total})`
-							if(that.current == 0){
+							if (that.current == 0) {
 								if (index == 1) {
 									that[listKey] = list
 								} else {
 									that[listKey] = that.list.concat(list)
 								}
-							}else{
+							} else {
 								if (index == 1) {
-									that.carList = list
+									that[listKey] = list
 								} else {
+									// that[listKey] = that.carList.concat(list)
 									that.carList = that.carList.concat(list)
 								}
 							}
@@ -1057,15 +1086,19 @@
 		right: 0;
 		left: 0;
 		bottom: 0;
-		.model-mianze{
+
+		.model-mianze {
 			display: flex;
 			justify-content: center;
 			flex-direction: column;
 		}
-		.model-mianze-move{
+
+		.model-mianze-move {
 			height: 465px;
 		}
-		.model-mianze, .model-mianze-move {
+
+		.model-mianze,
+		.model-mianze-move {
 
 			background: #FFFFFF;
 			padding: 40upx 100upx;
@@ -1147,16 +1180,17 @@
 			height: 30upx;
 		}
 	}
+
 	.move {
 		max-height: 300upx;
-		
+
 		.m-title {
 			font-size: 16px;
 			color: #FA6400;
 			letter-spacing: 0;
 			text-align: center;
 		}
-		
+
 		.m-content {
 			font-size: 12px;
 			color: #000000;
@@ -1167,26 +1201,30 @@
 		}
 
 	}
+
 	/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-	::-webkit-scrollbar
-	{
-	    width: 8px;  /*滚动条宽度*/
-	    height: 8px;  /*滚动条高度*/
+	::-webkit-scrollbar {
+		width: 8px;
+		/*滚动条宽度*/
+		height: 8px;
+		/*滚动条高度*/
 	}
 
 	/*定义滚动条轨道 内阴影+圆角*/
-	::-webkit-scrollbar-track
-	{
-	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
-	    border-radius: 5px;  /*滚动条的背景区域的圆角*/
-	   background-color: #E5E5E5;/*滚动条的背景颜色*/
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+		border-radius: 5px;
+		/*滚动条的背景区域的圆角*/
+		background-color: #E5E5E5;
+		/*滚动条的背景颜色*/
 	}
 
 	/*定义滑块 内阴影+圆角*/
-	::-webkit-scrollbar-thumb
-	{
-	    border-radius: 5px;  /*滚动条的圆角*/
-	    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
-	    background-color: #dddddd;  /*滚动条的背景颜色*/
+	::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		/*滚动条的圆角*/
+		-webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, .3);
+		background-color: #dddddd;
+		/*滚动条的背景颜色*/
 	}
 </style>

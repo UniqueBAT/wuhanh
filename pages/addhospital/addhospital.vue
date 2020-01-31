@@ -503,6 +503,11 @@
 							if (res.code === '10000') {
 								that.details = res.data
 								that.formData = {
+									applicantName: that.details.applicantName || '',
+									applicantPhone:  that.details.applicantPhone || '',
+									applicantDuty: that.details.applicantDuty || '',
+									source: that.details.source || '',
+									
 									company: that.details.company || '',
 									contacts: that.details.contacts && that.details.contacts.length ? that.details.contacts : [{
 										name: '',
