@@ -297,6 +297,12 @@
 						start: 1,
 						company: value
 					}
+					if(this.city){
+						params.city = this.city;
+					}
+					if(this.currentStatus!==99){
+						params.status = this.currentStatus;
+					}
 					that.$api.getDemandList(params).then(res => {
 						that.list = res.data.list
 					})
@@ -540,7 +546,8 @@
 				if (that.current == 0) {
 					if (that.city) {
 						params.city = that.city
-					} else if (that.company) {
+					} 
+					if (that.company) {
 						params.company = that.company
 					}
 					loadList(that.$api.getDemandList, that.tabList[0], '医院需求', 'list')
