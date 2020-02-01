@@ -277,13 +277,13 @@
 			};
 		},
 		onLoad() {
-			let _that = this
-			if (!_that.$redis.get('showMoveMian')) {
-				_that.showMoveMian = true
-				_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
-			} else {
-				_that.showMoveMian = false
-			}
+			// let _that = this
+			// if (!_that.$redis.get('showMoveMian')) {
+			// 	_that.showMoveMian = true
+			// 	_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
+			// } else {
+			// 	_that.showMoveMian = false
+			// }
 		},
 		mounted() {
 			this.debouncedSearch = util.debounce(this.search)
