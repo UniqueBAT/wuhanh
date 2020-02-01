@@ -72,7 +72,8 @@
 							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
 								<text class="text">{{child.name}}</text>
 								<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
-								<text v-else>不限</text>
+								<text v-else-if="child.amount === 0">不限</text>
+								<text v-else>不需要</text>
 							</view>
 							<view class="item-call flex-between">
 								<text></text>
