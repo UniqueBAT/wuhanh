@@ -145,7 +145,7 @@
 					_that.$utils.showModal("请填写渠道名称")
 					return;
 				}
-				if (!_that.postInfo.carTeamName) {
+				if (!_that.postInfo.name) {
 					_that.$utils.showModal("请填写联系人")
 					return;
 				}
