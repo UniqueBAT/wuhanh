@@ -220,16 +220,13 @@
 			mpvueCityPicker,
 		},
 		watch: {
-			company(value) {
-				
+			company(value) {	
 				if (this.current == 0) {
 					this.company = value
-					// this.debouncedLoadData(this.PullScroll, 1);
-					this.search(value);
+					this.debouncedSearch(value);
 				} else {
 					this.company = value
-					// this.debouncedLoadData(this.PullScroll, 0);
-					this.search(value)
+					this.debouncedSearch(value)
 				}
 			}
 		},
@@ -289,7 +286,7 @@
 			}
 		},
 		mounted() {
-			this.debouncedLoadData = util.debounce(this.loadData)
+			this.debouncedSearch = util.debounce(this.search)
 		},
 		methods: {
 			search(value){
