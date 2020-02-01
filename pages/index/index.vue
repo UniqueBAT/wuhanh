@@ -72,7 +72,8 @@
 							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
 								<text class="text">{{child.name}}</text>
 								<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
-								<text v-else>不限</text>
+								<text v-else-if="child.amount === 0">不限</text>
+								<text v-else>不需要</text>
 							</view>
 							<view class="item-call flex-between">
 								<text></text>
@@ -277,13 +278,13 @@
 			};
 		},
 		onLoad() {
-			let _that = this
-			if (!_that.$redis.get('showMoveMian')) {
-				_that.showMoveMian = true
-				_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
-			} else {
-				_that.showMoveMian = false
-			}
+			// let _that = this
+			// if (!_that.$redis.get('showMoveMian')) {
+			// 	_that.showMoveMian = true
+			// 	_that.$redis.set('showMoveMian', 1, _that.$constant.SHOWMOVE_EXPRIED_TIME)
+			// } else {
+			// 	_that.showMoveMian = false
+			// }
 		},
 		mounted() {
 			this.debouncedSearch = util.debounce(this.search)
@@ -296,6 +297,12 @@
 						pageSize: 0,
 						start: 1,
 						company: value
+					}
+					if(this.city){
+						params.city = this.city;
+					}
+					if(this.currentStatus!==99){
+						params.status = this.currentStatus;
 					}
 					that.$api.getDemandList(params).then(res => {
 						that.list = res.data.list
@@ -540,7 +547,8 @@
 				if (that.current == 0) {
 					if (that.city) {
 						params.city = that.city
-					} else if (that.company) {
+					} 
+					if (that.company) {
 						params.company = that.company
 					}
 					loadList(that.$api.getDemandList, that.tabList[0], '医院需求', 'list')

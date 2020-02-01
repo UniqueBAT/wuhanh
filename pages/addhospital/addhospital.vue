@@ -442,9 +442,12 @@ export default {
         },
         onCompanyTextareaBlur () {
             const that = this
+            let company = ''
+            if (this.formData.company) {
+                company = that.formData.company.replace(/\r\n/g, '').replace(/\n/g, '').replace(/^\s+|\s+$/g, '')
+            }
             const params = {
-                // 去掉首位空格和换行
-                company: that.formData.company ? that.formData.company.replace(/\n/igm, '').trim() : '' // that.formData.company
+                company
             }
             that.$api.getHospitalCountByName(params)
                 .then((res) => {
