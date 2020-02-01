@@ -389,7 +389,7 @@ export default {
                     standard: '',
                     unit: '个',
                     amount: -1
-                }, {
+                }/* , {
                     type: 'textarea',
                     placeholder: '所需物资种类和数量要补充点这里填写',
                     valueKey: 'formData.additionalDetail'
@@ -397,7 +397,17 @@ export default {
                     type: 'textarea',
                     placeholder: '所需物资如有防护标准请在这里标明',
                     valueKey: 'formData.additinalStandard'
-                }],
+                } */],
+                additionalDetail: '', // {
+                // type: 'textarea',
+                // placeholder: '所需物资种类和数量要补充点这里填写',
+                // valueKey: 'formData.additionalDetail'
+                // }, 
+                additinalStandard: '', // {
+                // type: 'textarea',
+                // placeholder: '所需物资如有防护标准请在这里标明',
+                // valueKey: 'formData.additinalStandard'
+                // },
                 receiptInfo: {
                     name: '',
                     phone: '',
