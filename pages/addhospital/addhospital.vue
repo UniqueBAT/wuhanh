@@ -700,7 +700,8 @@ export default {
                             break;
                         default:
                             // 检测内容本身、去掉首位空格、去掉所有换行后是否为空
-                            if (!(this.formData[key] && this.formData[key].replace(/\n/igm, '').trim())) {
+                            if (!this.formData[key]) {
+                            // if (!(this.formData[key] && this.formData[key].replace(/\n/igm, '').trim())) {
                                 throw value;
                             }
                     }
