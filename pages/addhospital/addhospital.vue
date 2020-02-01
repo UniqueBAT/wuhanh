@@ -439,9 +439,10 @@ export default {
             this.$set(this.formData, 'statisDate', e.target.value);
         },
         onCompanyTextareaBlur () {
-            const that = this
+						const that = this
+						const company = that.formData.company.replace(/\r\n/g, '').replace(/\n/g, '').replace(/^\s+|\s+$/g,'')
             const params = {
-                company: that.formData.company
+                company
             }
             that.$api.getHospitalCountByName(params)
                 .then((res) => {
