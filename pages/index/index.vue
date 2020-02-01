@@ -347,7 +347,8 @@
 						title: toastMsg,
 						icon: 'none',
 						duration: 1500
-					})
+					});
+					clipboard.destroy();
 				});
 				clipboard.on('error', function(e) { //复制失败执行的回调，可选
 					console.log(e);
@@ -355,7 +356,8 @@
 						title: toastMsg,
 						icon: 'none',
 						duration: 1500
-					})
+					});
+					clipboard.destroy();
 				});
 			},
 			handleModel(index) {
