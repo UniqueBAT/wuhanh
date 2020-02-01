@@ -440,7 +440,10 @@ export default {
         },
         onCompanyTextareaBlur () {
 						const that = this
-						const company = that.formData.company.replace(/\r\n/g, '').replace(/\n/g, '').replace(/^\s+|\s+$/g,'')
+						let company = ''
+						if (this.formData.company) {
+							company = that.formData.company.replace(/\r\n/g, '').replace(/\n/g, '').replace(/^\s+|\s+$/g,'')
+						}
             const params = {
                 company
             }
