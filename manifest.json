@@ -73,11 +73,16 @@
     },
     "h5" : {
         "title" : "湖北医疗物资需求信息平台",
-        "domain" : "https://onwh.51rry.com",
+        "domain" : "",
         "publicPath" : "//whcdn.w4ff.com/",
         "devServer" : {
             "https" : false
         },
-        "template" : "index.html"
+        "template" : "index.html",
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true //启用摇树优化  
+            }
+        }
     }
 }
