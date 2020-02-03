@@ -10,6 +10,7 @@
     <title>
       <%= htmlWebpackPlugin.options.title %>
     </title>
+	<link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.fontSize = document.documentElement.clientWidth / 20 + 'px';
@@ -25,7 +26,6 @@
         )
       );
     </script>
-    <link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
   </head>
   <body>
     <noscript>
