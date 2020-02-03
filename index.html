@@ -10,22 +10,12 @@
     <title>
       <%= htmlWebpackPlugin.options.title %>
     </title>
-	<link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.fontSize = document.documentElement.clientWidth / 20 + 'px';
       });
     </script>
-    <script type="text/javascript">
-      var cnzz_protocol = 'https:' == document.location.protocol ? 'https://' : 'http://';
-      document.write(
-        unescape(
-          "%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" +
-            cnzz_protocol +
-            "v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"
-        )
-      );
-    </script>
+	<link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
   </head>
   <body>
     <noscript>
@@ -33,5 +23,15 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+	<script type="text/javascript">
+	  var cnzz_protocol = 'https:' == document.location.protocol ? 'https://' : 'http://';
+	  document.write(
+	    unescape(
+	      "%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" +
+	        cnzz_protocol +
+	        "v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"
+	    )
+	  );
+	</script>
   </body>
 </html>
