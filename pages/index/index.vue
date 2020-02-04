@@ -228,9 +228,10 @@
 				<view class="title">第五条 争议解决及法律适用</view>
 				<view class="content">5.1在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。</view>
 
-				<navigator @tap="handleModel">
+				<!-- <navigator @tap="handleModel">
 					<button class="respo-btn">免责申请已阅读完毕</button>
-				</navigator>
+				</navigator> -->
+				<view @tap="handleModel" class="respo-btn">免责申请已阅读完毕</view>
 			</view>
 		</view>
 		<mpvue-city-picker themeColor="#007AFF" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValue.pickerValue"
