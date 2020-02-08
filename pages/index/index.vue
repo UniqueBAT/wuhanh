@@ -37,8 +37,10 @@
 						<view class="item-types">
 							<view>
 								<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
+
 								<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
 								<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
+								<view class="badge badge-blue" v-if="item.status==='1'">发热门诊</view>
 							</view>
 							<view class="right-top" v-if="item.critical">
 								<view>物资紧急度：</view>
@@ -76,7 +78,7 @@
 								<text v-else>不需要</text>
 							</view>
 							<view class="item-call flex-between">
-								<text></text>
+								<text>{{item.province ? item.province : ''}}{{item.city || ''}}{{item.area || ''}}</text>
 								<view class="call-btn" @tap="handleRespoModel(index)">联系医院</view>
 							</view>
 						</view>
@@ -1054,6 +1056,7 @@
 			.item-info {
 				line-height: 20px;
 				min-height: 40px;
+				word-break: break-all;
 				border-bottom: 1upx solid #f2f2f2;
 			}
 
@@ -1275,6 +1278,10 @@
 
 	.badge-red {
 		background: #FF4B4B !important;
+	}
+
+	.badge-blue {
+		background: #80ADED !important;
 	}
 
 	.right-top {
