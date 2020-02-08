@@ -29,6 +29,25 @@
 		box-sizing: border-box;
 	}
 
+	// icon定制化样式处理
+	.uni-tabbar {
+		z-index: 1000000 !important;
+	}
+
+	.uni-tabbar /deep/ .uni-tabbar__label {
+		line-height: 14px;
+	}
+
+	.uni-tabbar /deep/ .uni-tabbar__icon {
+		width: 20px;
+	}
+
+	.uni-tabbar /deep/ .uni-tabbar__icon__diff {
+		width: 46px !important;
+	}
+
+	// icon定制化样式处理
+
 	.call-btn {
 		display: flex;
 		align-items: center;
@@ -45,6 +64,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+	
+	.flex-center{
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.blank-box {

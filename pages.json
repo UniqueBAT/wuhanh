@@ -31,11 +31,44 @@
 			"style": {
 				"navigationBarTitleText": "关于我们"
 			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "pages/push/push"
+		}, {
+			"path": "pages/Login/Login",
+			"style": {}
 		}
 	],
+	"tabBar": {
+		"fontSize": "12px",
+		"color": "#999999",
+		"selectedColor": "#333333",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/tabbar/icon_index_1.svg",
+			"selectedIconPath": "static/tabbar/icon_index.svg",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/push/push",
+			"iconPath": "static/tabbar/icon_push.svg",
+			"selectedIconPath": "static/tabbar/icon_push.svg",
+			"text": ""
+		}, {
+			"pagePath": "pages/mine/mine",
+			"iconPath": "static/tabbar/icon_mine_1.svg",
+			"selectedIconPath": "static/tabbar/icon_mine.svg",
+			"text": "我的"
+		}]
+	},
 	"globalStyle": {
 		// #ifdef H5
-		// "navigationStyle": "custom",
+		"navigationStyle": "custom",
 		// #endif
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "湖北医疗物资需求信息平台",

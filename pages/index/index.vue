@@ -128,8 +128,8 @@
 			</PullScroll>
 		</section>
 
-		<view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view>
-		<!-- <view class="more-func"></view> -->
+		<!-- <view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view> -->
+		<!-- 复制电话弹窗 -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
 			<view class="model">
 				<view class="model-item flex-between" v-for="(item,index) in callList" :key="index">
@@ -142,6 +142,7 @@
 				</view>
 			</view>
 		</view>
+		<!-- 特别声明 -->
 		<view class="model-mianze-box" v-show="showMian">
 			<view class="model-mianze">
 				<view>
@@ -239,11 +240,6 @@
 	</view>
 </template>
 
-<script type="text/javascript">
-	var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-	document.write(unescape("%3Cspan id='cnzz_stat_icon_1278590114'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol +
-		"v1.cnzz.com/z_stat.php%3Fid%3D1278590114%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
-</script>
 <script>
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
@@ -400,7 +396,6 @@
 					clipboard.destroy();
 				});
 				clipboard.on('error', function(e) { //复制失败执行的回调，可选
-					console.log(e);
 					uni.showToast({
 						title: toastMsg,
 						icon: 'none',
@@ -1171,7 +1166,7 @@
 
 	.fixed-box {
 		position: fixed;
-		z-index: 999;
+		z-index: 996;
 		top: 30px;
 		left: 0;
 		right: 0;
@@ -1191,7 +1186,7 @@
 
 	.model-mianze-box {
 		display: flex;
-		z-index: 10000;
+		z-index: 997;
 		align-items: center;
 		justify-content: center;
 		position: fixed;
@@ -1314,7 +1309,16 @@
 			height: 305px;
 			overflow-y: auto;
 		}
+	}
 
+	.respo-btn {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		background: #80ADED;
+		color: #FFFFFF;
+		text-align: center;
+		font-size: 12px;
+		padding: 10px 0;
 	}
 
 	/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
