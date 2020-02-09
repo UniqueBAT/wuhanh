@@ -3,15 +3,16 @@
 		<view class="info-content">
 			<view class="main-box">
 				<view style="display: flex;padding-bottom: 10px;justify-content: space-between;width: 100%;">
-					<view>
-						<button type="default" v-if="detail.status === '1'" class="btn-checked">信息已核实</button>
-						<button type="default" v-if="detail.status === '0'" class="checking">信息核实中</button>
-						<button type="default" v-if="detail.status === '-1'" class="reject-type">核实未通过</button>
+					<view style="display: flex;">
+						<button type="default" v-if="detail.status === '1'" class="margin-right-xs btn-checked">信息已核实</button>
+						<button type="default" v-if="detail.status === '0'" class="margin-right-xs checking">信息核实中</button>
+						<button type="default" v-if="detail.status === '-1'" class="margin-right-xs reject-type">核实未通过</button>
+						<button type="default" v-if="detail.status === '1'" class="margin-right-xs reject-type badge-blue">发热门诊</button>
 					</view>
-					<view class="right-top" v-if="detail.critical">
+					<!-- <view class="right-top" v-if="detail.critical">
 						<view>物资紧急度：</view>
 						<image v-for="(item,index) in (detail.critical ? detail.critical : 1)" :key="index" class="right-fire" src="/static/icon_fire.svg" mode="widthFix"></image>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="reject-box" v-if="detail.status === '-1'">

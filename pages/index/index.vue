@@ -17,14 +17,20 @@
 				 @tap="checkCity(index,2)">{{item}}</text>
 			</view>
 			<view class="city-search">
-				<span v-if="current == 0" @click="toggleSelectStatus(!showSelectStatus)">{{statusMap[currentStatus]}}<i class="down"></i>
-					<ul class="pop-fixed" v-if="!!showSelectStatus">
-						<li :class="currentStatus===99?'current':''" @click="selectStatus(99)">全部状态</li>
-						<li :class="currentStatus===1?'current':''" @click="selectStatus(1)">已核实</li>
-						<li :class="currentStatus===0?'current':''" @click="selectStatus(0)">核实中</li>
-						<li :class="currentStatus===-1?'current':''" @click="selectStatus(-1)">核实未通过</li>
-					</ul>
-				</span>
+				<view class="search-wrap" v-if="current == 0" @click="toggleSelectStatus(!showSelectStatus)">{{statusMap[currentStatus]}}
+					<i class="down"></i>
+					<view class="pop-fixed" v-if="!!showSelectStatus">
+						<view class="pop-wrap">
+							<text :class="['current-type',currentStatus===99?'current':'']" @click="selectStatus(99)">全部状态</text>
+							<text :class="['current-type',currentStatus===1?'current':'']" @click="selectStatus(1)">信息已核实</text>
+							<text :class="['current-type',currentStatus===0?'current':'']" @click="selectStatus(0)">信息核实中</text>
+							<text :class="['current-type',currentStatus===-1?'current':'']" @click="selectStatus(-1)">核实未通过</text>
+							<text :class="['current-type',currentStatus===-1?'current':'']" @click="selectStatus(-1)">发热门诊</text>
+
+						</view>
+						<view class="current-mubu"></view>
+					</view>
+				</view>
 				<input class="search-input" type="text" :value="company" v-model="company" :placeholder="placeholder" />
 				<image src="../../static/icon_Search.svg" class="search-icon" mode="widthFix"></image>
 			</view>
@@ -37,7 +43,6 @@
 						<view class="item-types">
 							<view>
 								<view class="badge badge-green" v-if="item.status==='1'">信息已核实</view>
-
 								<view class="badge badge-gray" v-if="item.status==='0'">信息核实中</view>
 								<view class="badge badge-red" v-if="item.status==='-1'">核实未通过</view>
 								<view class="badge badge-blue" v-if="item.status==='1'">发热门诊</view>
@@ -56,28 +61,17 @@
 					</view>
 					<view class="item-main">
 						<view class="item-more flex-between">
-							<text>急需物资类型</text>
-							<view>
+							<text>急需物资类型(共11类)</text>
+							<view class="flex-between">
 								<text class="more-main" @tap="toDetails(item.id)">更多详情</text>
-								<svg style="position: absolute; margin: 5rpx 0rpx 10rpx -24rpx;" width="10px" height="18px" viewBox="0 0 14 24"
-								 version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-									<title>返回</title>
-									<desc>Created with Sketch.</desc>
-									<g stroke="none" stroke-width="1" fill="#999999" fill-rule="evenodd" transform="translate(30, 40)rotate(180)">
-										<path d="M26,27.9703032 L17.3690593,36.7610719 C17.0543445,37.0817458 16.5454834,37.0793158 16.2331535,36.7556718 C15.9208236,36.4310378 15.9229435,35.9107414 16.2378349,35.5886274 L23.7139675,27.9745332 L16.2396015,20.4131798 C15.9233851,20.0921458 15.9196753,19.5716693 16.231387,19.2461353 C16.5392121,18.9240213 17.0448933,18.9171813 17.3610214,19.2308351 C17.3631413,19.2329052 17.3652612,19.2349752 17.3672927,19.2371352 L26,27.9703032 Z"
-										 id="返回" transform="translate(21.000000, 28.000000) scale(-1, 1) translate(-21.000000, -28.000000) "></path>
-									</g>
-								</svg>
+								<image src="../../static/icon-back.svg" mode="widthFix" class="more-icon"></image>
 							</view>
 						</view>
 						<view class="item-content">
-							<view class="item-wuzi flex-between" v-for="(child,idx) in item.details" :key="idx" v-if="idx<=2">
-								<text class="text">{{child.name}}</text>
-								<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
-								<text v-else-if="child.amount === 0">不限</text>
-								<text v-else>不需要</text>
+							<view class="item-sam-wrap">
+								<text class="item-sam" v-for="(child,idx) in item.details" :key="idx">{{child.name}}</text>
 							</view>
-							<view class="item-call flex-between">
+							<view class="flex-between">
 								<text>{{item.province ? item.province : ''}}{{item.city || ''}}{{item.area || ''}}</text>
 								<view class="call-btn" @tap="handleRespoModel(index)">联系医院</view>
 							</view>
@@ -89,10 +83,15 @@
 		<section class="PullScroll-Page" v-show="current != 0">
 			<PullScroll ref="pullScrollCar" :fixed="false" :back-top="true" :pullDown="pullDown" :pullUp="pullUp">
 				<view class="swiper-item" v-for="(item,index) in carList" :key="index" v-if="carList.length > 0 && item.name">
-					<view class="type-box" v-if="item.category == 1">政府资源</view>
-					<view class="type-box type-min" v-if="item.category == 2">民间志愿者</view>
-					<view class="type-box type-wuliu" v-if="item.category == 3">物流公司</view>
-					<view class="type-box type-other" v-if="item.category == 4">其它</view>
+					<view style="display: flex;">
+						<view class="type-box" v-if="item.category == 1">政府资源</view>
+						<view class="type-box type-min" v-if="item.category == 2">民间志愿者</view>
+						<view class="type-box type-wuliu" v-if="item.category == 3">物流公司</view>
+						<view class="type-box type-other" v-if="item.category == 4">其它</view>
+						<view class="type-box badge-blue" v-if="item.category == 1">免费服务</view>
+						<view class="type-box badge-gray" v-if="item.category == 1">有偿服务</view>
+					</view>
+
 					<view class="item-top">
 						<view class="top-left">
 							<view class="left-box">
@@ -115,22 +114,28 @@
 								<text>{{item.deliveryStartTime}}--{{item.deliveryEndTime}}</text>
 							</view>
 							<view class="item-wuzi flex-between">
+								<text class="text">车辆运力</text>
+								<text>单次可以托运多少货物</text>
+							</view>
+							<view class="item-wuzi flex-between">
+								<text class="text">服务标准/收费标准</text>
+								<text>111</text>
+							</view>
+							<view class="item-wuzi flex-between">
 								<text class="text">备注信息</text>
 								<text class="item-sub">更新时间： {{item.updateTime}}</text>
 							</view>
 						</view>
 						<view class="item-info">{{item.remark}}</view>
-						<button class="btn-edit" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</button>
+						<view class="btn-edit flex-center" @click="navToCarChange(item)">车辆信息有误，点这里提交修改申请</view>
 					</view>
 				</view>
-				<!-- <view class="blank-boxs"></view> -->
-				<!-- <view class="none-data" v-if="carList.length == 0">
-					暂无更多了
-				</view> -->
 			</PullScroll>
 		</section>
 
-		<!-- <view class="bottom-btn" @tap="showMore">医院和车辆资源需要补充，点这里与工作人员联系添加</view> -->
+		<!-- 遮罩中间按钮的遮罩层 -->
+		<push-pop ref="pushPop" @change="chooseItem"></push-pop>
+		<view class="bottom-btn" @tap="showMore"></view>
 		<!-- 复制电话弹窗 -->
 		<view class="model-wrap" v-show="showModel" @tap="hideModel">
 			<view class="model">
@@ -203,7 +208,6 @@
 					温馨提示：请捐赠人在捐款前与医院核实，并且阅读免责说明。
 				</view>
 				<view class="article">《E起支援-疫情物资供需平台免责协议》</view>
-				<view class="title">第一条 协议订立</view>
 				<view class="content">
 					1.1
 					用户在同意本网站：E起支援-疫情物资供需平台(https://onwh.51rry.com)公示的《E起支援-疫情物资供需平台免责协议》后，方可使用本网络服务平台（以下简称“平台”）提供的湖北省辖区内医疗物资供需信息相关服务（以下简称“服务”）。</view>
@@ -230,10 +234,6 @@
 				<view class="content">4.7 本平台唯一官方网址：https://onwh.51rry.com（E起支援-疫情物资供需平台)如被人恶意假借名义进行不正当行为，与本平台无关。并且保留对其追究法律责任的权力。</view>
 				<view class="title">第五条 争议解决及法律适用</view>
 				<view class="content">5.1在用户有意向捐赠后，如果在本协议约定内容履行过程中，对相关事宜的履行发生争议，应当协商解决，如协商不成，用户同意按照中华人民共和国颁布的相关法律法规来解决争议，并同意接受湖北省武汉市人民法院的管辖。</view>
-
-				<!-- <navigator @tap="handleModel">
-					<button class="respo-btn">免责申请已阅读完毕</button>
-				</navigator> -->
 				<view @tap="handleModel" class="respo-btn">免责申请已阅读完毕</view>
 			</view>
 		</view>
@@ -243,6 +243,7 @@
 </template>
 
 <script>
+	import pushPop from '../../components/push-pop.vue'
 	import PullScroll from '../../components/s-pull-scroll/index.vue'
 	import tabs from '../../components/yc_tabs/yc_tabs.vue'
 	import Clipboard from '../../utils/common/clipboard.min.js'
@@ -256,6 +257,7 @@
 			PullScroll,
 			tabs,
 			mpvueCityPicker,
+			pushPop
 		},
 		watch: {
 			company(value) {
@@ -270,6 +272,7 @@
 		},
 		data() {
 			return {
+				showPop: false,
 				selectedIndex: 0,
 				respoModelCount: 0, // 记录免责申请是否查看过
 				showRespoModel: false,
@@ -383,7 +386,7 @@
 				}
 			},
 			copyPhone(phone, isWechat = false) {
-				const clipboard = new Clipboard('.copy, .uni-actionsheet__cell:nth-child(1), .uni-actionsheet__cell:nth-child(2)', {
+				const clipboard = new Clipboard('.copy', {
 					text: function() {
 						return phone;
 					}
@@ -489,33 +492,54 @@
 						console.log(err)
 					})
 			},
+			// 显示中间弹出层
 			showMore() {
 				let that = this
-				uni.showActionSheet({
-					/* '拨打工作人员电话', '复制工作人员微信', */
-					itemList: ['复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
-					itemColor: '#007AFF',
-					success: (res) => {
-						switch (res.tapIndex) {
-							case 0:
-								this.copyPhone('kindyin', true);
-								break
-							case 1:
-								uni.navigateTo({
-									url: '/pages/addhospital/addhospital'
-								})
-								break
-							case 2:
-								uni.navigateTo({
-									url: '/pages/addcar/addcar'
-								})
-								break
-						}
-					},
-					fail: function(res) {
-						console.log(res.errMsg);
-					}
-				});
+				that.$refs.pushPop.tooglePop();
+				// that.showPop = !that.showPop
+				// uni.showActionSheet({
+				// 	/* '拨打工作人员电话', '复制工作人员微信', */
+				// 	itemList: ['复制工作人员微信', '在线补充医院名单', '在线补充车辆名单'],
+				// 	itemColor: '#007AFF',
+				// 	success: (res) => {
+				// 		switch (res.tapIndex) {
+				// 			case 0:
+				// 				this.copyPhone('kindyin', true);
+				// 				break
+				// 			case 1:
+				// 				uni.navigateTo({
+				// 					url: '/pages/addhospital/addhospital'
+				// 				})
+				// 				break
+				// 			case 2:
+				// 				uni.navigateTo({
+				// 					url: '/pages/addcar/addcar'
+				// 				})
+				// 				break
+				// 		}
+				// 	},
+				// 	fail: function(res) {
+				// 		console.log(res.errMsg);
+				// 	}
+				// });
+			},
+			chooseItem(index) {
+				let that = this;
+				switch (index) {
+					case 2:
+						that.copyPhone('kindyin', true);
+						break
+					case 0:
+						uni.navigateTo({
+							url: '/pages/addhospital/addhospital'
+						})
+						break
+					case 1:
+						uni.navigateTo({
+							url: '/pages/addcar/addcar'
+						})
+						break
+				}
 			},
 			// 打电话功能
 			callSomeOne(phone) {
@@ -711,82 +735,62 @@
 	}
 
 	.city-search {
-		display: flex;
 		position: relative;
+		display: flex;
 		box-sizing: border-box;
 		background: #F8F8F8;
 		padding: 20upx;
 
-		span {
+		.search-wrap {
+			display: flex;
 			font-size: 14px;
-			display: inline-block;
 			line-height: 32px;
-			position: relative;
-			width: 100px;
-			padding-right: 20px;
-			margin-left: 5px;
-
-			ul,
-			li {
-				margin: 0;
-				padding: 0;
-				list-style: none;
-			}
+			width: 140px;
 
 			.pop-fixed {
 				position: absolute;
-				left: 50%;
-				// bottom: 0;
-				width: 90px;
-				margin-left: -50px;
-				background-color: #fff;
-				border-radius: 5px;
-				// border: 1px solid #fff;
-				box-shadow: grey 0px 0px 5px;
+				left: 0;
+				right: 0;
+				margin-top: 40px;
 
-				li {
-					text-align: center;
-					border-bottom: 1px solid #eee;
+				.pop-wrap {
+					display: flex;
+					flex-flow: row wrap;
+					padding: 20px 10px 0;
+					background-color: #fff;
+
+					.current-type {
+						background: #FFFFFF;
+						border: 1px solid #EDEDED;
+						border-radius: 17px;
+						line-height: 40upx;
+						padding: 10upx 20upx;
+						margin-right: 20upx;
+						margin-bottom: 20upx;
+						font-family: PingFangSC-Semibold;
+						font-size: 14px;
+						color: #666666;
+					}
+
+					.current {
+						background: #80ADED !important;
+						color: #FFFFFF;
+					}
 				}
 
-				li:nth-last-child(1) {
-					border: 0px;
+				.current-mubu {
+					background: rgba(0, 0, 0, 0.5);
+					position: fixed;
+					top: 0;
+					bottom: 0;
+					right: 0;
+					left: 0;
+					z-index: -1;
 				}
-
-				.current {
-					color: #80ADED;
-				}
-			}
-
-			.pop-fixed:before {
-				content: " ";
-				border-left: 10px solid transparent;
-				border-top: 10px solid transparent;
-				border-right: 10px solid transparent;
-				border-bottom: 10px solid #eee;
-				position: absolute;
-				left: 50%;
-				top: -18px;
-				margin-left: -5px;
-			}
-
-			.pop-fixed:after {
-				content: " ";
-				border-left: 12px solid transparent;
-				border-top: 12px solid transparent;
-				border-right: 12px solid transparent;
-				border-bottom: 12px solid #fff;
-				position: absolute;
-				left: 50%;
-				top: -19px;
-				margin-left: -7px;
 			}
 		}
 
 		i.down {
-			position: absolute;
-			right: 0px;
-			top: 0;
 			background: url(../../static/icon_down.svg) no-repeat center center;
 			width: 20px;
 			display: inline-block;
@@ -871,6 +875,8 @@
 		border-radius: 0;
 		line-height: 40px;
 		background-color: #fff;
+		border: 1px solid #80ADED;
+		border-radius: 2px;
 
 		&::after {
 			border: 1px solid $main;
@@ -918,6 +924,7 @@
 				color: #FFFFFF;
 				width: 200upx;
 				height: 60upx;
+				margin-right: 20upx;
 			}
 
 			.type-min {
@@ -1036,8 +1043,13 @@
 					font-size: 28upx;
 
 					.more-main {
-						margin-right: 30rpx;
+						margin-right: 20rpx;
 						color: var(--mainColor);
+					}
+
+					.more-icon {
+						transform: rotate(180deg);
+						width: 16upx;
 					}
 				}
 
@@ -1051,6 +1063,22 @@
 						border-bottom: 0 none;
 					}
 				}
+
+				.item-sam-wrap {
+					display: flex;
+					flex-flow: row wrap;
+
+					.item-sam {
+						margin: 0 20upx 20upx 0;
+						background: #C0DAFF;
+						border-radius: 8upx;
+						height: 32upx;
+						font-family: PingFangSC-Regular;
+						font-size: 24upx;
+						color: #666666;
+						padding: 10upx;
+					}
+				}
 			}
 
 			.item-info {
@@ -1062,10 +1090,6 @@
 
 			.btn-edit {
 				margin-top: 10px;
-			}
-
-			.item-call {
-				padding-top: 10px;
 			}
 		}
 	}
@@ -1132,21 +1156,6 @@
 			border-radius: 50%;
 			font-size: 28upx;
 		}
-	}
-
-	.bottom-btn {
-		z-index: 1010;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: 80upx;
-		background: rgba(255, 72, 0, 0.80);
-		font-size: 12px;
-		color: #FFFFFF;
 	}
 
 	.phone-wrap {
@@ -1280,8 +1289,8 @@
 		background: #FF4B4B !important;
 	}
 
-	.badge-blue {
-		background: #80ADED !important;
+	.badge-gray {
+		background: #999 !important;
 	}
 
 	.right-top {

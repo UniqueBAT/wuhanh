@@ -10,7 +10,7 @@
 				<view class="item-wrap">
 					<view class="item-wuzi flex-between" v-if="details.details.length > 0 && child.amount > 0" v-for="(child,idx) in details.details" :key="idx">
 						<text>{{child.name}}</text>
-						<text v-if="child.amount > 0">{{child.amount}} / {{child.unit}}</text>
+						<text v-if="child.amount > 0">{{child.amount}} / {{child.unit || '个'}}</text>
 						<text v-else>不需要</text>
 					</view>
 					<!-- <view class="main-text none-text" v-if="details.details">暂无内容</view> -->

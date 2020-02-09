@@ -41,6 +41,15 @@
 		}, {
 			"path": "pages/Login/Login",
 			"style": {}
+		}, {
+			"path": "pages/mine/hospital/update",
+			"style": {}
+		}, {
+			"path": "pages/mine/hospital/info",
+			"style": {}
+		}, {
+			"path": "pages/mine/car/car",
+			"style": {}
 		}
 	],
 	"tabBar": {

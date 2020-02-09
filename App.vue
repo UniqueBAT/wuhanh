@@ -46,7 +46,32 @@
 		width: 46px !important;
 	}
 
+	.bottom-btn {
+		z-index: 1010;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		bottom: 0;
+		left: 50%;
+		margin-left: -62.5px;
+		right: 0;
+		width: 125px;
+		height: 50px;
+		background: transparent;
+		font-size: 12px;
+		color: #FFFFFF;
+	}
+
 	// icon定制化样式处理
+
+	.margin-right-xs {
+		margin-right: 20upx;
+	}
+
+	.badge-blue {
+		background: #80ADED !important;
+	}
 
 	.call-btn {
 		display: flex;
@@ -65,8 +90,8 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-	
-	.flex-center{
+
+	.flex-center {
 		display: flex;
 		align-items: center;
 		justify-content: center;
