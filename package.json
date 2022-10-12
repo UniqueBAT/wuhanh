@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/UniqueBAT/wuhanh#readme",
   "dependencies": {
-    "cos-js-sdk-v5": "^0.5.22"
+    "cos-js-sdk-v5": "^1.4.6"
   }
 }
